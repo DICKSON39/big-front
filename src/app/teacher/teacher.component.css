@@ -1,0 +1,1116 @@
+/* General Body and Container Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main Wrapper for Teacher Dashboard */
+.teacher-container {
+  display: flex;
+  flex-grow: 1; /* Allows it to fill available height */
+  position: relative; /* For positioning hamburger and backdrop */
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 250px; /* Standard sidebar width */
+  background-color: #34495e; /* Darker blue-gray for teachers */
+  color: #ecf0f1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
+  transition: transform 0.3s ease; /* Smooth slide transition */
+  position: fixed; /* For mobile overlay */
+  height: 100%;
+  z-index: 100; /* Above main content */
+  transform: translateX(-250px); /* Hidden by default (for mobile) */
+  overflow-y: auto; /* Allow scrolling */
+  top: 0; /* Align to top */
+  left: 0; /* Align to left */
+}
+
+/* Sidebar "open" state - slides into view */
+.sidebar:not(.collapsed) {
+  transform: translateX(0);
+}
+
+/* Sidebar "collapsed" state - slides out of view */
+.sidebar.collapsed {
+  transform: translateX(-250px);
+}
+
+/* --- Desktop Sidebar Positioning --- */
+@media (min-width: 769px) {
+  .sidebar {
+    position: fixed; /* Changed from sticky to fixed for consistent positioning */
+    left: 0; /* Ensures it's at the very left edge */
+    top: 0; /* Ensures it starts from the top */
+    height: 100vh; /* Takes full viewport height */
+    transform: translateX(0); /* Always visible on desktop */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); /* Adjusted shadow for fixed */
+    flex-shrink: 0; /* Prevent shrinking */
+  }
+}
+
+/* Profile Section in Sidebar */
+.profile-section {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.profile-section .avatar {
+  width: 90px; /* Slightly larger avatar */
+  height: 90px;
+  border-radius: 50%;
+  border: 4px solid #f39c12; /* Teacher accent color (e.g., orange/gold) */
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.profile-section .logo {
+  font-size: 1.5em; /* Larger logo/name */
+  margin: 5px 0 0;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+}
+
+/* Navigation in Sidebar */
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Slightly more space */
+  flex-grow: 1; /* Pushes content/footer down */
+}
+
+/* Styling for both anchor links and new buttons in navigation */
+nav a,
+nav .nav-button {
+  /* Added .nav-button for consistency with HTML */
+  color: #ecf0f1;
+  text-decoration: none;
+  padding: 12px 18px; /* More padding */
+  border-radius: 8px; /* Slightly more rounded */
+  transition: background-color 0.2s ease, color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.05em; /* Slightly larger font */
+  width: 100%; /* Ensure buttons/links take full width */
+  text-align: left; /* Align text left for buttons */
+  border: none; /* Remove default button border */
+  background: none; /* Remove default button background */
+  cursor: pointer;
+}
+
+nav a:hover,
+nav .nav-button:hover {
+  background-color: rgba(243, 156, 18, 0.2); /* Accent color hover */
+  color: #fff;
+}
+
+nav a.active-link,
+/* Use routerLinkActive for this */
+nav .nav-button.active-link {
+  /* If you apply routerLinkActive to buttons */
+  background-color: #f39c12; /* Teacher accent color for active link */
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(243, 156, 18, 0.4);
+}
+
+/* --- Mobile-only and Desktop-only utility classes --- */
+.mobile-only {
+  display: none; /* Hidden by default */
+}
+
+.desktop-only {
+  display: block; /* Visible by default (as a block element) */
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: flex; /* Show as flex items for buttons/links in sidebar or header on mobile */
+  }
+  .desktop-only {
+    display: none; /* Hide on mobile */
+  }
+}
+
+/* Main Content Area */
+.main-content {
+  flex-grow: 1;
+  padding: 20px 30px;
+  background-color: #f0f2f5;
+  margin-left: 0; /* Default: no margin (for mobile) */
+  transition: margin-left 0.3s ease;
+  width: 100%; /* Default full width for mobile responsiveness */
+  box-sizing: border-box; /* Include padding in width/height calculation */
+}
+
+/* --- Desktop Main Content Positioning --- */
+@media (min-width: 769px) {
+  .main-content {
+    margin-left: 250px; /* MUST exactly match sidebar's width */
+  }
+  /* When sidebar is open, if the screen width is greater than 768px, shift main content */
+  .teacher-container.sidebar-open .main-content.shifted {
+    margin-left: 250px; /* This rule ensures consistency if you have a toggle for desktop sidebar */
+  }
+}
+
+
+/* Header in Main Content */
+.header {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  gap: 15px;
+}
+
+.header h2 {
+  font-size: 1.8em;
+  color: #2c3e50;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-info-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap; /* Allow buttons to wrap */
+  justify-content: flex-end; /* Align to the right if wrapped */
+}
+
+.user-info-section .welcome-message {
+  font-size: 1.1em;
+  color: #555;
+  margin: 0;
+}
+
+.logout-btn,
+.home-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  white-space: nowrap; /* Prevent button text from wrapping */
+}
+
+.logout-btn {
+  background-color: #e74c3c; /* Red for logout */
+  color: #fff;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
+  transform: translateY(-1px);
+}
+
+.home-btn {
+  background-color: #95a5a6; /* Gray for home */
+  color: #fff;
+}
+
+.home-btn:hover {
+  background-color: #7f8c8d;
+  transform: translateY(-1px);
+}
+
+
+/* --- Teacher Stats Section --- */
+.stats-section {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+.stats-section h3 {
+  font-size: 1.6em;
+  color: #34495e;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+.stat-card {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  border-left: 5px solid #f39c12; /* Accent line */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card h4 {
+  font-size: 1.3em;
+  color: #34495e;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.stat-card p {
+  font-size: 2.2em; /* Large number */
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+
+/* --- Upcoming Assignments Section --- */
+.assignments-section {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+.assignments-section h3 {
+  font-size: 1.6em;
+  color: #34495e;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.assignments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.assignment-item {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.03);
+}
+
+.assignment-item.overdue {
+  border-left: 5px solid #e74c3c; /* Red border for overdue */
+  background-color: #ffe6e6; /* Light red background for overdue */
+}
+
+.assignment-item h4 {
+  font-size: 1.2em;
+  color: #34495e;
+  margin: 0 0 5px;
+}
+
+.assignment-item p {
+  margin: 0;
+  font-size: 0.95em;
+  color: #666;
+}
+
+.assignment-item .overdue-tag {
+  color: #e74c3c;
+  font-weight: 700;
+  margin-left: 5px;
+}
+
+/* --- Your Created Courses Section --- */
+.teacher-courses-section {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+.teacher-courses-section h2 {
+  font-size: 1.8em;
+  color: #34495e;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+/* Course Card Grid */
+.teacher-courses-section .courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid */
+  gap: 25px;
+}
+
+.teacher-course-card {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden; /* Ensures image corners are rounded */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.teacher-course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-course-card img {
+  width: 100%;
+  height: 180px; /* Fixed height for consistent card appearance */
+  object-fit: cover; /* Ensures image covers the area without distortion */
+  border-bottom: 1px solid #eee;
+}
+
+.teacher-course-card h4 {
+  font-size: 1.3em;
+  color: #34495e;
+  margin: 15px 15px 5px;
+}
+
+.teacher-course-card .course-description {
+  font-size: 0.95em;
+  color: #555;
+  margin: 0 15px 10px;
+  flex-grow: 1; /* Pushes button group to the bottom */
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit description to 3 lines */
+  -webkit-box-orient: vertical;
+}
+
+.teacher-course-card p {
+  font-size: 0.95em;
+  color: #555;
+  margin: 5px 15px; /* Adjust margin for other p tags */
+}
+
+.teacher-course-card p strong {
+  color: #333;
+}
+
+.teacher-course-card .course-actions {
+  display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap to next line if space is tight */
+  gap: 10px;
+  padding: 15px;
+  border-top: 1px solid #eee;
+  margin-top: auto; /* Pushes buttons to the bottom */
+}
+
+.teacher-course-card .course-actions button {
+  flex: 1 1 auto; /* Allow buttons to grow/shrink, and take minimum content width initially */
+  min-width: 120px; /* Ensure buttons don't get too small */
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Specific button styles for edit, delete, view progress */
+.teacher-course-card .edit-btn {
+  background-color: #3498db; /* Blue for edit */
+  color: #fff;
+}
+
+.teacher-course-card .edit-btn:hover {
+  background-color: #2980b9;
+  transform: translateY(-1px);
+}
+
+.teacher-course-card .delete-btn {
+  background-color: #e74c3c; /* Red for delete */
+  color: #fff;
+}
+
+.teacher-course-card .delete-btn:hover {
+  background-color: #c0392b;
+  transform: translateY(-1px);
+}
+
+.teacher-course-card .view-progress-btn {
+  background-color: #17a2b8; /* Info blue */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 0; /* Remove top margin as flex gap handles spacing */
+}
+
+.teacher-course-card .view-progress-btn:hover {
+  background-color: #138496;
+  transform: translateY(-1px);
+}
+
+/* Empty State Message (consolidated) */
+.empty-state {
+  text-align: center;
+  padding: 30px;
+  color: #6c757d;
+  font-style: italic;
+  font-size: 1.1em;
+  background-color: #fcfcfc;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.empty-state .section-link {
+  /* If you have a link within empty state messages */
+  margin-top: 15px;
+  background-color: #3498db; /* Blue for call to action */
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.2s ease;
+}
+
+.empty-state .section-link:hover {
+  background-color: #2980b9;
+}
+
+
+/* --- Courses With Uploaded Classes Section --- */
+.courses-with-classes-section {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+.courses-with-classes-section h3 {
+  font-size: 1.6em;
+  color: #34495e;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.courses-with-classes-section .course-item {
+  background-color: #fcfcfc;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.courses-with-classes-section .course-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.courses-with-classes-section .course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+}
+
+.courses-with-classes-section .course-header h4 {
+  margin: 0;
+  font-size: 1.3em;
+  color: #34495e;
+}
+
+.courses-with-classes-section .course-header button {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.courses-with-classes-section .course-header button:hover {
+  background-color: #5a6268;
+}
+
+.courses-with-classes-section .class-videos-container {
+  padding: 20px;
+  background-color: #fff;
+}
+
+.courses-with-classes-section .class-videos-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Grid for videos */
+  gap: 20px;
+}
+
+.courses-with-classes-section .class-video-item {
+  background-color: #f8f9fa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.03);
+}
+
+.courses-with-classes-section .class-video-item h5 {
+  margin: 0;
+  font-size: 1.1em;
+  color: #34495e;
+}
+
+.courses-with-classes-section .class-video-item p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.courses-with-classes-section .class-video-item video {
+  width: 100%;
+  max-height: 200px; /* Limit video height */
+  background-color: #000; /* Placeholder for video area */
+  border-radius: 5px;
+  object-fit: contain; /* Ensure video fits well */
+}
+
+
+/* --- Student Progress Modal --- */
+.student-progress-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure it's on top of other content */
+  backdrop-filter: blur(5px); /* Optional: blurred background */
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.student-progress-modal .modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  max-width: 90%;
+  width: 700px; /* Adjust width as needed */
+  max-height: 90vh; /* Max height to allow scrolling */
+  overflow-y: auto; /* Enable scrolling for content */
+  box-sizing: border-box;
+  animation: slideInFromTop 0.3s ease-out forwards;
+  display: flex;
+  flex-direction: column; /* Organize content vertically */
+}
+
+.student-progress-modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.student-progress-modal .modal-header h3 {
+  margin: 0;
+  font-size: 1.8em;
+  color: #2c3e50;
+}
+
+.student-progress-modal .close-modal-btn {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #6c757d;
+  transition: color 0.2s ease;
+}
+
+.student-progress-modal .close-modal-btn:hover {
+  color: #dc3545;
+}
+
+/* Reusing search input styles with a slight modification for modal */
+.search-input.modal-search-input {
+  /* Specificity added */
+  width: calc(100% - 20px); /* Adjust width to account for padding */
+  padding: 10px;
+  margin: 0 10px 20px 10px; /* Centered with vertical margin */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+
+/* Students List Container (inside modal) */
+.students-list-container {
+  flex-grow: 1; /* Allow it to take available space for scrolling */
+  overflow-y: auto; /* Make student list scrollable if many students */
+  padding-right: 10px; /* Space for scrollbar */
+}
+
+/* Individual Student Progress Item */
+.student-progress-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto; /* Student Info | Progress | Button */
+  align-items: center;
+  gap: 20px;
+  background-color: #fcfcfc;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.student-progress-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.student-info h4 {
+  margin: 0 0 5px;
+  color: #34495e;
+  font-size: 1.2em;
+}
+
+.student-email {
+  font-size: 0.9em;
+  color: #777;
+}
+
+.student-progress p {
+  margin: 0 0 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+.student-progress p strong {
+  color: #28a745; /* Green for progress percentage */
+}
+
+/* Progress Bar Styles */
+.progress-bar-container {
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  height: 8px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #28a745; /* Green fill */
+  border-radius: 5px;
+  transition: width 0.3s ease-in-out;
+}
+
+
+.student-actions {
+  text-align: right;
+}
+
+.student-actions .detail-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  white-space: nowrap; /* Prevent button text wrap */
+}
+
+.student-actions .detail-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.student-progress-modal .modal-footer {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  text-align: right;
+}
+
+.student-progress-modal .modal-footer .cancel-btn {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.2s ease;
+}
+
+.student-progress-modal .modal-footer .cancel-btn:hover {
+  background-color: #5a6268;
+}
+
+.empty-state-modal {
+  /* Specific for modal empty state */
+  text-align: center;
+  padding: 30px;
+  color: #888;
+  font-style: italic;
+  font-size: 1em;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+
+/* Hamburger Button for Mobile */
+.hamburger {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: #f39c12; /* Teacher accent color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 1.5em;
+  cursor: pointer;
+  z-index: 101; /* Above sidebar */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease;
+  display: none; /* Hidden on desktop by default */
+}
+
+.hamburger:hover {
+  background-color: #e67e22;
+}
+
+/* Sidebar Backdrop for Mobile */
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 99; /* Below sidebar, above main content */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.teacher-container.sidebar-open .sidebar-backdrop {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* --- Your Uploaded Certificates Section --- */
+.certificate-list-section {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+.certificate-list-section h2 {
+  font-size: 1.8em;
+  color: #34495e;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+/* Styles for the app-certificate-list component */
+app-certificate-list {
+  display: block; /* Ensures it takes up space and allows for flex/grid within */
+  margin-top: 20px; /* Space from the H2 above it */
+}
+
+.certificate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.certificate-card {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.certificate-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.certificate-card img {
+  width: 100%;
+  height: 200px; /* Adjust as needed for certificate images */
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.certificate-card h4 {
+  font-size: 1.3em;
+  color: #34495e;
+  margin: 15px 15px 5px;
+}
+
+.certificate-card p {
+  font-size: 0.95em;
+  color: #555;
+  margin: 5px 15px;
+  flex-grow: 1;
+}
+
+.certificate-actions {
+  display: flex;
+  justify-content: flex-end; /* Align actions to the right */
+  gap: 10px;
+  padding: 15px;
+  border-top: 1px solid #eee;
+  margin-top: auto;
+}
+
+.certificate-actions .delete-cert-btn {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.certificate-actions .delete-cert-btn:hover {
+  background-color: #c0392b;
+  transform: translateY(-1px);
+}
+
+.certificate-actions .view-cert-btn {
+  background-color: #28a745; /* Green for view */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.certificate-actions .view-cert-btn:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+
+/* Empty state for certificates */
+.empty-certificates {
+  text-align: center;
+  padding: 30px;
+  color: #6c757d;
+  font-style: italic;
+  font-size: 1.1em;
+  background-color: #fcfcfc;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block; /* Show hamburger on mobile */
+  }
+
+  /* Fixed header on mobile */
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px 20px;
+    box-sizing: border-box; /* Include padding in width */
+  }
+
+  /* Add padding to the main content to avoid it being hidden under the fixed header */
+  .main-content {
+    padding-top: 80px; /* Adjust based on your header's height */
+    margin-left: 0; /* Ensure no margin on mobile */
+  }
+
+  /* Ensure Logout/Home buttons are visible in the header on mobile */
+  .user-info-section {
+    display: flex; /* Override `display: none` for mobile */
+    width: auto; /* Allow content to dictate width */
+    flex-wrap: wrap; /* Allow wrapping */
+    justify-content: flex-end; /* Keep them to the right */
+  }
+  .logout-btn,
+  .home-btn {
+    display: inline-block; /* Ensure they are displayed */
+    margin-left: 10px; /* Add some space between them if they don't wrap */
+  }
+
+
+  /* Student Progress Modal Responsive adjustments */
+  .student-progress-modal .modal-content {
+    padding: 20px;
+    width: 95%; /* Take more width on smaller screens */
+  }
+  .student-progress-modal .modal-header h3 {
+    font-size: 1.4em;
+  }
+  .student-progress-item {
+    grid-template-columns: 1fr; /* Stack elements vertically */
+    gap: 10px;
+    padding: 15px;
+  }
+  .student-actions {
+    text-align: left; /* Align button to the left when stacked */
+  }
+  .student-actions .detail-btn {
+    width: 100%; /* Make button full width */
+  }
+}
+
+@media (max-width: 992px) {
+  /* Medium screens adjustments (desktop-like layout, but potentially slightly smaller elements) */
+  @media (min-width: 769px) {
+    /* Applies only when sidebar is static (desktop view) */
+    .sidebar {
+      width: 220px; /* Slightly narrower sidebar on medium screens */
+    }
+    .main-content {
+      margin-left: 220px; /* Adjust margin for narrower sidebar */
+    }
+  }
+
+  .header h2 {
+    font-size: 1.5em;
+  }
+  .stat-card h4 {
+    font-size: 1.2em;
+  }
+  .stat-card p {
+    font-size: 2em;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-content {
+    padding: 15px;
+  }
+
+  .header h2 {
+    font-size: 1.2em;
+  }
+
+  .profile-section .avatar {
+    width: 70px;
+    height: 70px;
+  }
+  .profile-section .logo {
+    font-size: 1.2em;
+  }
+
+  /* Adjust buttons in mobile header actions */
+  .logout-btn,
+  .home-btn {
+    font-size: 0.9em;
+    padding: 8px 12px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr; /* Stack stats cards vertically */
+    gap: 15px;
+  }
+  .stat-card {
+    padding: 20px;
+  }
+
+  .assignment-item {
+    flex-direction: column; /* Stack details and actions vertically */
+    align-items: flex-start;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

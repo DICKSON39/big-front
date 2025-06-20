@@ -1,0 +1,529 @@
+/* General Body and Container Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5; /* Light background for the overall page */
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Ensure body takes full viewport height */
+    display: flex; /* Use flex to allow user-dashboard-container to grow */
+    flex-direction: column;
+}
+
+.user-dashboard-container {
+    display: flex;
+    flex-grow: 1; /* Allow container to fill available height */
+    position: relative; /* For hamburger positioning */
+}
+
+/* --- Sidebar Styles --- */
+.sidebar {
+    width: 250px; /* Fixed width for the sidebar */
+    background-color: #2c3e50; /* Dark sidebar background */
+    color: #ecf0f1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease; /* Transition only transform for sliding effect */
+    position: fixed; /* Keep fixed for mobile overlay */
+    height: 100%; /* Take full viewport height */
+    z-index: 100;
+    transform: translateX(-250px); /* Default: hidden off-screen for mobile */
+    overflow-y: auto; /* Allow scrolling if content is too long */
+}
+
+/* Sidebar "open" state - slide into view */
+.sidebar:not(.collapsed) {
+    transform: translateX(0);
+}
+
+/* Sidebar "collapsed" state - slide out of view */
+.sidebar.collapsed {
+    transform: translateX(-250px);
+}
+
+/* --- Crucial Desktop Sidebar Positioning --- */
+@media (min-width: 769px) {
+    .sidebar {
+        position: fixed; /* Changed to fixed for precise left:0 positioning */
+        left: 0;
+        top: 0;
+        height: 100vh; /* Take full viewport height */
+        transform: translateX(0); /* Always visible on desktop */
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Standard desktop shadow */
+        flex-shrink: 0; /* Prevent it from shrinking */
+    }
+}
+
+/* Profile Section in Sidebar */
+.profile-section {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-section .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #007bff; /* Primary accent */
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.profile-section .user-name {
+    font-size: 1.3em;
+    margin: 5px 0 0;
+    color: #fff;
+    white-space: nowrap; /* Prevent wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis if name is too long */
+}
+
+.profile-section .user-role {
+    font-size: 0.9em;
+    color: #aebecd;
+}
+
+/* Navigation in Sidebar */
+.user-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1; /* Pushes footer to the bottom */
+}
+
+.user-nav a {
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-nav a:hover {
+    background-color: rgba(0, 123, 255, 0.2); /* Light blue hover */
+    color: #fff;
+}
+
+.user-nav a.active-link {
+    background-color: #007bff; /* Primary blue for active link */
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.4);
+}
+
+/* Sidebar Footer (buttons) */
+.sidebar-footer {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px; /* Space from nav */
+}
+
+.sidebar-btn {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.logout-btn.sidebar-btn {
+    background-color: #dc3545; /* Red */
+    color: #fff;
+}
+
+.logout-btn.sidebar-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+.home-btn.sidebar-btn {
+    background-color: #6c757d; /* Gray */
+    color: #fff;
+}
+
+.home-btn.sidebar-btn:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+}
+
+/* --- Main Content Area --- */
+.main-content {
+    flex-grow: 1;
+    padding: 20px 30px;
+    background-color: #f0f2f5;
+    margin-left: 0; /* Default: no margin (for mobile) */
+    transition: margin-left 0.3s ease;
+    width: 100%; /* Default full width for mobile responsiveness */
+}
+
+/* --- Crucial Desktop Main Content Positioning --- */
+@media (min-width: 769px) {
+    .main-content {
+        margin-left: 250px; /* MUST exactly match sidebar's width */
+    }
+}
+
+/* --- Header in Main Content --- */
+.user-header {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between; /* This spreads out direct children */
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 15px; /* Default gap for desktop */
+}
+
+/* Style for app-notification directly in header */
+.user-header app-notification {
+    display: block; /* Ensure it's treated as a block for sizing */
+    /* Add specific styling for your notification component/icon */
+    font-size: 1.8em; /* Example: adjust bell icon size */
+    color: #007bff; /* Example: primary blue color for bell */
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 5px; /* Add some padding around the bell for clickability */
+    border-radius: 50%; /* If you want a circular background on hover */
+}
+
+.user-header app-notification:hover {
+    color: #0056b3; /* Darker blue on hover */
+    background-color: #e6f2ff; /* Light background on hover */
+}
+
+
+/* Ensure header is fixed on smaller screens and doesn't get pushed around */
+@media (max-width: 768px) {
+    .user-header {
+        position: fixed; /* Make header fixed on mobile */
+        top: 0;
+        left: 0;
+        width: 100%; /* Occupy full width */
+        z-index: 50; /* Below sidebar, above main content */
+        border-radius: 0; /* No border-radius for fixed header */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px 20px; /* Adjust padding for mobile header */
+        /* For mobile, re-order elements using flexbox `order` */
+        justify-content: space-between; /* Spreads elements out */
+        gap: 10px; /* Smaller gap on mobile */
+    }
+
+    /* Add padding to the main content to avoid it being hidden under the fixed header */
+    .main-content {
+        padding-top: 80px; /* Adjust based on your header's height */
+    }
+
+    /* Mobile header layout adjustments */
+    .user-header h2 {
+        flex-grow: 1; /* Allow title to take up remaining space */
+        text-align: center; /* Center the title on mobile */
+        order: 2; /* Place title in the middle */
+    }
+
+    .user-header app-notification {
+        order: 1; /* Place notification on the far left */
+        margin-right: 15px; /* Space between notification and title */
+    }
+}
+
+/* Header actions only for mobile, now contains only buttons */
+.header-actions-mobile {
+    display: none; /* Hidden on desktop by default */
+}
+
+@media (max-width: 768px) {
+    .header-actions-mobile {
+        display: flex; /* Show header actions on mobile */
+        gap: 10px; /* Space between buttons */
+        order: 3; /* Place buttons on the far right */
+        margin-left: 15px; /* Space between title and buttons */
+    }
+}
+
+
+/* Styles for the buttons within header-actions-mobile */
+.header-actions-mobile .logout-btn,
+.header-actions-mobile .home-btn {
+    padding: 8px 12px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    border: none; /* Ensure no default button border */
+    cursor: pointer;
+}
+
+.header-actions-mobile .logout-btn {
+    background-color: #dc3545;
+    color: white;
+}
+.header-actions-mobile .logout-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+.header-actions-mobile .home-btn {
+    background-color: #6c757d;
+    color: white;
+}
+.header-actions-mobile .home-btn:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+}
+
+
+/* --- General Section Styling --- */
+.user-section {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+}
+
+.user-section h3 {
+    font-size: 1.6em;
+    color: #34495e;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+/* All Courses Section specific styling */
+/* Course Cards Grid */
+.course-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.course-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none; /* Remove underline from routerLink */
+    color: inherit; /* Inherit text color */
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer; /* Indicate clickable */
+}
+
+.course-card img {
+    width: 100%;
+    height: 180px; /* Fixed height for consistent image display */
+    object-fit: cover; /* Ensures image covers area without distortion */
+    border-radius: 5px; /* Slightly rounded image corners */
+    margin-bottom: 15px; /* Space below image */
+}
+
+.course-card h4 {
+    font-size: 1.4em;
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 10px;
+    white-space: nowrap; /* Prevent wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis if name is too long */
+}
+
+.course-card .course-instructor {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px; /* Adjusted margin */
+}
+
+.course-card .course-price {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #28a745; /* Green for price */
+    margin-bottom: 15px;
+    flex-grow: 1; /* Pushes button to the bottom */
+}
+
+.btn-view-course {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95em;
+    margin-top: auto; /* Push button to bottom of card */
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    align-self: flex-start; /* Align button to the left within its card */
+}
+
+.btn-view-course:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+/* No data message */
+.no-data-message {
+    text-align: center;
+    padding: 30px;
+    color: #6c757d;
+    font-style: italic;
+    font-size: 1.1em;
+    background-color: #fcfcfc;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+/* Hamburger Button for Mobile */
+.hamburger {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 1.5em;
+    cursor: pointer;
+    z-index: 101; /* Above sidebar */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease;
+    display: none; /* Hidden on desktop by default */
+}
+
+.hamburger:hover {
+    background-color: #0056b3;
+}
+
+/* Only show hamburger on smaller screens */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block; /* Show hamburger on mobile */
+    }
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+    /* Medium screens adjustments (desktop-like layout, but potentially slightly smaller elements) */
+    /* Sidebar width adjustment for larger tablets/smaller desktops */
+    @media (min-width: 769px) { /* Applies only when sidebar is static (desktop view) */
+        .sidebar {
+            width: 220px; /* Slightly narrower sidebar on medium screens */
+        }
+        .main-content {
+            margin-left: 220px; /* Adjust margin for narrower sidebar */
+        }
+    }
+
+    .user-header h2 {
+        font-size: 1.7em;
+    }
+
+    .user-section h3 {
+        font-size: 1.4em;
+    }
+}
+
+/* Small screen adjustments (mobile layout) */
+@media (max-width: 768px) {
+    /* Sidebar is fixed and handles its own transform for slide in/out */
+    .sidebar {
+        position: fixed;
+        height: 100%; /* Ensure it fills height when opened */
+    }
+
+    /* Main content on mobile: no left margin, top padding for fixed header */
+    .main-content {
+        margin-left: 0;
+        padding-top: 80px; /* Space for fixed header */
+    }
+
+    /* Fixed header on mobile */
+    .user-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 50;
+        border-radius: 0;
+    }
+
+    /* Adjust course cards for mobile view */
+    .course-card {
+        padding: 15px;
+    }
+    .course-card img {
+        height: 160px; /* Adjusted image height for smaller screens */
+    }
+    .course-card h4 {
+        font-size: 1.2em;
+    }
+    .course-card .course-instructor,
+    .course-card .course-price {
+        font-size: 0.9em;
+    }
+    .btn-view-course {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-content {
+        padding: 15px;
+    }
+
+    .user-header h2 {
+        font-size: 1.3em;
+    }
+
+    .user-section h3 {
+        font-size: 1.2em;
+    }
+
+    .profile-section .avatar {
+        width: 60px;
+        height: 60px;
+    }
+
+    .profile-section .user-name {
+        font-size: 1.1em;
+    }
+
+    /* Adjust buttons in mobile header actions */
+    .header-actions-mobile .logout-btn,
+    .header-actions-mobile .home-btn {
+        font-size: 0.9em;
+        padding: 8px 12px;
+    }
+
+    /* Adjust course cards for very small screens */
+    .course-cards {
+        grid-template-columns: 1fr; /* Stack cards vertically */
+        gap: 15px;
+    }
+
+    .course-card {
+        padding: 15px;
+    }
+    .course-card img {
+        height: 140px; /* Further reduced height for very small screens */
+    }
+}

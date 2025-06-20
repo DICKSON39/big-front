@@ -1,0 +1,77 @@
+<!-- 🔄 Loading & Error Handling -->
+<div *ngIf="isLoading" class="loading-text">⏳ Loading your progress...</div>
+<div *ngIf="errorMessage" class="error-text">❌ {{ errorMessage }}</div>
+
+<!-- 📚 Display Course Progress -->
+<div *ngIf="!isLoading && courses.length > 0; else noCourses">
+  <div *ngFor="let course of courses" class="course-progress-card">
+    <h2>{{ course.title }}</h2>
+    <p>🎯 Progress: {{ getProgressPercent(course) }}%</p>
+
+    <!-- 🎓 Certificate Download -->
+    <!-- 🎓 Show cert if progress is 100% -->
+<!-- 🎓 Certificate Download -->
+<div 
+  *ngIf="course.progress === 100 && course.certificate_url" 
+  class="cert-section"
+>
+  <a 
+    [href]="course.certificate_url" 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    download 
+    class="cert-download-btn"
+  >
+    🎓 Download Certificate
+  </a>
+</div>
+
+
+
+    <!-- 🔵 Progress Bar -->
+    <div class="progress-bar-container">
+      <div
+        class="progress-bar-fill"
+        [style.width.%]="getProgressPercent(course)"
+      ></div>
+    </div>
+
+    <!-- 🎥 Course Classes -->
+    <ul class="class-list">
+      <li *ngFor="let cls of course.classes">
+        <strong>{{ cls.title }}</strong>
+        <span *ngIf="cls.is_completed" class="status completed">✅ Completed</span>
+        <span *ngIf="!cls.is_completed" class="status pending">⏳ Not Completed</span>
+
+        <button (click)="watchClass(cls)">▶️ Watch</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- 🎬 Video Modal -->
+<div class="video-modal" *ngIf="selectedClass">
+  <div class="modal-content">
+    <h3>{{ selectedClass.title }}</h3>
+
+    <video
+      width="100%"
+      height="auto"
+      controls
+      [src]="selectedClass.video_url"
+      (ended)="onVideoEnded(selectedClass.id, selectedCourse)"
+    ></video>
+
+    <div class="video-actions">
+      <button (click)="markAsComplete(selectedClass.id, selectedCourse)">
+        ✅ Mark as Watched
+      </button>
+      <button class="cancel" (click)="closeVideo()">❌ Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🔕 Empty State -->
+<ng-template #noCourses>
+  <p class="empty-state">📭 You are not enrolled in any courses yet.</p>
+</ng-template>

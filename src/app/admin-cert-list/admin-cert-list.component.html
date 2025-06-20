@@ -1,0 +1,17 @@
+<div *ngIf="isLoading" class="loading-message-admin">Loading certificates... 🌀</div>
+<div *ngIf="error" class="error-message-admin">{{ error }}</div>
+
+<div *ngIf="!isLoading && certs.length > 0" class="admin-cert-grid">
+    <div *ngFor="let cert of certs" class="admin-cert-card">
+        <h3>{{ cert.course_title }}</h3>
+        <p class="cert-detail"><strong>Student:</strong> {{ cert.first_name }} {{ cert.last_name }}</p>
+        <p class="cert-detail"><strong>Email:</strong> {{ cert.email }}</p>
+        <div class="card-actions">
+            <a [href]="cert.certificate_url" target="_blank" download class="download-cert-btn">
+                🎓 Download
+            </a>
+            </div>
+    </div>
+</div>
+
+<div *ngIf="!isLoading && certs.length === 0" class="empty-certificates-admin">No certificates issued yet 📭</div>

@@ -1,0 +1,36 @@
+<div class="register-container">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <h2>Register</h2>
+
+    <div class="form-group">
+      <label for="first_name">First Name</label>
+      <input type="text" id="first_name" formControlName="first_name" />
+      <small *ngIf="this.f['first_name'].touched && this.f['first_name'].invalid">Required</small>
+    </div>
+
+    <div class="form-group">
+      <label for="last_name">Last Name</label>
+      <input type="text" id="last_name" formControlName="last_name" />
+      <small *ngIf="this.f['last_name'].touched && this.f['last_name'].invalid">Required</small>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" formControlName="email" />
+      <small *ngIf="this.f['email'].touched && this.f['email'].invalid">Valid email required</small>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" formControlName="password" />
+      <small *ngIf="this.f['password'].touched && this.f['password'].invalid">Min 6 characters</small>
+    </div>
+
+    <div class="form-group">
+      <label for="inviteCode">Invite Code <span style="font-weight: normal;">(optional)</span></label>
+      <input type="text" id="inviteCode" formControlName="inviteCode" />
+    </div>
+
+    <button type="submit" class="btn" [disabled]="registerForm.invalid">Register</button>
+  </form>
+</div>

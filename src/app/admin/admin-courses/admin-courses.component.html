@@ -1,0 +1,83 @@
+<section class="admin-courses">
+  <h2>📋 Manage Courses</h2>
+
+  <!-- 🔍 Filter & Search Bar -->
+  <div class="top-bar">
+    <input
+      type="text"
+      placeholder="🔍 Search courses..."
+      (input)="searchSubject.next($any($event.target).value)"
+      class="search-input"
+    />
+
+    <select [(ngModel)]="selectedCategory" class="category-filter">
+      <option value="all">All Categories</option>
+      <option *ngFor="let cat of getUniqueCategories()" [value]="cat">{{ cat }}</option>
+    </select>
+
+  
+
+
+  </div>
+
+  <!-- Loading & Error Handling -->
+  <div *ngIf="isLoading">Loading courses...</div>
+  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <!-- 📦 Course Cards -->
+  <!-- 📦 Course Cards -->
+<div class="courses-grid" *ngIf="!isLoading && paginatedCourses.length > 0">
+  <div class="course-card" *ngFor="let course of paginatedCourses">
+    <img [src]="course.image_url" alt="{{ course.title }}" />
+    <h3>{{ course.title }}</h3>
+    <p>{{ course.description }}</p>
+    <p><strong>Category:</strong> {{ course.category }}</p>
+    <p><strong>Price:</strong> KES {{ course.price }}</p>
+
+    <button (click)="openEditForm(course)">✏️ Edit</button>
+    <button (click)="deleteCourse(course.id)">🗑️ Delete</button>
+    <button (click)="goToClasses(course.id)">📺 View Classes</button>
+
+    <!-- ✅ This is the right place for it -->
+    <button (click)="openClassForm(course.id)">📚 Add Class</button>
+  </div>
+</div>
+
+
+  <!-- 🛑 No Courses Found -->
+  <div *ngIf="!isLoading && filteredCourses().length === 0">
+    <p *ngIf="courses.length === 0">No courses have been created yet.</p>
+    <p *ngIf="courses.length > 0">No courses match your search/filter.</p>
+  </div>
+
+  <!-- 🔢 Pagination -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
+
+    <button
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      (click)="changePage(i + 1)"
+      [class.active]="currentPage === i + 1"
+    >
+      {{ i + 1 }}
+    </button>
+
+    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+
+  <!-- 🧩 Course Form Modal -->
+  <app-course-form
+    *ngIf="showCourseForm"
+    [courseId]="selectedCourseId"
+    (close)="closeCourseForm()"
+  ></app-course-form>
+</section>
+
+<app-class-form
+  *ngIf="showClassForm"
+  [preselectedCourseId]="selectedCourseForClass"
+  (close)="closeClassForm()"
+></app-class-form>
+
+
+

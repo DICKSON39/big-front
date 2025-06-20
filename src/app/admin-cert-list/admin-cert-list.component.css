@@ -1,0 +1,198 @@
+/* --- Global Admin Section Container (if not already defined) --- */
+.admin-section-wrapper { /* Use a wrapper if this isn't the only content on the admin page */
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px; /* Space below this section */
+}
+
+/* --- Loading & Error Handling Styles (Consistent) --- */
+.loading-message-admin,
+.error-message-admin,
+.empty-certificates-admin {
+    text-align: center;
+    padding: 25px;
+    margin: 20px 0;
+    border-radius: 8px;
+    font-size: 1.15em;
+    font-weight: 500;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.loading-message-admin {
+    background-color: #eaf6ff;
+    color: #007bff;
+    border: 1px solid #cce0ff;
+    animation: pulse-loading 1.5s infinite ease-in-out;
+}
+
+.error-message-admin {
+    background-color: #ffeaea;
+    color: #dc3545;
+    border: 1px solid #ffcccc;
+}
+
+.empty-certificates-admin {
+    background-color: #fcfcfc;
+    color: #6c757d;
+    border: 1px dashed #e9ecef;
+    font-style: italic;
+    font-size: 1.1em;
+}
+
+@keyframes pulse-loading {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.02); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* --- Admin Certificate Grid Styles --- */
+.admin-cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive columns */
+    gap: 30px; /* Space between cards */
+    padding: 20px 0; /* Vertical padding around the grid */
+}
+
+.admin-cert-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    justify-content: space-between; /* Space out title, details, and actions */
+    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+}
+
+.admin-cert-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.admin-cert-card h3 {
+    font-size: 1.6em;
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 15px; /* Space below title */
+    line-height: 1.3;
+    text-align: center; /* Center the title */
+    border-bottom: 1px solid #f0f0f0; /* Subtle separator */
+    padding-bottom: 10px;
+}
+
+.admin-cert-card .cert-detail {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 8px; /* Space between detail lines */
+    line-height: 1.4;
+}
+
+.admin-cert-card .cert-detail strong {
+    color: #333;
+    margin-right: 5px;
+}
+
+.admin-cert-card .card-actions {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically within the card */
+    gap: 12px; /* Space between buttons */
+    margin-top: 25px; /* Space above action buttons */
+    padding-top: 15px; /* Internal padding for separation */
+    border-top: 1px solid #f0f0f0; /* Separator line */
+}
+
+/* Download Button */
+.admin-cert-card .download-cert-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    gap: 8px;
+    background-color: #3498db; /* Blue for download */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%; /* Full width within the card */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.admin-cert-card .download-cert-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+}
+
+/* Delete Button */
+.admin-cert-card .delete-cert-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    gap: 8px;
+    background-color: #e74c3c; /* Red for delete */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.2);
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%; /* Full width within the card */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.admin-cert-card .delete-cert-btn:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 900px) {
+    .admin-cert-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+    }
+
+    .admin-cert-card {
+        padding: 20px;
+    }
+
+    .admin-cert-card h3 {
+        font-size: 1.4em;
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-section-wrapper {
+        padding: 20px;
+    }
+
+    .admin-cert-grid {
+        grid-template-columns: 1fr; /* Stack cards vertically on very small screens */
+        gap: 20px;
+    }
+
+    .admin-cert-card {
+        padding: 18px;
+    }
+
+    .admin-cert-card h3 {
+        font-size: 1.3em;
+    }
+
+    .loading-message-admin,
+    .error-message-admin,
+    .empty-certificates-admin {
+        padding: 20px;
+        font-size: 1em;
+    }
+}

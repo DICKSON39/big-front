@@ -1,59 +1,37 @@
-# Client
+I have these getStudents():Observable<any[]>{
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.9.
+    return this.http.get<any[]>(`${this.apiUrl}/students`, {
 
-## Development server
+      headers:this.getAuthHeaders()
 
-To start a local development server, run:
+    })
 
-```bash
-ng serve
-```
+  }
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+  getEnrolledStudents():Observable<any[]>{
 
-```bash
-ng generate component component-name
-```
+    return this.http.get<any>(`${this.apiUrl}/enrolled/student`,{
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+      headers:this.getAuthHeaders()
 
-```bash
-ng generate --help
-```
 
-## Building
 
-To build the project run:
+    })
 
-```bash
-ng build
-```
+  }
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-## Running unit tests
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+  getStudentWithTheirCourses():Observable<any[]>{
 
-```bash
-ng test
-```
+    return this.http.get<any>(`${this.apiUrl}/enrolled/courses`,{
 
-## Running end-to-end tests
+      headers:this.getAuthHeaders()
 
-For end-to-end (e2e) testing, run:
 
-```bash
-ng e2e
-```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+    })
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+  } what is the best way to displayy whatever comes from the I want when the Teacher in teacher dashboard presses student he gets a component that will show the students and the enrolled students and the one enrolled in acourse

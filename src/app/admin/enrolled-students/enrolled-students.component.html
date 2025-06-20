@@ -1,0 +1,30 @@
+<!-- Search bar -->
+<input
+  type="text"
+  placeholder="🔍 Search students..."
+  [(ngModel)]="searchTerm"
+  (input)="searchSubject.next(searchTerm)"
+  class="search-input"
+/>
+
+<!-- Display students with enrolled courses -->
+<div *ngIf="studentsWithCourses.length > 0; else noStudents">
+  <div *ngFor="let student of studentsWithCourses" class="student-card">
+    <h3>{{ student.firstName }} {{ student.lastName }}</h3>
+    <p><strong>Email:</strong> {{ student.email }}</p>
+    <p><strong>Role:</strong> {{ student.role }}</p>
+
+    <h4>📚 Enrolled Courses:</h4>
+    <ul>
+      <li *ngFor="let course of student.courses">
+        {{ course.name }} (Enrolled: {{ course.enrolledAt | date:'mediumDate' }})
+        <button (click)="unenrollStudent(student.id, course.id)">❌ Unenroll</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Empty state -->
+<ng-template #noStudents>
+  <p>No enrolled students found.</p>
+</ng-template>

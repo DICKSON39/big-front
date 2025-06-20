@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>Classes for Course ID {{ courseId }}</h2>
+
+  <div *ngIf="isLoading">Loading...</div>
+
+  <div *ngIf="!isLoading && classes.length === 0">
+    <p>No classes found for this course.</p>
+  </div>
+
+  <div *ngIf="!isLoading && classes.length > 0">
+    <div class="class-card" *ngFor="let cls of classes">
+      <h4>{{ cls.title }}</h4>
+      <p>{{ cls.description }}</p>
+      <div *ngIf="cls.video_url">
+        <video controls>
+          <source [src]="cls.video_url" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+</div>

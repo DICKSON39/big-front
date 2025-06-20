@@ -1,0 +1,19 @@
+<div class="otp-container">
+  <form [formGroup]="otpForm" (ngSubmit)="onVerify()">
+    <h2>Verify OTP</h2>
+
+    <p>Enter the 6-digit code sent to your email</p>
+
+    <div class="form-group">
+      <label for="otp">OTP Code</label>
+      <input type="text" id="otp" maxlength="6" formControlName="otp" />
+      <small *ngIf="this.f['otp'].touched && this.f['otp'].invalid">OTP is required</small>
+    </div>
+
+    <button type="submit" class="btn" [disabled]="otpForm.invalid">Verify</button>
+
+    <p class="resend-text">
+      Didn't get the code? <a (click)="onResend()" class="resend-link">Resend OTP</a>
+    </p>
+  </form>
+</div>

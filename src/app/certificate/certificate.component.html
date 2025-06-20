@@ -1,0 +1,34 @@
+<div class="modal-backdrop" (click)="onClose()"></div> <div class="modal-content">
+  <div class="modal-header">
+    <h2>Add New Certificate</h2>
+    <button type="button" class="close-modal-button" (click)="onClose()">
+      &times;
+    </button>
+  </div>
+
+  <form [formGroup]="certificateForm" (ngSubmit)="onSubmit($event)">
+    <div class="form-group">
+      <label for="certificateFile">Certificate</label>
+      <input type="file" id="certificateFile" (change)="onFileChange($event)" accept=".pdf,image/*" />
+      <div *ngIf="certificateForm.get('certificate_url')?.invalid && (certificateForm.get('certificate_url')?.dirty || certificateForm.get('certificate_url')?.touched)" class="validation-error">
+        Certificate file is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="courseSelect">Course</label>
+      <select id="courseSelect" formControlName="course_id">
+        <option [ngValue]="null" disabled>-- Select Course --</option>
+        <option *ngFor="let course of courses" [ngValue]="course.id">{{ course.title }}</option>
+      </select>
+      <div *ngIf="certificateForm.get('course_id')?.invalid && (certificateForm.get('course_id')?.dirty || certificateForm.get('course_id')?.touched)" class="validation-error">
+        Course selection is required.
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button type="submit" class="submit-button" [disabled]="certificateForm.invalid">🎬 Create</button>
+      <button type="button" class="cancel-button" (click)="onClose()">❌ Cancel</button>
+    </div>
+  </form>
+</div>

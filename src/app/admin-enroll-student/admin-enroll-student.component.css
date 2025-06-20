@@ -1,0 +1,172 @@
+/* --- Modal Backdrop --- */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Dark semi-transparent overlay */
+  z-index: 1000; /* Ensures it's above everything else */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-out forwards; /* Smooth fade-in */
+}
+
+/* --- Modal Content Container --- */
+.modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* More prominent shadow */
+  z-index: 1001; /* Above the backdrop */
+  width: 90%;
+  max-width: 500px; /* Max width for the modal */
+  position: relative; /* For potential close button positioning */
+  animation: slideInTop 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Slide from top */
+}
+
+/* --- Modal Heading --- */
+.modal-content h2 {
+  font-size: 2em;
+  color: #2c3e50;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Space between icon and text */
+}
+
+/* --- Form Group Styling --- */
+.form-group {
+  margin-bottom: 20px; /* Space between form fields */
+}
+
+.form-group label {
+  display: block; /* Make labels take full width */
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 0.95em;
+}
+
+.form-group input[type="text"],
+.form-group select {
+  width: calc(100% - 24px); /* Full width minus padding and border */
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Slightly more rounded inputs */
+  font-size: 1em;
+  color: #333;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-appearance: none; /* Remove default browser styling for selects */
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f9f9f9; /* Light background for inputs */
+}
+
+/* Custom arrow for select (if not using -webkit-appearance) */
+.form-group select {
+  background-image: linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), linear-gradient(to right, #f9f9f9, #f9f9f9);
+  background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), 100% 0;
+  background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
+  background-repeat: no-repeat;
+}
+
+
+.form-group input[type="text"]:focus,
+.form-group select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+  outline: none;
+  background-color: #fff; /* White background on focus */
+}
+
+/* --- Buttons Container --- */
+.btns {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: 15px; /* Space between buttons */
+  margin-top: 30px; /* Space above buttons */
+  padding-top: 20px;
+  border-top: 1px solid #eee; /* Separator line */
+}
+
+.btns button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.05em;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btns button[type="submit"] {
+  background-color: #2ecc71; /* Green for Enroll */
+  color: white;
+}
+
+.btns button[type="submit"]:hover:not([disabled]) {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+}
+
+.btns button[type="submit"]:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.btns button.cancel {
+  background-color: #e74c3c; /* Red for Cancel */
+  color: white;
+}
+
+.btns button.cancel:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+/* --- Keyframe Animations --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInTop {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 20px;
+    margin: 10px; /* Add some margin on very small screens */
+  }
+
+  .modal-content h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+  }
+
+  .form-group input[type="text"],
+  .form-group select {
+    font-size: 0.95em;
+    padding: 10px;
+  }
+
+  .btns {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 10px;
+  }
+
+  .btns button {
+    width: 100%; /* Full width buttons when stacked */
+    padding: 10px 15px;
+    font-size: 1em;
+  }
+}

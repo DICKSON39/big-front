@@ -1,0 +1,49 @@
+<div class="profile-container">
+  <h2>Your Profile</h2>
+
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+    <div class="form-group">
+      <label for="first_name">First Name:</label>
+      <input id="first_name" type="text" formControlName="first_name" />
+      <div *ngIf="hasError('first_name', 'required')" class="validation-error">First Name is required.</div>
+      <div *ngIf="hasError('first_name', 'minlength')" class="validation-error">First Name must be at least 2 characters.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="last_name">Last Name:</label>
+      <input id="last_name" type="text" formControlName="last_name" />
+      <div *ngIf="hasError('last_name', 'required')" class="validation-error">Last Name is required.</div>
+      <div *ngIf="hasError('last_name', 'minlength')" class="validation-error">Last Name must be at least 2 characters.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input id="email" type="email" formControlName="email" />
+      <div *ngIf="hasError('email', 'required')" class="validation-error">Email is required.</div>
+      <div *ngIf="hasError('email', 'email')" class="validation-error">Please enter a valid email.</div>
+    </div>
+
+   
+
+    
+    <div class="form-actions">
+      <button type="button" class="btn btn-edit" (click)="toggleEditMode()">
+        {{ isEditing ? 'Cancel Edit' : 'Edit Profile' }}
+      </button>
+      <button class="btn-back-profile" (click)="goBack()">← Back</button>
+      <button type="submit" class="btn btn-save" *ngIf="isEditing" [disabled]="profileForm.invalid">
+        Save Changes
+      </button>
+      
+    </div>
+  </form>
+</div>
+
+

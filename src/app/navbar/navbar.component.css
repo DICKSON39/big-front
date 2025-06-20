@@ -1,0 +1,109 @@
+/* === Navbar Container === */
+.navbar {
+  background-color: #0d1117;
+  color: #e6edf3;
+  padding: 1rem 1.5rem;
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Navbar Inner */
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo */
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #58a6ff;
+}
+
+/* Hamburger Icon */
+.hamburger {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 1001;
+  color: #58a6ff;
+}
+
+/* === Nav Links === */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.nav-links li a,
+.nav-links li span {
+  text-decoration: none;
+  color: #e6edf3;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #58a6ff;
+}
+
+.btn {
+  background-color: #238636;
+  padding: 8px 18px;
+  border-radius: 25px;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #2ea043;
+}
+
+.logout-btn {
+  background-color: #da3633;
+}
+
+.logout-btn:hover {
+  background-color: #f85149;
+}
+
+/* === Mobile Slide Nav === */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    background-color: #161b22;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 80px 20px 20px;
+    transform: translateX(-100%);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .nav-links.open {
+    transform: translateX(0);
+  }
+
+  .nav-links li {
+    margin-bottom: 1.5rem;
+  }
+
+  .navbar .container {
+    justify-content: space-between;
+  }
+}

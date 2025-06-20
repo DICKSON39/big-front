@@ -1,0 +1,162 @@
+/* Styles for the Certificate List Section */
+.certificate-list-section {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px; /* Space below this section */
+}
+
+.certificate-list-section h2 {
+    font-size: 1.8em;
+    color: #34495e;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    display: flex; /* For potential icon/emoji alignment */
+    align-items: center;
+    gap: 10px;
+}
+
+/* Grid for Certificate Cards */
+.certificate-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 25px; /* Space between cards */
+}
+
+/* Individual Certificate Card */
+.certificate-card {
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden; /* Ensures content stays within rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    padding: 20px; /* Internal padding */
+    text-align: center; /* Center content within the card */
+    position: relative; /* For potential positioning of elements within */
+}
+
+.certificate-card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.certificate-card h4 {
+    font-size: 1.4em; /* Slightly larger title */
+    color: #34495e;
+    margin-top: 0;
+    margin-bottom: 15px; /* Space below title */
+    line-height: 1.3;
+}
+
+.certificate-card p { /* For the ID line */
+    font-size: 0.9em;
+    color: #777;
+    margin-top: 10px;
+    margin-bottom: 0;
+    word-break: break-all; /* In case ID is very long */
+}
+
+/* Link for Viewing Certificate */
+.certificate-card a {
+    display: inline-block; /* Allows padding and margin */
+    background-color: #3498db; /* Blue accent for view */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-bottom: 10px; /* Space below the link */
+}
+
+.certificate-card a:hover {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+/* Common Button Styles for Download and Delete */
+.certificate-card button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: calc(100% - 20px); /* Adjust for padding on small screens if necessary */
+    margin: 5px auto; /* Center buttons with vertical space */
+    display: block; /* Make them block-level to stack */
+}
+
+.certificate-card button:last-of-type {
+    margin-bottom: 0; /* No bottom margin for the last button */
+}
+
+/* Download Button */
+.certificate-card button:not(.delete-btn) { /* Targets the Download button specifically */
+    background-color: #28a745; /* Green for download */
+    color: white;
+}
+
+.certificate-card button:not(.delete-btn):hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+}
+
+/* Delete Button */
+.certificate-card .delete-btn {
+    background-color: #e74c3c; /* Red for delete */
+    color: white;
+    margin-top: 15px; /* Add more space above delete button for visual separation */
+}
+
+.certificate-card .delete-btn:hover {
+    background-color: #c0392b;
+    transform: translateY(-1px);
+}
+
+/* Empty State Message */
+.no-certificates {
+    text-align: center;
+    padding: 40px; /* More padding for a softer look */
+    color: #888; /* Softer gray color */
+    font-style: italic;
+    font-size: 1.2em; /* Slightly larger text */
+    background-color: #fcfcfc;
+    border: 1px dashed #e0e0e0; /* Dashed border for empty state */
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .certificate-list-section {
+        padding: 20px;
+    }
+
+    .certificate-list-section h2 {
+        font-size: 1.6em;
+        margin-bottom: 20px;
+    }
+
+    .certificate-grid {
+        grid-template-columns: 1fr; /* Stack cards vertically on very small screens */
+        gap: 20px;
+    }
+
+    .certificate-card {
+        padding: 15px;
+    }
+
+    .certificate-card button,
+    .certificate-card a {
+        width: 100%; /* Full width buttons/links on small screens */
+        box-sizing: border-box; /* Include padding/border in width */
+    }
+}

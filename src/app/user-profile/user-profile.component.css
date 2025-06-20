@@ -1,0 +1,117 @@
+/* Container for the user profile section */
+.user-profile-container {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin: 30px auto; /* Center the profile card and add vertical spacing */
+  max-width: 500px; /* Limit the width for better readability */
+  text-align: center; /* Center the content initially */
+}
+
+/* Heading for the user profile */
+.user-profile-container h2 {
+  font-size: 2em;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.user-profile-container h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background-color: #007bff;
+  border-radius: 2px;
+}
+
+/* Styling for individual profile data paragraphs */
+.user-profile-container p {
+  font-size: 1.1em;
+  color: #555;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  text-align: left; /* Align text within the paragraphs to the left */
+  padding-left: 20%; /* Give some space on the left for alignment */
+}
+
+.user-profile-container p strong {
+  color: #333;
+  display: inline-block; /* Allows width to be set for alignment */
+  width: 80px; /* Align colons */
+  text-align: right;
+  margin-right: 10px;
+}
+
+/* Styles for loading or error messages */
+.user-profile-container .loading-or-error-message {
+  font-size: 1.1em;
+  color: #6c757d;
+  font-style: italic;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .user-profile-container {
+    padding: 20px;
+    margin: 20px auto;
+  }
+
+  .user-profile-container h2 {
+    font-size: 1.7em;
+  }
+
+  .user-profile-container p {
+    font-size: 1em;
+    padding-left: 0; /* Remove padding on smaller screens */
+    text-align: center; /* Center text on smaller screens */
+  }
+
+  .user-profile-container p strong {
+    display: block; /* Stack label above value */
+    width: auto;
+    text-align: center;
+    margin-right: 0;
+    margin-bottom: 5px; /* Space between label and value */
+  }
+}
+/* Add this to your user-profile.css file or your component's stylesheet */
+
+.btn-back-profile {
+  background-color: #6c757d; /* Gray for back button */
+  color: #fff;
+  padding: 10px 20px; /* Slightly smaller than form buttons */
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-top: 25px; /* Space above the button */
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  display: inline-block; /* Ensures proper spacing and centering */
+  text-decoration: none; /* In case you change it to an <a> tag later */
+}
+
+.btn-back-profile:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+.btn-back-profile:active {
+  background-color: #495057;
+  transform: translateY(0);
+}
+
+/* Responsive adjustment for the button */
+@media (max-width: 768px) {
+  .btn-back-profile {
+    width: 100%; /* Full width on small screens */
+    padding: 10px 15px;
+    font-size: 0.95em;
+  }
+}

@@ -1,0 +1,151 @@
+/* Container for the form section */
+.section.update-user-form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin: 30px auto; /* Center the form and add vertical spacing */
+  max-width: 600px; /* Limit the form width for better readability */
+}
+
+/* Heading for the form */
+.section.update-user-form h2 {
+  font-size: 2em;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  text-align: center;
+  position: relative;
+}
+
+.section.update-user-form h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background-color: #007bff;
+  border-radius: 2px;
+}
+
+/* Form group (label + input/select) */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block; /* Ensures label is on its own line */
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"], /* Added password input */
+.form-group select {
+  width: calc(100% - 24px); /* Full width minus padding */
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 1em;
+  color: #495057;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: #f8f9fa; /* Light background for inputs */
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus, /* Added password input focus */
+.form-group select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none; /* Remove default outline */
+  background-color: #fff; /* White background on focus */
+}
+
+.form-group select {
+  appearance: none; /* Remove default select arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="#007bff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>'); /* Custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 1.2em;
+}
+
+/* Update Button */
+.btn-update {
+  background-color: #28a745; /* Green for update */
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-right: 15px; /* Space between buttons */
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  width: auto; /* Allow button to size to content */
+  display: inline-block; /* Align with back button */
+}
+
+.btn-update:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+.btn-update:disabled {
+  background-color: #90ee90; /* Lighter green when disabled */
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none; /* No hover effect when disabled */
+}
+
+/* Back to User List Button/Link */
+.btn-back {
+  background-color: #6c757d; /* Gray for back button */
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  text-decoration: none; /* Remove underline from link */
+  display: inline-block; /* Align with update button */
+  margin-top: 20px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-back:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .section.update-user-form {
+    padding: 20px;
+    margin: 20px auto;
+  }
+
+  .section.update-user-form h2 {
+    font-size: 1.7em;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="password"], /* Added password input */
+  .form-group select {
+    width: calc(100% - 20px); /* Adjust padding for smaller screens */
+    padding: 10px;
+  }
+
+  .btn-update,
+  .btn-back {
+    width: 100%; /* Full width buttons on small screens */
+    margin-right: 0;
+    margin-bottom: 10px; /* Space between stacked buttons */
+  }
+}

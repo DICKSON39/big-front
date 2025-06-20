@@ -1,0 +1,62 @@
+<!-- Header -->
+ <div class="container">
+<div class="viewer-header">
+  <button (click)="goBack()">⬅️ Back</button>
+  <h2>{{ courseTitle }}</h2>
+</div>
+
+<!-- Loading State -->
+<div *ngIf="isLoading">Loading classes...</div>
+
+<!-- Empty State -->
+<div *ngIf="!isLoading && classes.length === 0">
+  <p>No classes found for this course.</p>
+</div>
+
+<!-- Class List -->
+<div *ngIf="!isLoading && classes.length > 0">
+  <div *ngFor="let cls of classes" class="class-card">
+    <h4>{{ cls.title }}</h4>
+    <p>{{ cls.description }}</p>
+
+    <div class="video-wrapper" *ngIf="cls.video_url">
+  <video controls>
+    <source [src]="cls.video_url" type="video/mp4" />
+    Your browser doesn't support HTML5 video.
+  </video>
+</div>
+
+
+    <div class="actions">
+      <button (click)="startEdit(cls)">✏️ Edit</button>
+      <button (click)="deleteClass(cls.id)">🗑️ Delete</button>
+    </div>
+  </div>
+</div>
+</div>
+<!-- Edit Modal Overlay -->
+<div class="modal-overlay" *ngIf="editingClass" (click)="cancelEdit()"></div>
+
+<!-- Slide-in Edit Modal -->
+<div class="edit-modal" [ngClass]="{ 'show': editingClass }" *ngIf="editingClass">
+  <div class="edit-header">
+    <h3>Edit Class: {{ editingClass.title }}</h3>
+    <button (click)="cancelEdit()">❌</button>
+  </div>
+
+  <form [formGroup]="editForm" (ngSubmit)="submitEdit($event)" class="edit-form">
+    <label for="title">Title</label>
+    <input id="title" formControlName="title" placeholder="New title" />
+
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description" placeholder="New description"></textarea>
+
+    <label for="file">Replace Video (optional)</label>
+    <input id="file" type="file" (change)="onEditFileChange($event)" accept="video/*" />
+
+    <div class="edit-actions">
+      <button type="submit" [disabled]="editForm.invalid">💾 Save</button>
+      <button type="button" class="cancel" (click)="cancelEdit()">Cancel</button>
+    </div>
+  </form>
+</div>

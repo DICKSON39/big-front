@@ -1,0 +1,377 @@
+/* General Body and Base Styles */
+body {
+    font-family: 'Inter', sans-serif; /* Using Inter as specified */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    background-color: #f8f9fa; /* Light grey background */
+    color: #343a40; /* Dark grey for general text */
+    line-height: 1.6;
+}
+
+/* Ensure app-navbar is present, assuming it's positioned at the top */
+app-navbar {
+    position: fixed; /* Keep navbar at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure it's above other content */
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly translucent white */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 1rem 0; /* Add some padding */
+}
+
+/* Hero Section */
+.hero {
+    min-height: 100vh; /* Full viewport height */
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)); /* Only linear gradient */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #ffffff; /* White text on dark background */
+    padding: 20px; /* Ensure some padding on small screens */
+    box-sizing: border-box;
+}
+
+.hero-text {
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.hero-text h1 {
+    font-size: 3.8rem; /* Large heading */
+    margin-bottom: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.hero-text p {
+    font-size: 1.4rem; /* Prominent paragraph */
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.cta-btn {
+    display: inline-block;
+    background-color: #007bff; /* Primary blue button */
+    color: #ffffff;
+    padding: 16px 32px;
+    text-decoration: none;
+    border-radius: 50px; /* Pill-shaped button */
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.cta-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-3px); /* Subtle lift effect */
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+}
+
+/* Featured Courses Section */
+.featured-courses {
+    padding: 60px 20px; /* More padding top/bottom */
+    background-color: #f8f9fa; /* Light grey background */
+    text-align: center;
+}
+
+.featured-courses h2 {
+    font-size: 2.5rem; /* Slightly larger heading */
+    margin-bottom: 40px; /* More space below heading */
+    color: #212529; /* Darker heading color for contrast */
+    position: relative; /* For the underline effect */
+    display: inline-block; /* To make the underline fit the text */
+}
+
+.featured-courses h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px; /* Position the underline below the text */
+    transform: translateX(-50%);
+    width: 80px; /* Length of the underline */
+    height: 4px;
+    background-color: #007bff; /* Primary blue underline */
+    border-radius: 2px;
+}
+
+/* Course List / Grid Container */
+.course-list {
+    display: grid;
+    /* Responsive grid: columns will adjust based on screen size, min-width 280px */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px; /* More space between cards */
+    max-width: 1200px; /* Limit width for large screens */
+    margin: 0 auto 40px auto; /* Center the grid, add bottom margin */
+}
+
+/* Individual Course Card */
+.course-card {
+    background: #ffffff; /* White background */
+    border-radius: 12px; /* Slightly more rounded corners */
+    overflow: hidden; /* Ensures image corners are rounded */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* More prominent shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    text-align: left; /* Align text within card to the left */
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+}
+
+.course-card:hover {
+    transform: translateY(-8px); /* More noticeable lift effect */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+}
+
+.course-card img {
+    width: 100%;
+    height: 200px; /* Fixed height for consistent card appearance */
+    object-fit: cover; /* Ensures image covers the area without distortion */
+    border-bottom: 1px solid #eee; /* Subtle separator below image */
+}
+
+.course-card h3 {
+    font-size: 1.4rem; /* Larger course title */
+    color: #343a40;
+    margin: 15px 20px 10px; /* Padding inside card for title */
+}
+
+.course-card p {
+    font-size: 0.95rem;
+    color: #6c757d;
+    margin: 0 20px 20px; /* Padding inside card for description */
+    flex-grow: 1; /* Allows description to take available space, pushing button down */
+}
+
+.course-card .btn { /* Styling for the "View Course" button within the card */
+    display: inline-block;
+    background-color: #007bff; /* Primary blue button */
+    color: #ffffff;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 0 0 12px 12px; /* Rounded only at the bottom */
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Make button full width of the card */
+    text-align: center;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.course-card .btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* See All Courses Button (if needed, adjust if you add it to HTML) */
+.see-all-container {
+    margin-top: 40px; /* More space above the button */
+}
+
+.see-all-btn {
+    display: inline-block;
+    padding: 15px 30px; /* Larger button */
+    background-color: #28a745; /* A success green for "See All" */
+    color: #fff;
+    border-radius: 50px; /* Pill-shaped */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+}
+
+.see-all-btn:hover {
+    background-color: #218838;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4);
+}
+
+/* Footer Section */
+.footer {
+    background-color: #212529; /* Dark footer background */
+    color: #f8f9fa; /* Light text for footer */
+    padding: 60px 20px 20px; /* Top padding for sections, bottom for copyright */
+    font-size: 0.95rem;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow sections to wrap on smaller screens */
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px; /* Space between sections */
+}
+
+.footer-section {
+    flex: 1; /* Allow sections to grow */
+    min-width: 200px; /* Minimum width before wrapping */
+    margin-bottom: 30px; /* Space for sections before the bottom line */
+}
+
+.footer-section h3,
+.footer-section h4 {
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.footer-section p {
+    opacity: 0.8;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: #adb5bd; /* Lighter grey for links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #ffffff;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px; /* Space between social icons */
+}
+
+.social-icons li a {
+    font-size: 1.5rem; /* Size of social icons */
+    color: #adb5bd;
+    transition: color 0.3s ease;
+}
+
+.social-icons li a:hover {
+    color: #007bff; /* Primary blue on hover for social icons */
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    margin-top: 40px; /* Space above copyright */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Subtle top border */
+    opacity: 0.7;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .hero-text h1 {
+        font-size: 3rem;
+    }
+    .hero-text p {
+        font-size: 1.2rem;
+    }
+    .cta-btn {
+        padding: 14px 28px;
+        font-size: 1.1rem;
+    }
+    .footer-section {
+        flex-basis: 45%; /* Two columns on medium screens */
+    }
+
+    .featured-courses h2 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+    .course-list {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Slightly smaller min-width */
+        gap: 20px;
+    }
+    .course-card img {
+        height: 180px;
+    }
+    .course-card h3 {
+        font-size: 1.3rem;
+        margin: 12px 15px 8px;
+    }
+    .course-card p {
+        font-size: 0.9rem;
+        margin: 0 15px 15px;
+    }
+    .course-card .btn {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+    }
+    .see-all-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+    .hero-text p {
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+    .cta-btn {
+        padding: 12px 24px;
+        font-size: 1rem;
+    }
+    .footer-container {
+        flex-direction: column; /* Stack footer sections vertically */
+        align-items: center;
+    }
+    .footer-section {
+        min-width: unset;
+        width: 100%;
+        text-align: center;
+    }
+    .social-icons {
+        justify-content: center; /* Center social icons when stacked */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+    .hero-text p {
+        font-size: 0.9rem;
+    }
+    .cta-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    .footer {
+        padding: 40px 15px 15px;
+    }
+    .footer-section h3,
+    .footer-section h4 {
+        font-size: 1.1rem;
+    }
+    .social-icons li a {
+        font-size: 1.3rem;
+    }
+
+    .featured-courses {
+        padding: 40px 15px;
+    }
+    .featured-courses h2 {
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+    }
+    .course-list {
+        grid-template-columns: 1fr; /* Stack cards vertically on very small screens */
+        gap: 15px;
+    }
+    .course-card img {
+        height: 160px;
+    }
+}

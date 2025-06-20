@@ -1,0 +1,185 @@
+/* --- Search Bar Styles --- */
+.search-input {
+    width: 100%; /* Full width within its container */
+    padding: 12px 18px;
+    margin-bottom: 30px; /* Space below the search bar */
+    border: 1px solid #ced4da; /* Light gray border */
+    border-radius: 8px; /* Slightly rounded corners */
+    font-size: 1.1em;
+    color: #495057;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.search-input::placeholder {
+    color: #a0a7ae; /* Lighter placeholder text */
+}
+
+.search-input:focus {
+    border-color: #007bff; /* Primary blue on focus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Focus ring */
+    outline: none; /* Remove default outline */
+}
+
+/* --- Student Card Styles --- */
+.student-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    margin-bottom: 25px; /* Space between cards */
+    border: 1px solid #e0e0e0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.student-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.student-card h3 {
+    font-size: 1.6em;
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.student-card p {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.student-card p strong {
+    color: #34495e;
+}
+
+.student-card h4 {
+    font-size: 1.2em;
+    color: #34495e;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    padding-left: 5px; /* Indent slightly for visual hierarchy */
+    border-left: 4px solid #007bff; /* Accent border */
+}
+
+/* Enrolled Courses List */
+.student-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.student-card ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Spreads out course name and button */
+    padding: 10px 0;
+    border-bottom: 1px dashed #e9ecef; /* Dotted line for a softer separator */
+    font-size: 0.95em;
+    color: #444;
+    gap: 10px; /* Space between elements */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.student-card ul li:last-child {
+    border-bottom: none; /* No border for the last item */
+}
+
+.student-card ul li button {
+    background-color: #dc3545; /* Red for unenroll action */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+.student-card ul li button:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+/* --- Empty State --- */
+.no-students {
+    text-align: center;
+    padding: 30px;
+    margin: 20px 0;
+    background-color: #fcfcfc;
+    color: #6c757d;
+    font-style: italic;
+    font-size: 1.1em;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .search-input {
+        padding: 10px 15px;
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+
+    .student-card {
+        padding: 20px;
+    }
+
+    .student-card h3 {
+        font-size: 1.4em;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+    }
+
+    .student-card p {
+        font-size: 0.95em;
+    }
+
+    .student-card h4 {
+        font-size: 1.1em;
+        margin-top: 20px;
+        margin-bottom: 8px;
+    }
+
+    .student-card ul li {
+        flex-direction: column; /* Stack items vertically */
+        align-items: flex-start; /* Align text to the left */
+        font-size: 0.9em;
+        padding: 8px 0;
+        gap: 5px;
+    }
+
+    .student-card ul li button {
+        width: 100%; /* Make button full width */
+        margin-top: 8px; /* Space from text */
+        font-size: 0.8em;
+        padding: 5px 10px;
+    }
+
+    .no-students {
+        padding: 20px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .student-card {
+        padding: 15px;
+    }
+
+    .student-card h3 {
+        font-size: 1.2em;
+    }
+
+    .student-card p {
+        font-size: 0.9em;
+    }
+}

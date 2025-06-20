@@ -1,0 +1,27 @@
+update this <div class="course-details-container" *ngIf="!isLoading && course; else loadingOrError">
+  <div class="course-image">
+    <img [src]="course.image_url" alt="{{ course.title }}" />
+  </div>
+
+  <div class="course-info">
+    <h2>{{ course.title }}</h2>
+    <p><strong>Description:</strong> {{ course.description }}</p>
+    <p><strong>Category:</strong> {{ course.category }}</p>
+    <p><strong>Duration:</strong> {{ course.duration }}</p>
+    <p><strong>Price:</strong> KES {{ course.price }}</p>
+
+    <div class="instructor" *ngIf="course.instructor">
+      <p><strong>Instructor:</strong> {{ course.instructor.first_name }} {{ course.instructor.last_name }}</p>
+      <p><strong>Email:</strong> {{ course.instructor.email }}</p>
+    </div>
+    
+    <button class="enroll-btn" >Enroll</button>
+
+    
+  </div>
+</div>
+
+<ng-template #loadingOrError>
+  <div *ngIf="isLoading">Loading course details...</div>
+  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+</ng-template>

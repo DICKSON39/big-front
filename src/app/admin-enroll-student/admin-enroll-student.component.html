@@ -1,0 +1,30 @@
+<!-- admin-enroll-student.component.html -->
+<div class="modal-backdrop" (click)="closeModal()"></div>
+
+<div class="modal-content">
+  <h2>🎓 Enroll Student to Course</h2>
+  <form [formGroup]="enrollForm" (ngSubmit)="onSubmit($event)">
+    <div class="form-group">
+      <label>Student</label>
+      <select formControlName="user_id">
+        <option value="">Select student</option>
+        <option *ngFor="let student of students" [value]="student.id">
+          {{ student.first_name }} {{ student.last_name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Course</label>
+      <select formControlName="course_id">
+        <option value="">Select course</option>
+        <option *ngFor="let course of courses" [value]="course.id">{{ course.title }}</option>
+      </select>
+    </div>
+
+    <div class="btns">
+      <button type="submit" [disabled]="enrollForm.invalid">✅ Enroll</button>
+      <button type="button" class="cancel" (click)="closeModal()">❌ Cancel</button>
+    </div>
+  </form>
+</div>

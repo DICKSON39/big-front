@@ -1,0 +1,60 @@
+<!-- landing.component.html -->
+<app-navbar/>
+
+<header class="hero">
+  <div class="hero-text">
+    <h1>Learn Anything. Anywhere. Anytime.</h1>
+    <p>Join our LMS platform to unlock your future with expert-led courses 💡</p>
+   
+    <a *ngIf="!isAuthenticated" routerLink="/register" class="cta-btn">Get Started</a>
+  </div>
+</header>
+
+
+<section class="featured-courses">
+  <h2>📘 Featured Courses</h2>
+  <div class="course-list">
+    <div class="course-card" *ngFor="let course of featuredCourses">
+      <img [src]="course.image_url" alt="Course image">
+      <h3>{{ course.title }}</h3>
+      <p>{{ course.description }}</p>
+      <a [routerLink]="['/courses']" class="btn">View All Course</a>
+     
+    </div>
+  </div>
+</section>
+
+
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3>SkillLMS</h3>
+      <p>Your gateway to smart learning 🚀</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a routerLink="/">Home</a></li>
+        <li><a routerLink="/courses">Courses</a></li>
+        <li><a routerLink="/about">About</a></li>
+        <li><a routerLink="/contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Connect</h4>
+      <ul class="social-icons">
+        <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
+        <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
+        <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+        <li><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; {{ currentYear }} SkillLMS. All rights reserved.</p>
+  </div>
+</footer>

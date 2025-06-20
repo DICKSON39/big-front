@@ -1,0 +1,187 @@
+<div class="teacher-container" [class.sidebar-open]="sidebarOpen">
+  <button class="hamburger" (click)="toggleSidebar()">
+    {{ sidebarOpen ? "✖️" : "☰" }}
+  </button>
+
+  <div
+    class="sidebar-backdrop"
+    *ngIf="sidebarOpen && screenWidth <= 768"
+    (click)="toggleSidebar()"
+  ></div>
+
+  <aside class="sidebar" [class.collapsed]="!sidebarOpen">
+    <div class="profile-section">
+      <img
+        [src]="userAvatar || 'https://i.pravatar.cc/100?img=6'"
+        alt="Avatar"
+        class="avatar"
+      />
+      <h3 class="logo">
+        <span class="logo-text">{{
+          userName?.toUpperCase() || "TEACHER NAME"
+        }}</span>
+      </h3>
+    </div>
+
+    <nav>
+      <a routerLink="/teacher" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+      <a routerLink="/teacher/courses-with-classes" routerLinkActive="active-link">My Classes</a>
+      <a routerLink="/teacher/courses" routerLinkActive="active-link">My Courses</a>
+
+      <button class="nav-button" (click)="showModal = true">Create Class</button>
+      <button class="nav-button" (click)="showCourseModal = true">Create Course</button>
+      <button class="nav-button" (click)="showCertificateModal = true">Upload Cert</button>
+
+      <a routerLink="/certificate/admin" routerLinkActive="active-link">Given Certs</a>
+      <a routerLink="/students">Students</a>
+      <a routerLink="/profile" routerLinkActive="active-link">Settings</a>
+    </nav>
+  </aside>
+
+  <main class="main-content" [class.shifted]="sidebarOpen && screenWidth > 768">
+    <header class="header">
+      <h2>📚 Teacher Dashboard</h2>
+      <div class="user-info-section">
+        <p *ngIf="userName" class="welcome-message">Welcome, {{ userName || "Teacher" }}!</p>
+        <button class="logout-btn" (click)="onLogout()">Logout</button>
+        <button class="home-btn" routerLink="/">Home</button>
+      </div>
+    </header>
+
+    <section class="stats-section">
+      <h3>📊 Your Overview</h3>
+      <div class="stats-grid">
+        <div class="stat-card" *ngFor="let stat of teacherStats">
+          <h4>{{ stat.title }}</h4>
+          <p>{{ stat.count }}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="teacher-courses-section">
+      <h2>📘 Your Created Courses</h2>
+      <div class="courses-grid">
+        <div *ngFor="let course of teacherCourses" class="teacher-course-card">
+          <img [src]="course.image_url || 'assets/default-course-image.png'" alt="Course Image" />
+          <h4>{{ course.title }}</h4>
+          <p class="course-description">{{ course.description }}</p>
+          <p><strong>Category:</strong> {{ course.category || "N/A" }}</p>
+          <p><strong>Duration:</strong> {{ course.duration || "N/A" }}</p>
+          <p><strong>Price:</strong> KES {{ course.price || "N/A" }}</p>
+
+          <div class="course-actions">
+            <button (click)="editCourse(course)" class="edit-btn">✏️ Edit Course</button>
+            <button (click)="deleteCourse(course.id)" class="delete-btn">🗑️ Delete Course</button>
+            <button (click)="viewStudentProgress(course)" class="view-progress-btn">📊 View Student Progress</button>
+          </div>
+        </div>
+      </div>
+      <p *ngIf="!teacherCourses || teacherCourses.length === 0" class="empty-state">
+        You haven't created any courses yet. Click "Create Course" to get started!
+      </p>
+    </section>
+
+    <section class="courses-with-classes-section">
+      <h3>📚 Courses With Uploaded Classes</h3>
+      <div *ngIf="coursesWithClasses.length > 0; else noClassesUploaded">
+        <div *ngFor="let course of coursesWithClasses" class="course-item">
+          <div class="course-header" (click)="toggleCourse(course.course_id)">
+            <h4>{{ course.course_title }}</h4>
+            <button>{{ isCourseOpen(course.course_id) ? "Hide Classes" : "Show Classes" }}</button>
+          </div>
+
+          <div *ngIf="isCourseOpen(course.course_id)" class="class-videos-container">
+            <ul class="class-videos-list">
+              <li *ngFor="let cls of course.classes" class="class-video-item">
+                <h5>{{ cls.title }}</h5>
+                <p>{{ cls.description }}</p>
+                <video width="100%" controls *ngIf="cls.video_url">
+                  <source [src]="cls.video_url" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <ng-template #noClassesUploaded>
+        <div class="empty-state">
+          <p>No classes have been uploaded to your courses yet.</p>
+        </div>
+      </ng-template>
+    </section>
+
+    <section class="certificate-list-section">
+  <h2>📄 Uploaded Certificates by Course</h2>
+
+  <div *ngIf="groupedCertificates && certificateCourseTitles.length > 0; else noCertificates">
+    <div *ngFor="let courseTitle of certificateCourseTitles">
+      <h3>{{ courseTitle }}</h3>
+
+      <!-- Pass the delete method to the child -->
+      <app-certificate-list 
+        [certificates]="groupedCertificates[courseTitle]"
+        (delete)="deleteCertificate($event)">
+      </app-certificate-list>
+    </div>
+  </div>
+
+  <ng-template #noCertificates>
+    <p class="empty-state">No certificates have been uploaded yet.</p>
+  </ng-template>
+</section>
+
+
+  </main>
+</div>
+
+<div class="student-progress-modal" *ngIf="showStudentProgressModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Student Progress for: {{ selectedCourseForStudents?.title }}</h3>
+      <button class="close-modal-btn" (click)="closeStudentProgressModal()">❌</button>
+    </div>
+
+    <input
+      type="text"
+      placeholder="🔍 Search students by name or email..."
+      [(ngModel)]="studentSearchTerm"
+      (input)="onStudentSearchInput()"
+      class="search-input modal-search-input"
+    />
+
+    <div *ngIf="isLoadingStudents" class="loading-text">⏳ Loading students...</div>
+    <div *ngIf="studentsErrorMessage" class="error-text">❌ {{ studentsErrorMessage }}</div>
+
+    <div *ngIf="!isLoadingStudents && filteredStudentsInCourse.length > 0; else noStudentsInCourse" class="students-list-container">
+      <div *ngFor="let student of filteredStudentsInCourse" class="student-progress-item">
+        <div class="student-info">
+          <h4>{{ student.first_name }} {{ student.last_name }}</h4>
+          <p class="student-email">{{ student.email }}</p>
+        </div>
+        <div class="student-progress">
+          <p>Progress: <strong>{{ student.progress }}%</strong></p>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" [style.width.%]="getProgressBarWidth(student.progress)"></div>
+          </div>
+        </div>
+        <div class="student-actions"></div>
+      </div>
+    </div>
+
+    <ng-template #noStudentsInCourse>
+      <div *ngIf="!isLoadingStudents && !studentsErrorMessage" class="empty-state-modal">
+        <p *ngIf="studentSearchTerm">No students found matching "{{ studentSearchTerm }}" in this course.</p>
+        <p *ngIf="!studentSearchTerm">📭 No students are enrolled in this course yet.</p>
+      </div>
+    </ng-template>
+
+    <div class="modal-footer">
+      <button class="cancel-btn" (click)="closeStudentProgressModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<app-class-form *ngIf="showModal" (closeModal)="showModal = false"></app-class-form>
+<app-course-form *ngIf="showCourseModal" [courseId]="selectedCourseId" (closeModal)="closeCourseModal()"></app-course-form>
+<app-certificate *ngIf="showCertificateModal" (closeModal)="closeCertModal()"></app-certificate>

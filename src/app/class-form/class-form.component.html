@@ -1,0 +1,34 @@
+<div class="modal-backdrop" (click)="onClose()"></div> <div class="modal-content">
+  <h2>Create New Class</h2>
+  <form [formGroup]="classForm" (ngSubmit)="onSubmit($event)">
+
+    <div class="form-group">
+      <label>Title</label>
+      <input formControlName="title" placeholder="Title" />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea formControlName="description" placeholder="Description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Upload Video</label>
+      <input type="file" (change)="onFileChange($event)" accept="video/*" />
+    </div>
+
+    <div class="form-group">
+      <label>Course</label>
+      <select formControlName="course_id">
+        <option value="">Select Course</option>
+        <option *ngFor="let course of courses" [value]="course.id">{{ course.title }}</option>
+      </select>
+    </div>
+
+    <div class="btns">
+      <button type="submit" [disabled]="classForm.invalid">🎬 Create</button>
+      <button type="button" class="cancel" (click)="closeModal.emit()">❌ Cancel</button>
+    </div>
+
+  </form>
+</div>

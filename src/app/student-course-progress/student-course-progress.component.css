@@ -1,0 +1,378 @@
+/* --- Loading & Error Handling Styles (Keeping as is, no changes here) --- */
+.loading-text,
+.error-text,
+.empty-state {
+    text-align: center;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+.loading-text {
+    background-color: #eaf6ff; /* Light blue */
+    color: #007bff;
+    border: 1px solid #cce0ff;
+    animation: pulse-loading 1.5s infinite ease-in-out;
+}
+
+.error-text {
+    background-color: #ffeaea; /* Light red */
+    color: #dc3545;
+    border: 1px solid #ffcccc;
+}
+
+.empty-state {
+    background-color: #fcfcfc; /* Off-white */
+    color: #6c757d;
+    border: 1px solid #e9ecef;
+    font-style: italic;
+}
+
+@keyframes pulse-loading {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.02); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* --- Course Progress Card Styles (Keeping as is, no changes here) --- */
+.course-progress-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    margin-bottom: 25px;
+    border: 1px solid #e0e0e0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-progress-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.course-progress-card h2 {
+    font-size: 1.8em;
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.course-progress-card p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Progress Bar (Keeping as is, no changes here) */
+.progress-bar-container {
+    width: 100%;
+    background-color: #e9ecef; /* Light gray background for the bar */
+    border-radius: 5px;
+    height: 12px; /* Height of the progress bar */
+    overflow: hidden; /* Ensures fill stays within rounded corners */
+    margin-bottom: 25px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #28a745; /* Green fill for progress */
+    border-radius: 5px;
+    transition: width 0.5s ease-out; /* Smooth transition for progress updates */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 5px; /* Small padding for visual consistency */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Class List (Keeping as is, no changes here) */
+.class-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 20px;
+}
+
+.class-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Spreads items out */
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 1em;
+    color: #444;
+    gap: 10px; /* Space between elements */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.class-list li:last-child {
+    border-bottom: none;
+}
+
+.class-list li strong {
+    flex-grow: 1; /* Allow title to take up available space */
+    color: #333;
+    font-weight: 600;
+    margin-right: 10px; /* Space before status */
+}
+
+.class-list .status {
+    font-size: 0.9em;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-weight: 500;
+    white-space: nowrap; /* Prevent status text from wrapping */
+}
+
+.class-list .status.completed {
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green text */
+}
+
+.class-list .status.pending {
+    background-color: #fff3cd; /* Light yellow */
+    color: #856404; /* Dark yellow text */
+}
+
+.class-list button {
+    background-color: #007bff; /* Primary blue for watch button */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+.class-list button:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+/* --- Certificate Download Section Styles (NEW/UPDATED) --- */
+.cert-section {
+    text-align: center; /* Center the button within its section */
+    margin-top: 20px; /* Space from previous content like progress bar */
+    margin-bottom: 25px; /* Space before the class list */
+    padding-top: 20px; /* Internal padding for separation */
+    border-top: 1px solid #f0f0f0; /* Separator line */
+}
+
+.cert-download-btn {
+    display: inline-flex; /* Use flex for icon and text alignment */
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    background-color: #28a745; /* Green for certificate download */
+    color: white;
+    padding: 12px 25px; /* Generous padding */
+    border-radius: 8px; /* Slightly more rounded */
+    text-decoration: none; /* Remove underline from link */
+    font-size: 1.1em; /* Slightly larger font */
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2); /* Soft shadow */
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cert-download-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-2px); /* Lift effect */
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3); /* Enhanced shadow on hover */
+}
+
+.cert-download-btn:active {
+    transform: translateY(0); /* Press down effect */
+    box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);
+}
+
+/* --- Video Modal Styles (Keeping as is, no changes here) --- */
+.video-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it's on top of everything else */
+    backdrop-filter: blur(5px); /* Optional: blurred background */
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    max-width: 90%;
+    width: 800px; /* Max width for the modal */
+    box-sizing: border-box;
+    animation: slideInFromTop 0.3s ease-out forwards;
+}
+
+.modal-content h3 {
+    font-size: 1.8em;
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.modal-content video {
+    border-radius: 8px; /* Rounded corners for the video player */
+    background-color: #000; /* Black background for video area */
+    margin-bottom: 20px;
+}
+
+.video-actions {
+    display: flex;
+    justify-content: center; /* Center buttons */
+    gap: 15px; /* Space between buttons */
+    flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+}
+
+.video-actions button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.video-actions button:first-child { /* Mark as Watched button */
+    background-color: #28a745; /* Green for completion */
+    color: white;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
+}
+
+.video-actions button:first-child:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3);
+}
+
+.video-actions button.cancel {
+    background-color: #6c757d; /* Gray for cancel */
+    color: white;
+    box-shadow: 0 4px 10px rgba(108, 117, 125, 0.2);
+}
+
+.video-actions button.cancel:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(108, 117, 125, 0.3);
+}
+
+/* Animations for Modal (Keeping as is, no changes here) */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInFromTop {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- Responsive Adjustments (Keeping as is, no changes here) --- */
+@media (max-width: 768px) {
+    .course-progress-card {
+        padding: 20px;
+    }
+
+    .course-progress-card h2 {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    .course-progress-card p {
+        font-size: 1em;
+    }
+
+    .progress-bar-container {
+        height: 10px;
+        margin-bottom: 20px;
+    }
+
+    .class-list li {
+        flex-direction: column; /* Stack items vertically */
+        align-items: flex-start; /* Align text to the left */
+        gap: 8px; /* Adjust gap for stacked items */
+    }
+
+    .class-list li strong {
+        margin-right: 0; /* No right margin when stacked */
+        width: 100%; /* Take full width */
+    }
+
+    .class-list .status {
+        align-self: flex-start; /* Align status to the left */
+    }
+
+    .class-list button {
+        width: 100%; /* Make button full width */
+        margin-top: 10px; /* Space from status */
+    }
+
+    .modal-content {
+        padding: 20px;
+        max-width: 95%;
+        width: auto; /* Allow width to be flexible */
+    }
+
+    .modal-content h3 {
+        font-size: 1.5em;
+    }
+
+    .video-actions button {
+        padding: 10px 20px;
+        font-size: 0.9em;
+        width: 100%; /* Full width buttons on small screens */
+    }
+
+    /* Adjust cert download button on smaller screens */
+    .cert-download-btn {
+        padding: 10px 20px; /* Slightly less padding */
+        font-size: 1em; /* Slightly smaller font */
+        width: 100%; /* Make button full width */
+        box-sizing: border-box; /* Ensure padding is included in width */
+    }
+}
+
+@media (max-width: 480px) {
+    .course-progress-card {
+        padding: 15px;
+    }
+
+    .course-progress-card h2 {
+        font-size: 1.3em;
+    }
+
+    .course-progress-card p {
+        font-size: 0.9em;
+    }
+
+    .class-list li {
+        font-size: 0.9em;
+    }
+
+    .modal-content {
+        padding: 15px;
+    }
+
+    .modal-content h3 {
+        font-size: 1.3em;
+    }
+}

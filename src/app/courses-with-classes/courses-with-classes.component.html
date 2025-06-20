@@ -1,0 +1,18 @@
+<h3>📚 Your Courses with Classes</h3>
+
+<div *ngIf="isLoading">Loading courses...</div>
+
+<div *ngIf="!isLoading && courses.length === 0">
+  <p>No courses with classes found.</p>
+</div>
+
+<div *ngIf="!isLoading && courses.length > 0">
+  <div *ngFor="let course of courses" class="course-card">
+    <h4>{{ course.course_title }}</h4>
+    <p>📼 {{ course.classes.length }} class{{ course.classes.length !== 1 ? 'es' : '' }}</p>
+    
+    <button [routerLink]="['/teacher/courses', course.course_id, 'classes']">
+      ▶️ View Classes
+    </button>
+  </div>
+</div>

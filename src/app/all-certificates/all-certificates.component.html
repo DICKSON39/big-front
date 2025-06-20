@@ -1,0 +1,13 @@
+<div *ngIf="isLoading">⏳ Loading your certificates...</div>
+<div *ngIf="errorMessage">{{ errorMessage }}</div>
+
+<div *ngIf="!isLoading && certificates.length === 0">
+  📭 You haven’t earned any certificates yet.
+</div>
+
+<div *ngIf="certificates.length > 0" class="cert-grid">
+  <div *ngFor="let cert of certificates" class="cert-card">
+    <h3>{{ cert.course_title }}</h3>
+    <a [href]="cert.certificate_url" download target="_blank">🎓 Download Certificate</a>
+  </div>
+</div>

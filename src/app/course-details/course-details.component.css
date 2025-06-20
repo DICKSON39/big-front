@@ -1,0 +1,271 @@
+/* Course Details Container */
+.course-details-container {
+    max-width: 1000px;
+    margin: 80px auto 40px auto; /* Adjust top margin to clear potential fixed navbar, add bottom margin */
+    padding: 30px; /* Increased padding */
+    background-color: #ffffff;
+    border-radius: 12px; /* Slightly more rounded corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Stronger, more diffused shadow */
+    display: flex;
+    flex-wrap: wrap; /* Allows image and info to wrap on smaller screens */
+    gap: 40px; /* Increased space between image and info sections */
+    align-items: flex-start; /* Align items to the top */
+}
+
+/* Course Image Section */
+.course-image {
+    flex: 1; /* Allows image to take up available space */
+    min-width: 300px; /* Minimum width for the image container */
+    max-width: 450px; /* Slightly larger max-width for the image */
+}
+
+.course-image img {
+    width: 100%; /* Image fills its container */
+    height: 300px; /* Fixed height for consistency, adjust as needed */
+    border-radius: 10px;
+    object-fit: cover; /* Ensures image covers the area without distortion */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Shadow for the image */
+}
+
+/* Course Information Section */
+.course-info {
+    flex: 2; /* Allows info section to take more space than the image */
+    min-width: 350px; /* Minimum width for the info section */
+    padding-top: 10px; /* Align content slightly better with the image */
+}
+
+.course-info h2 {
+    font-size: 2.8rem; /* Larger, more prominent title */
+    color: #2c3e50; /* Darker heading color */
+    margin-bottom: 20px; /* More space below title */
+    line-height: 1.2;
+}
+
+.course-info p {
+    margin: 15px 0; /* More vertical space between paragraphs */
+    font-size: 1.15rem; /* Slightly larger font size for readability */
+    color: #555;
+}
+
+.course-info p strong {
+    color: #333; /* Darker color for strong text (labels) */
+}
+
+.instructor {
+    margin-top: 30px; /* More space above instructor details */
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0; /* Separator for instructor info */
+}
+
+.instructor p {
+    font-size: 1.1rem; /* Slightly smaller for instructor details */
+    margin: 8px 0;
+}
+
+.enroll-btn {
+    display: inline-block;
+    margin-top: 30px; /* Space above the button */
+    padding: 18px 40px; /* Larger padding for a more prominent button */
+    background-color: #007bff; /* Primary blue */
+    color: #fff;
+    border: none;
+    border-radius: 50px; /* Pill-shaped button */
+    font-size: 1.3rem; /* Larger font size */
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3); /* Button shadow */
+}
+
+.enroll-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-3px); /* Lift effect */
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
+}
+
+/* Loading and Error States */
+ng-template div { /* Target div inside ng-template */
+    text-align: center;
+    margin: 50px auto;
+    font-size: 1.3rem;
+    color: #6c757d;
+}
+
+ng-template div[ngIf="errorMessage"] {
+    color: #dc3545; /* Red for error messages */
+    font-weight: 600;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+    .course-details-container {
+        flex-direction: column; /* Stack image and info vertically */
+        align-items: center; /* Center items when stacked */
+        padding: 25px;
+        margin: 60px auto 30px auto;
+        gap: 30px;
+    }
+
+    .course-image {
+        max-width: 100%; /* Image takes full width when stacked */
+        min-width: unset;
+    }
+
+    .course-image img {
+        height: 250px; /* Adjust image height for medium screens */
+    }
+
+    .course-info {
+        min-width: unset; /* Remove min-width */
+        width: 100%; /* Info takes full width when stacked */
+        text-align: center; /* Center text when stacked */
+        padding-top: 0;
+    }
+
+    .course-info h2 {
+        font-size: 2.3rem;
+        margin-bottom: 15px;
+    }
+
+    .course-info p {
+        font-size: 1.05rem;
+        margin: 10px 0;
+    }
+
+    .instructor {
+        margin-top: 20px;
+        padding-top: 15px;
+    }
+
+    .instructor p {
+        font-size: 1rem;
+    }
+
+    .enroll-btn {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        margin-top: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .course-details-container {
+        padding: 20px;
+        margin: 50px auto 20px auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+    .course-image img {
+        height: 220px; /* Further adjust image height for smaller tablets */
+    }
+    .course-info h2 {
+        font-size: 2rem;
+    }
+    .enroll-btn {
+        padding: 12px 25px;
+        font-size: 1.1rem;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .course-details-container {
+        padding: 15px;
+        margin: 40px auto 15px auto;
+        border-radius: 0; /* Remove border-radius on very small screens for edge-to-edge look */
+    }
+    .course-info h2 {
+        font-size: 1.8rem;
+    }
+    .course-image img {
+        height: 180px; /* Adjust image height for mobile */
+        border-radius: 8px;
+    }
+    .course-info p,
+    .instructor p {
+        font-size: 0.95rem;
+        margin: 8px 0;
+    }
+    .enroll-btn {
+        width: 90%; /* Make button wider on mobile */
+        max-width: 300px; /* Limit max width */
+        font-size: 1rem;
+        padding: 12px 20px;
+    }
+}
+
+.enroll-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+.enroll-btn:hover {
+  background-color: #0056b3;
+}
+.enroll-message {
+  margin-top: 0.5rem;
+  color: green;
+  font-weight: 500;
+}
+
+
+
+.course-details-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+}
+
+.course-image img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.payment-section {
+  margin-top: 20px;
+}
+
+.payment-section h3 {
+  margin-bottom: 10px;
+}
+
+input[type="tel"] {
+  padding: 8px;
+  width: 100%;
+  max-width: 250px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.stripe-btn {
+  background-color: #635bff;
+}
+
+.mpesa-btn {
+  background-color: #34b233;
+}
+
+.success-message {
+  margin-top: 10px;
+  color: green;
+}

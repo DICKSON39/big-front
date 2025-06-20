@@ -1,0 +1,63 @@
+<section class="teacher-courses">
+  <h2>📘 My Courses</h2>
+
+  <select [(ngModel)]="selectedCategory" class="category-select">
+  <option value="all">All Categories</option>
+  <option *ngFor="let category of getUniqueCategories()" [value]="category">{{ category }}</option>
+</select>
+
+
+  <div class="top-bar">
+    <input
+  type="text"
+  (input)="searchSubject.next($any($event.target).value)"
+  placeholder="🔍 Search courses..."
+  class="search-input"
+/>
+
+
+
+    <button (click)="openCreateForm()">➕ Add Course</button>
+  </div>
+
+  <div *ngIf="isLoading">Loading courses...</div>
+
+  <div *ngIf="!isLoading && paginatedCourses.length > 0" class="course-list">
+    <div class="course-card" *ngFor="let course of paginatedCourses">
+      <img [src]="course.image_url" alt="Course Image" />
+      <h4>{{ course.title }}</h4>
+      <p>{{ course.description }}</p>
+      <p><strong>Category:</strong> {{ course.category }}</p>
+      <p><strong>Duration:</strong> {{ course.duration }}</p>
+      <p><strong>Price:</strong> KES {{ course.price }}</p>
+
+      <div class="btn-group">
+        <button (click)="openEditForm(course)">✏️ Edit</button>
+        <button class="delete" (click)="deleteCourse(course.id)">🗑️ Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && filteredCourses().length === 0">
+    <p *ngIf="courses.length === 0">You haven't created any courses yet.</p>
+    <p *ngIf="courses.length > 0">No courses match your search.</p>
+  </div>
+
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
+    <button
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      (click)="changePage(i + 1)"
+      [class.active]="currentPage === i + 1"
+    >
+      {{ i + 1 }}
+    </button>
+    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+
+  <app-course-form
+    *ngIf="showCourseForm"
+    [courseId]="selectedCourseId"
+    (close)="closeCourseForm()"
+  ></app-course-form>
+</section>

@@ -1,0 +1,110 @@
+<div class="admin-dashboard-container">
+  <header class="dashboard-header">
+    <div class="welcome-section">
+      <img [src]="userAvatar" alt="User Avatar" class="avatar" />
+      <h1>{{ userName }}</h1>
+      <p *ngIf="userName">Welcome, {{ userName }}!</p>
+      <p *ngIf="userEmail" class="user-email">{{ userEmail }}</p>
+      <p *ngIf="userRole" class="user-role">Role: {{ userRole }}</p>
+    </div>
+    <div class="header-actions">
+      <button class="logout-btn" (click)="onLogout()">Logout</button>
+      <button class="logout-btn" routerLink="/">Home</button>
+    </div>
+  </header>
+
+  <div class="main-content-area">
+    <section class="stats-grid">
+      <div *ngFor="let stat of stats" class="stat-card">
+        <h3>{{ stat.title }}</h3>
+        <p class="stat-count">{{ stat.count }}</p>
+      </div>
+    </section>
+
+    <section class="dashboard-sections">
+      <div class="section-card">
+        <h2>Add Users</h2>
+        <p>Add new user accounts to the system.</p>
+        <a routerLink="/admin/add-user" class="section-link">Add Users</a>
+      </div>
+
+      <div class="section-card">
+        <h2>Manage Users</h2>
+        <p>View, edit, and delete existing user accounts.</p>
+        <a routerLink="/admin/users" class="section-link">Go to Users</a>
+      </div>
+
+      <div class="section-card">
+        <h2>Manage Courses</h2>
+        <p>Create, update, and organize courses.</p>
+        <a routerLink="/admin/courses" class="section-link">Go to Courses</a>
+      </div>
+
+      <div class="section-card">
+        <h2>Enrollment</h2>
+        <p>Enroll registered students in courses.</p>
+        <a routerLink="/enrollments" class="section-link">📋 View Enrollments</a>
+      </div>
+
+      <div class="section-card">
+        <h2>View Reports</h2>
+        <p>Access detailed reports and analytics.</p>
+        <a routerLink="/admin/reports" class="section-link">Go to Reports</a>
+      </div>
+
+      <div class="section-card action-card">
+        <h2>Enroll Student Manually</h2>
+        <p>Quickly enroll a student into a course.</p>
+        <button (click)="openEnrollModal()" class="section-link">
+          ➕ Enroll Student
+        </button>
+      </div>
+
+      <div class="section-card action-card">
+        <h2>Upload New Certificate</h2>
+        <p>Add new course completion certificates.</p>
+        <button (click)="openCertModal()" class="section-link">
+          Upload Cert
+        </button>
+      </div>
+    </section>
+
+    <section class="certificate-list-section">
+      <h2>All Course Certificates</h2>
+      <div
+        *ngIf="
+          groupedCertificates && certificateCourseTitles.length > 0;
+          else noCertificates
+        "
+        class="certificate-course-groups"
+      >
+        <div
+          *ngFor="let courseTitle of certificateCourseTitles"
+          class="course-certificate-group"
+        >
+          <h3>{{ courseTitle }}</h3>
+          <app-certificate-list
+            [certificates]="groupedCertificates[courseTitle]"
+            (delete)="deleteCertificate($event)"
+          ></app-certificate-list>
+        </div>
+      </div>
+
+      <ng-template #noCertificates>
+        <p class="empty-state">No certificates have been uploaded yet.</p>
+      </ng-template>
+    </section>
+  </div>
+  <footer class="dashboard-footer">
+    <p>SkillLMS Admin. All rights reserved.</p>
+  </footer>
+</div>
+
+<app-admin-enroll-student
+  *ngIf="showEnrollModal"
+  (close)="closeEnrollModal()"
+></app-admin-enroll-student>
+
+<app-certificate *ngIf="showCertificateModal" (closeModal)="closeCertModal()"></app-certificate>
+
+<!-- routerLink="/certificate/admin" -->

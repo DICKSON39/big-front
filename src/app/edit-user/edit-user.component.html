@@ -1,0 +1,60 @@
+<div class="section update-user-form">
+  <h2>Update user profile</h2>
+  <form [formGroup]="userForm" (ngSubmit)="updateUser()">
+    <div class="form-group">
+      <label for="first_name">First_name</label>
+      <input id="first_name" type="text" formControlName="first_name"/>
+    </div>
+
+    <div class="form-group">
+      <label for="last_name">Last_Name</label>
+      <input id="last_name" type="text" formControlName="last_name"/>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email"/>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password"/>
+    </div>
+    
+
+    <div class="form-group">
+      <label for="roleId">Role:</label>
+      <select id="roleId" formControlName="roleId">
+        <option [value]="1">Admin</option>
+        <option [value]="2">Teacher</option>
+        <option [value]="3">User</option>
+      </select>
+
+    </div>
+
+    
+
+    
+
+
+    <button type="submit" [disabled]="!userForm.valid" class="btn-update">
+      Update User
+    </button>
+    <a (click)="goBack()" class="btn-back">← Back to User List</a>
+
+    <app-modal
+      [message]="'Are you sure you want to fuck this ninja life?'"
+      [visible]="showModal"
+      (confirm)="confirmUpdate()"
+      (cancel)="showModal = false"
+    >
+    </app-modal>
+
+
+
+
+
+
+
+  </form>
+</div>

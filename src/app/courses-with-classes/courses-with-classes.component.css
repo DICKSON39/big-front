@@ -1,0 +1,145 @@
+/* --- General Styling for the Container --- */
+/* Styles for the main container holding all courses */
+div[ngIf="!isLoading && courses.length > 0"] {
+  display: grid; /* Use CSS Grid for a responsive layout */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Adjust column width as needed */
+  gap: 20px; /* Space between course cards */
+  padding: 20px; /* Padding around the entire grid */
+  background-color: #f8f8f8; /* Light background for the section */
+  border-radius: 8px; /* Slightly rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* --- Course Card Styling --- */
+.course-card {
+  background-color: #ffffff; /* White background for each card */
+  border: 1px solid #e0e0e0; /* Light border */
+  border-radius: 8px; /* Rounded corners for cards */
+  padding: 20px; /* Inner padding */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* More prominent shadow on cards */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transitions for hover effects */
+  display: flex; /* Use flexbox for content within the card */
+  flex-direction: column; /* Stack content vertically */
+  justify-content: space-between; /* Distribute space */
+}
+
+.course-card:hover {
+  transform: translateY(-5px); /* Lift card on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12); /* Enhance shadow on hover */
+}
+
+/* --- Course Title Styling --- */
+.course-card h4 {
+  color: #333; /* Darker text for titles */
+  font-size: 1.4em; /* Slightly larger font size */
+  margin-bottom: 10px; /* Space below the title */
+  word-break: break-word; /* Ensure long titles wrap */
+}
+
+/* --- Class Count Styling --- */
+.course-card p {
+  color: #666; /* Muted color for class count */
+  font-size: 1em; /* Standard font size */
+  margin-bottom: 15px; /* Space below the class count */
+  display: flex; /* Use flexbox to align icon and text */
+  align-items: center; /* Vertically center items */
+}
+
+.course-card p::before {
+  content: '📼'; /* Emoticon for classes */
+  margin-right: 8px; /* Space between emoticon and text */
+  font-size: 1.2em; /* Slightly larger emoticon */
+}
+
+/* --- Button Styling --- */
+.course-card button {
+  background-color: #007bff; /* Primary blue color for the button */
+  color: white; /* White text */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners for button */
+  padding: 10px 15px; /* Padding inside the button */
+  font-size: 1em; /* Standard font size */
+  cursor: pointer; /* Indicate it's clickable */
+  transition: background-color 0.3s ease; /* Smooth transition for hover */
+  display: flex; /* Use flexbox for icon and text inside button */
+  align-items: center; /* Vertically center items */
+  justify-content: center; /* Horizontally center items */
+  width: fit-content; /* Adjust button width to content */
+  margin-top: auto; /* Push button to the bottom of the card */
+}
+
+.course-card button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.course-card button::before {
+  content: '▶️'; /* Play icon for the button */
+  margin-right: 8px; /* Space between icon and text */
+}
+
+/* --- Loading and No Courses Message --- */
+div[ngIf="isLoading"],
+div[ngIf="!isLoading && courses.length === 0"] {
+  text-align: center; /* Center the loading/no courses message */
+  padding: 30px; /* Ample padding */
+  color: #777; /* Muted text color */
+  font-size: 1.2em; /* Slightly larger font size */
+  background-color: #f0f0f0; /* Light background */
+  border-radius: 8px; /* Rounded corners */
+  margin-top: 20px; /* Space from the heading */
+}
+
+/* --- Heading Styling --- */
+h3 {
+  color: #333; /* Dark color for the heading */
+  font-size: 2em; /* Larger font size */
+  margin-bottom: 25px; /* Space below the heading */
+  text-align: center; /* Center the heading */
+  display: flex; /* Use flexbox to align icon and text */
+  align-items: center; /* Vertically center items */
+  justify-content: center; /* Horizontally center items */
+}
+
+h3::before {
+  content: '📚'; /* Book icon */
+  margin-right: 10px; /* Space between icon and text */
+  font-size: 1.2em; /* Slightly larger icon */
+}
+
+/* --- Responsive Adjustments (Optional but Recommended) --- */
+@media (max-width: 768px) {
+  div[ngIf="!isLoading && courses.length > 0"] {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust columns for smaller screens */
+    padding: 15px;
+  }
+
+  .course-card {
+    padding: 15px;
+  }
+
+  h3 {
+    font-size: 1.8em;
+  }
+}
+
+@media (max-width: 480px) {
+  div[ngIf="!isLoading && courses.length > 0"] {
+    grid-template-columns: 1fr; /* Single column on very small screens */
+    padding: 10px;
+  }
+
+  .course-card {
+    padding: 15px;
+  }
+
+  h3 {
+    font-size: 1.5em;
+    flex-direction: column; /* Stack icon and text for very small screens */
+    text-align: center;
+  }
+
+  h3::before {
+    margin-bottom: 5px; /* Space when stacked */
+    margin-right: 0;
+  }
+}

@@ -1,0 +1,63 @@
+<input
+  type="text"
+  placeholder="Search students..."
+  [(ngModel)]="searchTerm"
+  (input)="onSearchChange()"
+  class="search-input"
+/>
+
+<div class="tabs">
+  <button (click)="setTab('all')" [class.active]="activeTab === 'all'">All Students</button>
+  <button (click)="setTab('enrolled')" [class.active]="activeTab === 'enrolled'">Enrolled Students</button>
+  <button (click)="setTab('courses')" [class.active]="activeTab === 'courses'">With Courses</button>
+</div>
+
+<!-- All Students -->
+<div *ngIf="activeTab === 'all'">
+  <ng-container *ngIf="allStudents$ | async as students">
+    <div *ngFor="let s of paginate(students)">
+      <p>{{ s.first_name }} {{ s.last_name }} — {{ s.email }}</p>
+    </div>
+    <div class="pagination">
+      <button (click)="page = page - 1" [disabled]="page === 1">Prev</button>
+      <span>Page {{ page }}</span>
+      <button (click)="page = page + 1" [disabled]="(page * itemsPerPage) >= students.length">Next</button>
+      <button class="btn-back-profile" (click)="goBack()">← Back</button>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Enrolled Students -->
+<div *ngIf="activeTab === 'enrolled'">
+  <ng-container *ngIf="studentsWithEnrollments$ | async as students">
+    <div *ngFor="let s of paginate(students)">
+      <p>{{ s.first_name }} {{ s.last_name }} — {{ s.email }} | Enrolled At: {{ s.enrolled_at | date }}</p>
+    </div>
+    <div class="pagination">
+      <button (click)="page = page - 1" [disabled]="page === 1">Prev</button>
+      <span>Page {{ page }}</span>
+      <button (click)="page = page + 1" [disabled]="(page * itemsPerPage) >= students.length">Next</button>
+      <button class="btn-back-profile" (click)="goBack()">← Back</button>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Students With Courses -->
+<div *ngIf="activeTab === 'courses'">
+  <ng-container *ngIf="studentsWithCourses$ | async as students">
+    <div *ngFor="let s of paginate(students)" class="student-card">
+      <p><strong>{{ s.firstName }} {{ s.lastName }}</strong> — {{ s.email }}</p>
+      <ul>
+        <li *ngFor="let c of s.courses">
+          {{ c.name }} - {{ c.enrolledAt | date }}
+        </li>
+      </ul>
+    </div>
+    <div class="pagination">
+      <button (click)="page = page - 1" [disabled]="page === 1">Prev</button>
+      <span>Page {{ page }}</span>
+      <button (click)="page = page + 1" [disabled]="(page * itemsPerPage) >= students.length">Next</button>
+      <button class="btn-back-profile" (click)="goBack()">← Back</button>
+    </div>
+  </ng-container>
+</div>

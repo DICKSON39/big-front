@@ -1,0 +1,74 @@
+<div class="course-details-container" *ngIf="!isLoading && course; else loadingOrError">
+  <div class="course-image">
+    <img [src]="course.image_url" alt="{{ course.title }}" />
+  </div>
+
+  <div class="course-info">
+    <h2>{{ course.title }}</h2>
+    <p><strong>Description:</strong> {{ course.description }}</p>
+    <p><strong>Category:</strong> {{ course.category }}</p>
+    <p><strong>Duration:</strong> {{ course.duration }}</p>
+    <p><strong>Price:</strong> KES {{ course.price }}</p>
+
+    <div class="instructor" *ngIf="course.instructor">
+      <p><strong>Instructor:</strong> {{ course.instructor.first_name }} {{ course.instructor.last_name }}</p>
+      <p><strong>Email:</strong> {{ course.instructor.email }}</p>
+    </div>
+
+    <hr />
+
+    <!-- Enroll Button -->
+   <button class="enroll-btn" 
+  (click)="showPaymentModal = true" 
+  [disabled]="alreadyEnrolled">
+  {{ alreadyEnrolled ? 'Already Enrolled' : 'Enroll' }}
+</button>
+
+<div *ngIf="alreadyEnrolled" class="alert alert-info">
+  You are already enrolled in this course ✅
+</div>
+
+
+  </div>
+</div>
+
+<!-- 💳 Payment Modal -->
+<div class="payment-modal" *ngIf="showPaymentModal">
+  <div class="modal-content">
+    <span class="close" (click)="showPaymentModal = false">&times;</span>
+    <h2>Select Payment Method</h2>
+
+    <!-- Stripe -->
+    <div class="payment-option">
+      <h3>Pay with Card (Stripe)</h3>
+      <button (click)="handleStripePayment()" [disabled]="paymentInProgress">
+        {{ paymentInProgress ? 'Processing...' : 'Pay with Stripe' }}
+      </button>
+      <div *ngIf="stripeSuccess" class="success-message">✅ Stripe payment successful!</div>
+    </div>
+
+    <hr />
+
+    <!-- M-Pesa -->
+    <div class="payment-option">
+      <h3>Pay with M-Pesa</h3>
+      <label for="phone">Phone Number:</label>
+      <input
+        type="tel"
+        id="phone"
+        [(ngModel)]="phoneNumber"
+        placeholder="07XXXXXXXX"
+        [disabled]="paymentInProgress"
+      />
+      <button (click)="handleMpesaPayment()" [disabled]="paymentInProgress">
+        {{ paymentInProgress ? 'Processing...' : 'Pay with M-Pesa' }}
+      </button>
+      <div *ngIf="mpesaSuccess" class="success-message">✅ M-Pesa payment initiated!</div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingOrError>
+  <div *ngIf="isLoading">Loading course details...</div>
+  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+</ng-template>

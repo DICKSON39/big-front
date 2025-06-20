@@ -1,0 +1,30 @@
+<nav class="navbar">
+  <div class="container">
+    <div class="logo">SkillLMS</div>
+
+    <div class="hamburger" (click)="toggleMenu()">
+      <span *ngIf="!isMenuOpen">☰</span>
+      <span *ngIf="isMenuOpen">✖</span>
+    </div>
+
+    <ul class="nav-links" [ngClass]="{ 'open': isMenuOpen }">
+      <li><a routerLink="/">Home</a></li>
+      <li><a routerLink="/courses">Courses</a></li>
+      <li><a routerLink="/about">About</a></li>
+      <li><a routerLink="/contact">Contact</a></li>
+
+      <ng-container *ngIf="!isAuthenticated; else loggedInLinks">
+        <li><a routerLink="/login" class="btn">Login</a></li>
+      </ng-container>
+
+      <ng-template #loggedInLinks>
+        <li *ngIf="userName"><span>Hello, {{ userName }}!</span></li>
+        <li><a [routerLink]="dashboardLink" class="btn">Dashboard</a></li>
+         <li>  <a routerLink="/profile" class="btn">Profile</a></li>
+       
+        <li><a (click)="onLogout()" class="btn logout-btn">Logout</a></li>
+      </ng-template>
+    </ul>
+   
+  </div>
+</nav>

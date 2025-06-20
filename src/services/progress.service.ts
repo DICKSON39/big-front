@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class ProgressService {
 
-  private apiUrl = 'http://localhost:5000/api/v1/progress'; // Update with your actual API URL
+  private apiUrl = 'https://school-online-backend.onrender.com/api/v1/progress'; // Update with your actual API URL
  private as= ``
   constructor(private http: HttpClient) {}
 

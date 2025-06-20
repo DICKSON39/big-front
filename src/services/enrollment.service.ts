@@ -20,7 +20,7 @@ export interface StudentWithCourses {
   providedIn: 'root'
 })
 export class EnrollmentService {
- private apiUrl = 'http://localhost:5000/api/v1/enrollments'; // Update with your actual API URL
+ private apiUrl = 'https://school-online-backend.onrender.com/api/v1/enrollments'; // Update with your actual API URL
 
   constructor(private http: HttpClient) {}
 
@@ -30,7 +30,7 @@ export class EnrollmentService {
   }
 
   enrollStudent(data: { user_id: number; course_id: number }) {
-  return this.http.post('http://localhost:5000/api/v1/enrollments/enroll', data,{
+  return this.http.post('https://school-online-backend.onrender.com/api/v1/enrollments/enroll', data,{
     headers: this.getAuthHeaders()
   });
 }
@@ -69,7 +69,7 @@ export class EnrollmentService {
 
   checkEnrollment(userId: string, courseId: number): Observable<{ enrolled: boolean }> {
   return this.http.get<{ enrolled: boolean }>(
-    `http://localhost:5000/api/v1/enrollments/check/${userId}/${courseId}`,
+    `https://school-online-backend.onrender.com/api/v1/enrollments/check/${userId}/${courseId}`,
     { headers: this.getAuthHeaders() }
   );
 }

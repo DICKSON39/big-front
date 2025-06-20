@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class NotificationService {
 
-  private apiUrl = 'http://localhost:5000/api/v1/progress'
+  private apiUrl = 'https://school-online-backend.onrender.com/api/v1/progress'
 
   constructor(private http:HttpClient) { }
 

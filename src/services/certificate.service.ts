@@ -14,7 +14,7 @@ interface Certificate{
   providedIn: 'root'
 })
 export class CertificateService {
-   private apiUrl = 'http://localhost:5000/api/v1/certificates'
+   private apiUrl = 'https://school-online-backend.onrender.com/api/v1/certificates'
 
   constructor(private http:HttpClient) { }
 

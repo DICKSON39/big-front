@@ -54,7 +54,7 @@ export interface UpdateUserBackendResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = "http://localhost:5000/api/v1/auth";
+  private apiUrl = "https://school-online-backend.onrender.com/api/v1/auth";
   private jwtHelper = new JwtHelperService();
 
   private getAuthHeaders(): HttpHeaders {

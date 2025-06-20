@@ -28,7 +28,7 @@ interface CreateClassResponse {
   providedIn: 'root'
 })
 export class ClassService {
-  private apiUrl = 'http://localhost:5000/api/v1/classes'; // Update with your actual API URL
+  private apiUrl = 'https://school-online-backend.onrender.com/api/v1/classes'; // Update with your actual API URL
 
   constructor(private http: HttpClient) {}
 

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class PaymentService {
-  private apiUrl = 'http://localhost:5000/api/v1/payment';
+  private apiUrl = 'https://school-online-backend.onrender.com/api/v1/payment';
 
   constructor(private http: HttpClient) {}
 
@@ -19,7 +19,7 @@ export class PaymentService {
 
   makePayment(courseId: number, amount: number) {
     return this.http.post<{ clientSecret: string }>(
-      'http://localhost:5000/api/v1/payment/create-payment-intent',
+      'https://school-online-backend.onrender.com/api/v1/payment/create-payment-intent',
       { courseId, amount },
       {
         headers: this.getAuthHeaders(),

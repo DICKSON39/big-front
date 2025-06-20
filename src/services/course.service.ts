@@ -52,7 +52,7 @@ export interface PaginatedCourseResponse {
 })
 export class CourseService {
 
-  private apiUrl = 'http://localhost:5000/api/v1/courses';
+  private apiUrl = 'https://school-online-backend.onrender.com/api/v1/courses';
 
 
 
@@ -115,19 +115,19 @@ export class CourseService {
   }
 
   getCourseById(id: number): Observable<Course> {
-    return this.http.get<Course>(`http://localhost:5000/api/v1/courses/details/${id}`, {
+    return this.http.get<Course>(`https://school-online-backend.onrender.com/api/v1/courses/details/${id}`, {
       headers: this.getAuthHeaders(),
     });
   }
 
   deleteCourse(id: number): Observable<any> {
-    return this.http.delete(`http://localhost:5000/api/v1/courses/delete/${id}`, {
+    return this.http.delete(`https://school-online-backend.onrender.com/api/v1/courses/delete/${id}`, {
       headers: this.getAuthHeaders(),
     });
   }
 
   getAllCoursesForDropdown(): Observable<any> {
-  return this.http.get(`http://localhost:5000/api/v1/courses/teacher/get`, {
+  return this.http.get(`https://school-online-backend.onrender.com/api/v1/courses/teacher/get`, {
     headers: this.getAuthHeaders()
   });
 
@@ -137,20 +137,20 @@ export class CourseService {
 }
 
 getStudentsInCourseWithProgress(courseId: string): Observable<StudentProgress[]> {
-    return this.http.get<StudentProgress[]>(`http://localhost:5000/api/v1/progress/students/${courseId}/students-progress`, {
+    return this.http.get<StudentProgress[]>(`https://school-online-backend.onrender.com/api/v1/progress/students/${courseId}/students-progress`, {
       headers: this.getAuthHeaders()
     });
   }
 
 
 getCoursesWithClasses(): Observable<any> {
-  return this.http.get(`http://localhost:5000/api/v1/classes/with-classes`, {
+  return this.http.get(`https://school-online-backend.onrender.com/api/v1/classes/with-classes`, {
     headers: this.getAuthHeaders()
   });
 }
 
 getSingleCourseWithClasses(courseId: number): Observable<any> {
-  return this.http.get(`http://localhost:5000/api/v1/classes/${courseId}/with-classes`, {
+  return this.http.get(`https://school-online-backend.onrender.com/api/v1/classes/${courseId}/with-classes`, {
     headers: this.getAuthHeaders(),
   });
 }

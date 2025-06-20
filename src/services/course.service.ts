@@ -3,21 +3,31 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 
-interface Course {
-  course: import("c:/Users/Dickson/Desktop/school/Client/src/app/course-details/course-details.component").Course;
-  image_url: string;
+export interface Course {
   id: number;
   title: string;
   description: string;
+  image_url: string;
+  category: string;
+  duration: string;
+  price: number;
+  created_at?: string;
+  updated_at?: string;
+  teacher_id?: number;
+  instructor?: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    role?: string;
+  };
+  teacherId: number;
   teacherName: string;
   roleName: string;
-  image: string;
-  price: number;
-  teacherId: number;
-  duration:string;
-  category:string;
-  // Add other properties as needed
+  course:Course
+  
+  
 }
+
 
 export interface StudentProgress {
   user_id: string; // The ID of the student

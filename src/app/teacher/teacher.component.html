@@ -24,15 +24,37 @@
     </div>
 
     <nav>
-      <a routerLink="/teacher" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
-      <a routerLink="/teacher/courses-with-classes" routerLinkActive="active-link">My Classes</a>
-      <a routerLink="/teacher/courses" routerLinkActive="active-link">My Courses</a>
+      <a
+        routerLink="/teacher"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Dashboard</a
+      >
+      <a
+        routerLink="/teacher/courses-with-classes"
+        routerLinkActive="active-link"
+        >My Classes</a
+      >
+      <a routerLink="/teacher/courses" routerLinkActive="active-link"
+        >My Courses</a
+      >
 
-      <button class="nav-button" (click)="showModal = true">Create Class</button>
-      <button class="nav-button" (click)="showCourseModal = true">Create Course</button>
-      <button class="nav-button" (click)="showCertificateModal = true">Upload Cert</button>
+      <button class="nav-button" (click)="showModal = true">
+        Create Class
+      </button>
+      <button class="nav-button" (click)="showCourseModal = true">
+        Create Course
+      </button>
+      <button class="nav-button" (click)="showCertificateModal = true">
+        Upload Cert
+      </button>
+      <button class="nav-button" (click)="openAssignmentModal()">
+        + Create Assignment
+      </button>
 
-      <a routerLink="/certificate/admin" routerLinkActive="active-link">Given Certs</a>
+      <a routerLink="/certificate/admin" routerLinkActive="active-link"
+        >Given Certs</a
+      >
       <a routerLink="/students">Students</a>
       <a routerLink="/profile" routerLinkActive="active-link">Settings</a>
     </nav>
@@ -42,7 +64,9 @@
     <header class="header">
       <h2>📚 Teacher Dashboard</h2>
       <div class="user-info-section">
-        <p *ngIf="userName" class="welcome-message">Welcome, {{ userName || "Teacher" }}!</p>
+        <p *ngIf="userName" class="welcome-message">
+          Welcome, {{ userName || "Teacher" }}!
+        </p>
         <button class="logout-btn" (click)="onLogout()">Logout</button>
         <button class="home-btn" routerLink="/">Home</button>
       </div>
@@ -61,8 +85,11 @@
     <section class="teacher-courses-section">
       <h2>📘 Your Created Courses</h2>
       <div class="courses-grid">
-        <div *ngFor="let course of teacherCourses" class="teacher-course-card">
-          <img [src]="course.image_url || 'assets/default-course-image.png'" alt="Course Image" />
+        <div *ngFor="let course of teacherCourses " class="teacher-course-card">
+          <img
+            [src]="course.image_url || 'assets/default-course-image.png'"
+            alt="Course Image"
+          />
           <h4>{{ course.title }}</h4>
           <p class="course-description">{{ course.description }}</p>
           <p><strong>Category:</strong> {{ course.category || "N/A" }}</p>
@@ -70,14 +97,27 @@
           <p><strong>Price:</strong> KES {{ course.price || "N/A" }}</p>
 
           <div class="course-actions">
-            <button (click)="editCourse(course)" class="edit-btn">✏️ Edit Course</button>
-            <button (click)="deleteCourse(course.id)" class="delete-btn">🗑️ Delete Course</button>
-            <button (click)="viewStudentProgress(course)" class="view-progress-btn">📊 View Student Progress</button>
+            <button (click)="editCourse(course)" class="edit-btn">
+              ✏️ Edit Course
+            </button>
+            <button (click)="deleteCourse(course.id)" class="delete-btn">
+              🗑️ Delete Course
+            </button>
+            <button
+              (click)="viewStudentProgress(course)"
+              class="view-progress-btn"
+            >
+              📊 View Student Progress
+            </button>
           </div>
         </div>
       </div>
-      <p *ngIf="!teacherCourses || teacherCourses.length === 0" class="empty-state">
-        You haven't created any courses yet. Click "Create Course" to get started!
+      <p
+        *ngIf="!teacherCourses || teacherCourses.length === 0"
+        class="empty-state"
+      >
+        You haven't created any courses yet. Click "Create Course" to get
+        started!
       </p>
     </section>
 
@@ -87,12 +127,17 @@
         <div *ngFor="let course of coursesWithClasses" class="course-item">
           <div class="course-header" (click)="toggleCourse(course.course_id)">
             <h4>{{ course.course_title }}</h4>
-            <button>{{ isCourseOpen(course.course_id) ? "Hide Classes" : "Show Classes" }}</button>
+            <button>
+              {{ isCourseOpen(course.course_id) ? "Hide" : "Expand" }}
+            </button>
           </div>
 
-          <div *ngIf="isCourseOpen(course.course_id)" class="class-videos-container">
+          <div
+            *ngIf="isCourseOpen(course.course_id)"
+            class="class-videos-container"
+          >
             <ul class="class-videos-list">
-              <li *ngFor="let cls of course.classes" class="class-video-item">
+              <li *ngFor="let cls of course.classes " class="class-video-item">
                 <h5>{{ cls.title }}</h5>
                 <p>{{ cls.description }}</p>
                 <video width="100%" controls *ngIf="cls.video_url">
@@ -111,35 +156,86 @@
       </ng-template>
     </section>
 
-    <section class="certificate-list-section">
-  <h2>📄 Uploaded Certificates by Course</h2>
+   <section class="assignments-section">
+  <h2>📝 Assignments by Course</h2>
+  <div *ngIf="teacherCourses.length > 0; else noCoursesYet">
+    <div *ngFor="let course of teacherCourses" class="course-with-assignments">
+      <h3>{{ course.title }}</h3>
 
-  <div *ngIf="groupedCertificates && certificateCourseTitles.length > 0; else noCertificates">
-    <div *ngFor="let courseTitle of certificateCourseTitles">
-      <h3>{{ courseTitle }}</h3>
+      <div *ngIf="hasAssignments(course.id); else noAssignmentsYet">
+        <div *ngFor="let assignment of assignmentsByCourse[course.id] | slice:0:3" class="assignment-card">
+          <h4>{{ assignment.title }}</h4>
+          <p>{{ assignment.description }}</p>
+          <p>
+            📅 Due: {{ assignment.due_date | date: 'mediumDate' }} <br />
+            ⏳ <span [ngClass]="{ 'overdue-text': isOverdue(assignment.due_date) }">
+              {{ getCountdown(assignment.due_date) }}
+            </span>
+          </p>
 
-      <!-- Pass the delete method to the child -->
-      <app-certificate-list 
-        [certificates]="groupedCertificates[courseTitle]"
-        (delete)="deleteCertificate($event)">
-      </app-certificate-list>
+          <button
+            class="grade-btn"
+            [routerLink]="['/teacher/grade', course.id]"
+          >
+            🎯 Grade Submissions
+          </button>
+        </div>
+
+        <!-- Optional: show "See All" link per course if > 3 -->
+        <a
+  *ngIf="assignmentsByCourse[course.id] && assignmentsByCourse[course.id].length > 3"
+  [routerLink]="['/teacher/grade', course.id]"
+  class="see-all-btn"
+>
+  🔎 See All Assignments
+</a>
+
+      </div>
+
+      <ng-template #noAssignmentsYet>
+        <p class="empty-state small-text">📭 No assignments yet for this course.</p>
+      </ng-template>
     </div>
   </div>
 
-  <ng-template #noCertificates>
-    <p class="empty-state">No certificates have been uploaded yet.</p>
+  <ng-template #noCoursesYet>
+    <p class="empty-state">📭 You haven’t created any courses yet.</p>
   </ng-template>
 </section>
 
-
+    <section class="certificate-list-section">
+      <h2>📄 Uploaded Certificates by Course</h2>
+      <div
+        *ngIf="
+          groupedCertificates && certificateCourseTitles.length > 0;
+          else noCertificates
+        "
+      >
+        <div *ngFor="let courseTitle of certificateCourseTitles">
+          <h3>{{ courseTitle }}</h3>
+          <app-certificate-list
+            [certificates]="groupedCertificates[courseTitle]"
+            (delete)="deleteCertificate($event)"
+          >
+          </app-certificate-list>
+        </div>
+      </div>
+      <ng-template #noCertificates>
+        <p class="empty-state">No certificates have been uploaded yet.</p>
+      </ng-template>
+    </section>
   </main>
 </div>
+
+
 
 <div class="student-progress-modal" *ngIf="showStudentProgressModal">
   <div class="modal-content">
     <div class="modal-header">
       <h3>Student Progress for: {{ selectedCourseForStudents?.title }}</h3>
-      <button class="close-modal-btn" (click)="closeStudentProgressModal()">❌</button>
+      <button class="close-modal-btn" (click)="closeStudentProgressModal()">
+        ❌
+      </button>
     </div>
 
     <input
@@ -150,38 +246,78 @@
       class="search-input modal-search-input"
     />
 
-    <div *ngIf="isLoadingStudents" class="loading-text">⏳ Loading students...</div>
-    <div *ngIf="studentsErrorMessage" class="error-text">❌ {{ studentsErrorMessage }}</div>
+    <div *ngIf="isLoadingStudents" class="loading-text">
+      ⏳ Loading students...
+    </div>
+    <div *ngIf="studentsErrorMessage" class="error-text">
+      ❌ {{ studentsErrorMessage }}
+    </div>
 
-    <div *ngIf="!isLoadingStudents && filteredStudentsInCourse.length > 0; else noStudentsInCourse" class="students-list-container">
-      <div *ngFor="let student of filteredStudentsInCourse" class="student-progress-item">
+    <div
+      *ngIf="!isLoadingStudents && filteredStudentsInCourse.length > 0; else noStudentsInCourse"
+      class="students-list-container"
+    >
+      <div
+        *ngFor="let student of filteredStudentsInCourse"
+        class="student-progress-item"
+      >
         <div class="student-info">
           <h4>{{ student.first_name }} {{ student.last_name }}</h4>
           <p class="student-email">{{ student.email }}</p>
         </div>
+
         <div class="student-progress">
-          <p>Progress: <strong>{{ student.progress }}%</strong></p>
+          <p>
+            Progress: <strong>{{ student.progress }}%</strong><br />
+            Grade:
+            <strong *ngIf="student.average_grade !== null && student.average_grade !== undefined; else notGraded">
+    {{ student.average_grade }}%
+  </strong>
+            <ng-template #notGraded>
+              <em>Not graded</em>
+            </ng-template>
+          </p>
+
           <div class="progress-bar-container">
-            <div class="progress-bar-fill" [style.width.%]="getProgressBarWidth(student.progress)"></div>
+            <div
+              class="progress-bar-fill"
+              [style.width.%]="getProgressBarWidth(student.progress)"
+            ></div>
           </div>
         </div>
-        <div class="student-actions"></div>
       </div>
     </div>
 
     <ng-template #noStudentsInCourse>
-      <div *ngIf="!isLoadingStudents && !studentsErrorMessage" class="empty-state-modal">
-        <p *ngIf="studentSearchTerm">No students found matching "{{ studentSearchTerm }}" in this course.</p>
-        <p *ngIf="!studentSearchTerm">📭 No students are enrolled in this course yet.</p>
+      <div class="empty-state-modal">
+        <p *ngIf="studentSearchTerm">
+          No students found matching "{{ studentSearchTerm }}" in this course.
+        </p>
+        <p *ngIf="!studentSearchTerm">
+          📭 No students are enrolled in this course yet.
+        </p>
       </div>
     </ng-template>
 
     <div class="modal-footer">
-      <button class="cancel-btn" (click)="closeStudentProgressModal()">Close</button>
+      <button class="cancel-btn" (click)="closeStudentProgressModal()">
+        Close
+      </button>
     </div>
   </div>
 </div>
 
-<app-class-form *ngIf="showModal" (closeModal)="showModal = false"></app-class-form>
-<app-course-form *ngIf="showCourseModal" [courseId]="selectedCourseId" (closeModal)="closeCourseModal()"></app-course-form>
-<app-certificate *ngIf="showCertificateModal" (closeModal)="closeCertModal()"></app-certificate>
+
+<app-class-form
+  *ngIf="showModal"
+  (closeModal)="showModal = false"
+></app-class-form>
+<app-course-form
+  *ngIf="showCourseModal"
+  [courseId]="selectedCourseId"
+  (closeModal)="closeCourseModal()"
+></app-course-form>
+<app-certificate
+  *ngIf="showCertificateModal"
+  (closeModal)="closeCertModal()"
+></app-certificate>

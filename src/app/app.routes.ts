@@ -30,6 +30,9 @@ import { NotificationComponent } from './notification/notification.component';
 import { CertificateComponent } from './certificate/certificate.component';
 import { AllCertificatesComponent } from './all-certificates/all-certificates.component';
 import { AdminCertListComponent } from './admin-cert-list/admin-cert-list.component';
+import { AssignmentFormComponent } from './assignment-form/assignment-form.component';
+import { StudentAssignmentsComponent } from './student-assignments/student-assignments.component';
+import { SubmissionGradingComponent } from './submission-grading/submission-grading.component';
 
 export const routes: Routes = [
   {
@@ -243,8 +246,33 @@ export const routes: Routes = [
     data: {
       roles:[1,2]
     }
-  }
+  },
+  {
+    path: 'courses/;courseId/create-assignment',
+    component: AssignmentFormComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles:[1,2]
+    }
 
+  },
+  {
+    path: 'courses/:courseId/assignments',
+    component: StudentAssignmentsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles:[3]
+    }
+
+  },
+  {
+    path: 'teacher/grade/:courseId',
+    component: SubmissionGradingComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles:[1,2]
+    }
+  }
   
 
 

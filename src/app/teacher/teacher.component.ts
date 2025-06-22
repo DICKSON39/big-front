@@ -15,15 +15,21 @@ import { CourseFormComponent } from '../course-form/course-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-
+import { Assignment } from '../models/assignment.model';
+import { Submission } from '../models/submission.model';
 import { CertificateService } from '../../services/certificate.service';
 import { CertificateListComponent } from '../certificate-list/certificate-list.component';
 import { CertificateComponent } from '../certificate/certificate.component';
-
+import { AssignmentFormComponent } from '../assignment-form/assignment-form.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AssignmentService } from '../../services/assignment.service';
 interface TeacherStat {
   title: string;
   count: number;
 }
+
+
+
 
 interface UpcomingAssignment {
   id: number;
@@ -36,7 +42,7 @@ interface UpcomingAssignment {
 @Component({
   selector: 'app-teacher',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, ClassFormComponent, CourseFormComponent, FormsModule, CertificateComponent, CertificateListComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, ClassFormComponent, CourseFormComponent, FormsModule, CertificateComponent, CertificateListComponent,],
   templateUrl: './teacher.component.html',
 
   styleUrls: ['./teacher.component.css'],
@@ -46,6 +52,7 @@ export class TeacherComponent implements OnInit, OnDestroy {
 
   coursesWithClasses: any[] = [];
   openCourseIds: number[] = [];
+  courseSubmissions: { [courseId: number]: Submission[] } = {};
 
   teacherCertificates: any[] = [];
   groupedCertificates: { [key: string]: any[] } = {};
@@ -61,6 +68,10 @@ export class TeacherComponent implements OnInit, OnDestroy {
   userRole: string | null = null;
   private userSubscription!: Subscription;
   private studentsProgressSubscription!: Subscription;
+  assignmentsByCourse: { [courseId: number]: Assignment[] } = {}
+
+  showAssignmentModal = false;
+  
 
   userAvatar = 'https://i.pravatar.cc/100';
 
@@ -71,11 +82,7 @@ export class TeacherComponent implements OnInit, OnDestroy {
     { title: 'Pending Assignments', count: 8 }
   ];
 
-  upcomingAssignments: UpcomingAssignment[] = [
-    { id: 1, title: 'Algebra Homework #3', className: 'Mathematics Grade 7', dueDate: 'June 20, 2025', isOverdue: false },
-    { id: 2, title: 'Biology Lab Report', className: 'Science Grade 8', dueDate: 'June 22, 2025', isOverdue: false },
-    { id: 3, title: 'Poetry Analysis Essay', className: 'English Literature', dueDate: 'June 15, 2025', isOverdue: true },
-  ];
+  
 
   showStudentProgressModal: boolean = false;
   selectedCourseForStudents: any | null = null;
@@ -92,7 +99,9 @@ export class TeacherComponent implements OnInit, OnDestroy {
     private router: Router,
     private courseService: CourseService,
     private snackBar: MatSnackBar,
-    private certificateService: CertificateService
+    private certificateService: CertificateService,
+    private dialog: MatDialog,
+    private assignmentService: AssignmentService
   ) {
     this.screenWidth = window.innerWidth;
   }
@@ -118,6 +127,7 @@ export class TeacherComponent implements OnInit, OnDestroy {
     });
 
     this.loadCourses();
+    this.loadAllAssignments();
 
     this.courseService.getCoursesWithClasses().subscribe({
       next: (res) => {
@@ -143,6 +153,11 @@ export class TeacherComponent implements OnInit, OnDestroy {
    
   }
 
+ 
+closeAssignmentModal(): void {
+  this.showAssignmentModal = false;
+}
+
   ngOnDestroy(): void {
     if (this.userSubscription) this.userSubscription.unsubscribe();
     if (this.studentsProgressSubscription) this.studentsProgressSubscription.unsubscribe();
@@ -158,17 +173,20 @@ export class TeacherComponent implements OnInit, OnDestroy {
   }
 
   loadCourses(): void {
-    this.courseService.getCoursesByTeacher().subscribe({
-      next: (res) => {
-        this.teacherCourses = res.results;
-        console.log("Loaded courses:", this.teacherCourses);
-      },
-      error: (err) => {
-        console.error('Error loading teacher courses:', err);
-        this.snackBar.open('❌ Failed to load your courses', 'Close', { duration: 3000 });
-      }
-    });
-  }
+  this.courseService.getCoursesByTeacher().subscribe({
+    next: (res) => {
+      this.teacherCourses = res.results;
+      
+
+      // ⬇️ Make sure assignments are loaded immediately after courses
+      this.loadAllAssignments(); 
+    },
+    error: (err) => {
+      console.error('Error loading teacher courses:', err);
+      this.snackBar.open('❌ Failed to load your courses', 'Close', { duration: 3000 });
+    }
+  });
+}
 
   editCourse(course: any): void {
     this.selectedCourseId = course.id;
@@ -200,10 +218,20 @@ export class TeacherComponent implements OnInit, OnDestroy {
   }
 
   toggleCourse(courseId: number): void {
-    this.openCourseIds.includes(courseId)
-      ? this.openCourseIds = this.openCourseIds.filter(id => id !== courseId)
-      : this.openCourseIds.push(courseId);
+  if (this.isCourseOpen(courseId)) {
+    this.openCourseIds = this.openCourseIds.filter(id => id !== courseId);
+  } else {
+    this.openCourseIds.push(courseId);
   }
+}
+loadAllAssignments(): void {
+  if (!this.teacherCourses || this.teacherCourses.length === 0) return;
+
+  this.teacherCourses.forEach(course => {
+    this.fetchAssignmentsForCourse(course.id);
+  });
+}
+
 
   isCourseOpen(courseId: number): boolean {
     return this.openCourseIds.includes(courseId);
@@ -230,6 +258,7 @@ export class TeacherComponent implements OnInit, OnDestroy {
 
     this.courseService.getStudentsInCourseWithProgress(String(courseId)).subscribe({
       next: (data: StudentProgress[]) => {
+        console.log('Fetched:', data);
         this.studentsInSelectedCourse = data;
         this.filterStudentsInCourse();
         this.isLoadingStudents = false;
@@ -311,4 +340,127 @@ closeCertModal() {
     this.showCertificateModal = false;
    
   }
+
+  openAssignmentModal(): void {
+  const dialogRef = this.dialog.open(AssignmentFormComponent, {
+    width: '600px',
+    data: {
+      preselectedCourseId: this.selectedCourseId || null
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(success => {
+    if (success) {
+      this.snackBar.open('✅ Assignment created!', 'Close', { duration: 3000 });
+      // optionally reload assignments list here
+    }
+  });
+}
+
+fetchAssignmentsForCourse(courseId: number): void {
+  this.assignmentService.getAssignmentsByCourse(courseId).subscribe({
+    next: (res) => {
+      const assignments = res.assignments;
+
+      // 👇 Fetch submissions for each assignment and attach to assignment object
+      assignments.forEach((assignment: Assignment) => {
+  this.assignmentService.getSubmissionsByAssignment(assignment.id).subscribe({
+    next: (subRes) => {
+      assignment.submissions = subRes.submissions.map((sub: Submission) => ({
+        ...sub,
+        gradeInput: '',
+        feedbackInput: ''
+      }));
+    },
+    error: (err) => {
+      console.error(`❌ Failed to load submissions for assignment ${assignment.id}`, err);
+      assignment.submissions = [];
+    }
+  });
+});
+
+
+      this.assignmentsByCourse[courseId] = assignments;
+    },
+    error: (err) => {
+      console.error(`❌ Failed to load assignments for course ${courseId}`, err);
+      this.snackBar.open('❌ Failed to load assignments', 'Close', { duration: 3000 });
+    }
+  });
+}
+
+isOverdue(dueDate: string): boolean {
+  return new Date(dueDate) < new Date();
+}
+
+hasAssignments(courseId: number): boolean {
+  return !!this.assignmentsByCourse?.[courseId]?.length;
+}
+
+getCountdown(dueDate: string): string {
+  const now = new Date().getTime();
+  const due = new Date(dueDate).getTime();
+  const diff = due - now;
+
+  if (diff <= 0) return '⏰ Time’s up!';
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hrs = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+  return `${days}d ${hrs}h ${mins}m left`;
+}
+
+
+loadSubmissions(courseId: number): void {
+  this.assignmentService.getSubmissionsByCourse(courseId).subscribe({
+    next: (submissions) => {
+      this.courseSubmissions[courseId] = submissions;
+    },
+    error: (err) => {
+      console.error(`❌ Failed to load submissions for course ${courseId}`, err);
+    }
+  });
+}
+
+gradeSubmission(submissionId: number, grade: string, feedback: string, courseId: number) {
+  this.assignmentService.gradeSubmission(submissionId, { grade, feedback }).subscribe({
+    next: () => {
+      alert('✅ Graded successfully');
+      this.loadSubmissions(courseId); // Refresh after grading
+    },
+    error: (err) => {
+      console.error('❌ Failed to grade submission:', err);
+    }
+  });
+}
+
+
+gradeAssignment(submission: any, courseId: number): void {
+  const grade = submission.gradeInput;
+  const feedback = submission.feedbackInput;
+
+  if (!grade) {
+    this.snackBar.open('Please enter a grade before submitting.', 'Close', { duration: 3000 });
+    return;
+  }
+
+  this.assignmentService.gradeSubmission(submission.id, { grade, feedback }).subscribe({
+    next: () => {
+      this.snackBar.open('✅ Graded successfully!', 'Close', { duration: 3000 });
+      submission.grade = grade;
+      submission.feedback = feedback;
+      submission.gradeInput = '';
+      submission.feedbackInput = '';
+    },
+    error: (err) => {
+      console.error('❌ Failed to grade submission:', err);
+      this.snackBar.open('Failed to grade submission', 'Close', { duration: 3000 });
+    }
+  });
+}
+
+
+
+
 }

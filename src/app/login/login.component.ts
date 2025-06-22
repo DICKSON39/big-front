@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.successMessage = response.message || 'Login successful!';
-          console.log('Login successful:', response);
+          
 
           // Get the stored user data which includes the role
           this.authService.getUser().subscribe(
@@ -81,19 +81,18 @@ export class LoginComponent implements OnInit {
                     this.router.navigate(['/student']);
                     break;
                   default:
-                    // Fallback for unrecognised roles or if role_name is missing
-                    console.warn('Unknown role_name, navigating to default dashboard.');
+                    
                     this.router.navigate(['/']); // Generic dashboard fallback
                     break;
                 }
               } else {
-                console.warn('User role not found after login, navigating to default dashboard.');
-                this.router.navigate(['/']); // Fallback if user or role_name is null/undefined
+                
+                this.router.navigate(['/']); 
               }
             },
             (error) => {
               console.error('Error fetching user data from AuthService:', error);
-              this.router.navigate(['/']); // Fallback in case of error fetching user
+              this.router.navigate(['/']); 
             }
           );
         },

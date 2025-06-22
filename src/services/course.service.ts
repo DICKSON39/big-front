@@ -29,11 +29,26 @@ export interface Course {
 }
 
 
+interface AssignmentsResponse {
+  message: string;
+  assignments: Assignment[];
+}
+interface Assignment{
+  id: number,
+  courseId: any;
+  description:string;
+  title: string;
+
+}
+
+
 export interface StudentProgress {
   user_id: string; // The ID of the student
   first_name: string;
   last_name: string;
   email: string;
+  grade?: number | null;
+  average_grade?: number | null;
   progress: number; // The percentage progress for that course
   // You might add more details here if your backend sends them, e.g.,
   // total_classes_completed: number;
@@ -155,8 +170,15 @@ getSingleCourseWithClasses(courseId: number): Observable<any> {
   });
 }
 
+getAssignmentsByCourse(courseId: number): Observable<AssignmentsResponse> {
+  return this.http.get<AssignmentsResponse>(`https://school-online-backend.onrender.com/api/v1/assignment/assignments/course/${courseId}`, {
+    headers: this.getAuthHeaders()
+  });
+}
+}
+
 
 
   
 
-}
+

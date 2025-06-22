@@ -116,8 +116,9 @@ onVideoEnded(classId: number, course: any): void {
 }
 
 shouldShowCertificate(course: any): boolean {
-  return this.getProgressPercent(course) === 100 && !!course.certificate?.certificate_url;
+  return course.progress === 100 && course.has_passed_assignment && !!course.certificate_url;
 }
+
 
 
 }

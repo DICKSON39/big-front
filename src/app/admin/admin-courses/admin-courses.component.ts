@@ -144,7 +144,7 @@ openClassForm(courseId?: number): void {
 closeClassForm(): void {
   this.showClassForm = false;
   this.selectedCourseForClass = null;
-  // Optional: reload if needed
+  
 }
 
 

@@ -71,7 +71,7 @@ getAllClassesForAdmin() {
 
 
  getClassesByCourseId(courseId: number) {
-  return this.http.get<{ classes: any[] }>(`http://localhost:5000/api/v1/classes/classes/course/${courseId}
+  return this.http.get<{ classes: any[] }>(`https://school-online-backend.onrender.com/api/v1/classes/classes/course/${courseId}
     `,{
       headers: this.getAuthHeaders()
     });

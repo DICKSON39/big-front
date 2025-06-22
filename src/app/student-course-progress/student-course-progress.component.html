@@ -11,8 +11,10 @@
     <!-- 🎓 Certificate Download -->
     <!-- 🎓 Show cert if progress is 100% -->
 <!-- 🎓 Certificate Download -->
+<!-- 🎓 Certificate Download -->
+<!-- 🎓 Certificate Download -->
 <div 
-  *ngIf="course.progress === 100 && course.certificate_url" 
+  *ngIf="shouldShowCertificate(course)" 
   class="cert-section"
 >
   <a 
@@ -24,6 +26,10 @@
   >
     🎓 Download Certificate
   </a>
+</div>
+
+<div *ngIf="!shouldShowCertificate(course) && getProgressPercent(course) === 100" class="note">
+  ⚠️ Complete and pass all assignments (grade ≥ 50) to unlock your certificate.
 </div>
 
 

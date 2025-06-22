@@ -14,7 +14,7 @@
             <a routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
             <a routerLink="/courses" routerLinkActive="active-link">All Courses</a>
             <a routerLink="/classes/students" routerLinkActive="active-link">My Paid Courses</a>
-            <a routerLink="/my-assignments" routerLinkActive="active-link">Assignments</a>
+            <a routerLink="/students/assignments" routerLinkActive="active-link">Assignments</a>
             <a routerLink="/certificate" routerLinkActive="active-link">Certificates</a>
             <a routerLink="/profile" routerLinkActive="active-link">My Profile</a>
             <a routerLink="/notifications" routerLinkActive="active-link">Notifications</a>
@@ -39,27 +39,22 @@
 
         <section class="user-section all-courses-section">
             <h3>Explore All Courses</h3>
-            <div class="course-cards">
-                <div
-                    class="course-card"
-                    *ngFor="let course of allCourses"
-                    [routerLink]="['/courses', course.id]"
-                >
-                    <img *ngIf="course.image_url" [src]="course.image_url" alt="{{ course.title }}" />
-                    <h4>{{ course.title }}</h4>
-                    <p class="course-instructor">
-                        By {{ course.instructor.first_name }} {{ course.instructor.last_name }}
-                    </p>
-                    <p class="course-price">
-                        {{ course.price === 0 ? 'Free' : (course.price | currency:'KES') }}
-                    </p>
-                    <button class="btn-view-course">View Details</button>
-                </div>
+            <div class="course-card" *ngFor="let course of allCourses">
+  <img *ngIf="course.image_url" [src]="course.image_url" alt="{{ course.title }}" />
+  <h4>{{ course.title }}</h4>
+  <p class="course-instructor">
+    By {{ course.instructor.first_name }} {{ course.instructor.last_name }}
+  </p>
+  <p class="course-price">
+    {{ course.price === 0 ? 'Free' : (course.price | currency:'KES') }}
+  </p>
 
-                <div *ngIf="!allCourses || allCourses.length === 0" class="no-data-message">
-                    <p>No courses available at the moment.</p>
-                </div>
-            </div>
+  <!-- 🎯 Add View Assignments link -->
+  <button class="btn-view-course" [routerLink]="['/courses', course.id, 'assignments']">
+    Assignments
+  </button>
+</div>
+
         </section>
     </main>
 </div>

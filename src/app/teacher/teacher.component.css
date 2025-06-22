@@ -168,7 +168,6 @@ nav .nav-button.active-link {
   }
 }
 
-
 /* Header in Main Content */
 .header {
   background-color: #fff;
@@ -237,7 +236,6 @@ nav .nav-button.active-link {
   transform: translateY(-1px);
 }
 
-
 /* --- Teacher Stats Section --- */
 .stats-section {
   background-color: #fff;
@@ -290,63 +288,103 @@ nav .nav-button.active-link {
   margin: 0;
 }
 
-/* --- Upcoming Assignments Section --- */
+/* --- Assignments Section Styling (NEW) --- */
 .assignments-section {
-  background-color: #fff;
-  padding: 30px;
+  background-color: #ffffff;
+  padding: 25px 30px;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  margin-bottom: 30px;
+  margin-top: 30px; /* Space from the section above it */
+  margin-bottom: 30px; /* Consistent margin for sections */
 }
 
-.assignments-section h3 {
-  font-size: 1.6em;
-  color: #34495e;
+.assignments-section h2 {
+  color: #333333;
   margin-bottom: 25px;
-  border-bottom: 2px solid #e0e0e0;
-  padding-bottom: 10px;
+  font-size: 1.7em;
+  text-align: center;
+  position: relative;
 }
 
-.assignments-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.assignments-section h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: #007bff; /* Using a standard blue for assignments */
+  margin: 10px auto 0;
+  border-radius: 2px;
 }
 
-.assignment-item {
-  background-color: #f8f9fa;
+.course-with-assignments {
+  background-color: #f9f9f9;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.course-with-assignments h3 {
+  color: #007bff; /* Consistent blue for course titles in this section */
+  font-size: 1.4em;
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.assignment-card {
+  background-color: #ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  padding: 18px;
+  margin-bottom: 15px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.assignment-item.overdue {
-  border-left: 5px solid #e74c3c; /* Red border for overdue */
-  background-color: #ffe6e6; /* Light red background for overdue */
+.assignment-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-.assignment-item h4 {
+.assignment-card h4 {
+  color: #444444;
   font-size: 1.2em;
-  color: #34495e;
-  margin: 0 0 5px;
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
-.assignment-item p {
-  margin: 0;
+.assignment-card p {
+  color: #666666;
   font-size: 0.95em;
-  color: #666;
+  line-height: 1.5;
+  margin-bottom: 8px;
 }
 
-.assignment-item .overdue-tag {
-  color: #e74c3c;
-  font-weight: 700;
-  margin-left: 5px;
+.assignment-card p:last-child {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+.assignment-card p strong {
+  color: #333333;
+}
+
+.overdue-text {
+  color: #dc3545; /* Red for overdue assignments */
+  font-weight: bold;
+}
+
+.empty-state.small-text {
+  color: #888888;
+  font-style: italic;
+  text-align: center;
+  padding: 15px;
+  border: 1px dashed #e0e0e0;
+  border-radius: 5px;
+  margin: 20px 0;
+  background-color: #fafafa;
 }
 
 /* --- Your Created Courses Section --- */
@@ -513,7 +551,6 @@ nav .nav-button.active-link {
   background-color: #2980b9;
 }
 
-
 /* --- Courses With Uploaded Classes Section --- */
 .courses-with-classes-section {
   background-color: #fff;
@@ -619,7 +656,6 @@ nav .nav-button.active-link {
   object-fit: contain; /* Ensure video fits well */
 }
 
-
 /* --- Student Progress Modal --- */
 .student-progress-modal {
   position: fixed;
@@ -690,7 +726,6 @@ nav .nav-button.active-link {
   font-size: 1em;
 }
 
-
 /* Students List Container (inside modal) */
 .students-list-container {
   flex-grow: 1; /* Allow it to take available space for scrolling */
@@ -755,7 +790,6 @@ nav .nav-button.active-link {
   transition: width 0.3s ease-in-out;
 }
 
-
 .student-actions {
   text-align: right;
 }
@@ -810,7 +844,6 @@ nav .nav-button.active-link {
   border-radius: 8px;
 }
 
-
 /* Hamburger Button for Mobile */
 .hamburger {
   position: fixed;
@@ -851,7 +884,6 @@ nav .nav-button.active-link {
   opacity: 1;
   visibility: visible;
 }
-
 
 /* --- Your Uploaded Certificates Section --- */
 .certificate-list-section {
@@ -959,7 +991,6 @@ app-certificate-list {
   transform: translateY(-1px);
 }
 
-
 /* Empty state for certificates */
 .empty-certificates {
   text-align: center;
@@ -971,7 +1002,6 @@ app-certificate-list {
   border-radius: 8px;
   margin-top: 15px;
 }
-
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
@@ -1010,7 +1040,6 @@ app-certificate-list {
     display: inline-block; /* Ensure they are displayed */
     margin-left: 10px; /* Add some space between them if they don't wrap */
   }
-
 
   /* Student Progress Modal Responsive adjustments */
   .student-progress-modal .modal-content {

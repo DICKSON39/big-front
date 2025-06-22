@@ -32,7 +32,7 @@ export class AddUserComponent implements OnInit {
       last_name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      role_name: [this.roles[0], Validators.required] // Default to first role, e.g., 'student'
+      role_name: [this.roles[0], Validators.required] 
     });
   }
 

@@ -1,0 +1,33 @@
+<div *ngFor="let a of assignments" class="assignment-card">
+  <h3>{{ a.title }}</h3>
+  <p>{{ a.description }}</p>
+  <p>📅 Due: {{ a.due_date | date: 'mediumDate' }}</p>
+
+  <ng-container *ngIf="a.submission; else submissionForm">
+    <p class="status">✅ <strong>Submitted</strong></p>
+    <p><strong>Grade:</strong> {{ a.submission.grade || 'Pending' }}</p>
+    <p><strong>Feedback:</strong> {{ a.submission.feedback || 'N/A' }}</p>
+    <a
+      *ngIf="a.submission.url"
+      [href]="a.submission.url"
+      target="_blank"
+      class="submitted-link"
+      >🔗 View Submission</a
+    >
+  </ng-container>
+
+  <ng-template #submissionForm>
+    <input
+      [(ngModel)]="a.submissionUrl"
+      placeholder="Paste your submission link"
+      class="submission-input"
+    />
+    <button
+      (click)="submitAssignment(a.id, a.submissionUrl)"
+      [disabled]="!a.submissionUrl"
+      class="submit-btn"
+    >
+      📤 Submit
+    </button>
+  </ng-template>
+</div>

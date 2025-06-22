@@ -259,8 +259,8 @@ export class AuthService {
   }
 
   updateProfile(userId: string, userData: UpdateUserRequest): Observable<UpdateUserBackendResponse> {
-    // Assuming your backend has a PUT endpoint like /api/auth/v1/users/:userId
-    return this.http.put<UpdateUserBackendResponse>(`http://localhost:5000/api/v1/users/users/${userId}`, userData, {
+    
+    return this.http.put<UpdateUserBackendResponse>(`https://school-online-backend.onrender.com/api/v1/users/users/${userId}`, userData, {
       headers: this.getAuthHeaders()
     }).pipe(
       tap(response => {

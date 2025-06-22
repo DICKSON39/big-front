@@ -29,7 +29,7 @@ export class AuthGuard implements CanActivate {
     // 1. Check if user is not authenticated or token is expired
     if (!isAuth || (token && this.authService.isTokenExpired(token))) {
       console.warn('AuthGuard: Not authenticated or token expired.');
-      this.router.navigate(['/'], { queryParams: { returnUrl: state.url } });
+      this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
       return of(false);
     }
 
@@ -41,7 +41,7 @@ export class AuthGuard implements CanActivate {
       map((user: User | null) => {
         if (!user) {
           console.warn('AuthGuard: No user found.');
-          this.router.navigate(['/'], { queryParams: { returnUrl: state.url } });
+          this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
           return false;
         }
 
@@ -57,7 +57,7 @@ export class AuthGuard implements CanActivate {
       }),
       catchError((err) => {
         console.error('AuthGuard: Error fetching user.', err);
-        this.router.navigate(['/'], { queryParams: { returnUrl: state.url } });
+        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
         return of(false);
       })
     );

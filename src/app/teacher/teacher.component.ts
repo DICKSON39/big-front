@@ -258,7 +258,7 @@ loadAllAssignments(): void {
 
     this.courseService.getStudentsInCourseWithProgress(String(courseId)).subscribe({
       next: (data: StudentProgress[]) => {
-        console.log('Fetched:', data);
+        
         this.studentsInSelectedCourse = data;
         this.filterStudentsInCourse();
         this.isLoadingStudents = false;
@@ -303,7 +303,7 @@ loadAllAssignments(): void {
   }
 
   deleteCertificate(certificateId: number): void {
-    console.log('Got cert ID to delete:', certificateId);
+    
     if (confirm('Are you sure you want to delete this certificate?')) {
       this.certificateService.deleteCertificate(certificateId).subscribe({
         next: () => {

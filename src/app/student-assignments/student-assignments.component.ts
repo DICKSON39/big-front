@@ -58,9 +58,7 @@ export class StudentAssignmentsComponent implements OnInit {
   }
 
   submitAssignment(assignmentId: number, url: string): void {
-    console.log('🧾 Submitting with assignmentId:', assignmentId);
-    console.log('🧾 URL:', url);
-    console.log('🧾 userId:', this.userId);
+    
 
     this.assignmentService
       .submitAssignment({

@@ -90,7 +90,7 @@ export class ResetPasswordComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.successMessage = response.message || 'Password reset successful!';
-          console.log('Password reset successful:', response);
+          
           // Redirect to login page after successful reset
           this.router.navigate(['/login'], { queryParams: { passwordReset: 'success' } });
         },

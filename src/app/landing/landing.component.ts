@@ -5,6 +5,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { CourseService } from '../../services/course.service';
+import { FormsModule } from '@angular/forms';
 
 export interface Course {
   id: number;
@@ -31,7 +32,7 @@ export interface PaginatedCourseResponse {
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent],
+  imports: [CommonModule, RouterLink, NavbarComponent,FormsModule],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })
@@ -40,6 +41,7 @@ export class LandingComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean = false;
   private authSubscription!: Subscription;
   featuredCourses: Course[] = [];
+  newsletterEmail: string = '';
 
   constructor(
     private authService: AuthService,
@@ -75,6 +77,13 @@ export class LandingComponent implements OnInit, OnDestroy {
       this.featuredCourses = [];
     }
   });
+}
+
+subscribeNewsletter() {
+  if (this.newsletterEmail) {
+    alert(`Subscribed with: ${this.newsletterEmail} 🎉`);
+    this.newsletterEmail = '';
+  }
 }
 
 

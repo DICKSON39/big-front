@@ -1,31 +1,67 @@
-<!-- landing.component.html -->
-<app-navbar/>
+<app-navbar />
 
 <header class="hero">
   <div class="hero-text">
     <h1>Learn Anything. Anywhere. Anytime.</h1>
     <p>Join our LMS platform to unlock your future with expert-led courses 💡</p>
-   
     <a *ngIf="!isAuthenticated" routerLink="/register" class="cta-btn">Get Started</a>
   </div>
 </header>
 
+<!-- 🌟 Platform Features Section -->
+<section class="platform-features">
+  <h2>🌍 Why Choose SkillLMS?</h2>
+  <div class="features-grid">
+    <div class="feature">
+      <i class="fa-solid fa-chalkboard-user"></i>
+      <h3>Expert Instructors</h3>
+      <p>Learn from certified pros who know their stuff and actually *care*.</p>
+    </div>
+    <div class="feature">
+      <i class="fa-solid fa-clock"></i>
+      <h3>Flexible Learning</h3>
+      <p>Study anytime, anywhere. You're the boss of your schedule ⏰</p>
+    </div>
+    <div class="feature">
+      <i class="fa-solid fa-certificate"></i>
+      <h3>Verified Certificates</h3>
+      <p>Earn legit certificates you can flex on LinkedIn or during job apps.</p>
+    </div>
+  </div>
+</section>
 
+<!-- 📘 Featured Courses -->
 <section class="featured-courses">
   <h2>📘 Featured Courses</h2>
   <div class="course-list">
     <div class="course-card" *ngFor="let course of featuredCourses">
-      <img [src]="course.image_url" alt="Course image">
+      <img [src]="course.image_url" alt="Course image" />
       <h3>{{ course.title }}</h3>
       <p>{{ course.description }}</p>
-      <a [routerLink]="['/courses']" class="btn">View All Course</a>
-     
+      <a [routerLink]="['/courses']" class="btn">View All Courses</a>
     </div>
   </div>
 </section>
 
 
+<!-- 👨‍🏫 Instructor Call-to-Action -->
+<section class="become-instructor">
+  <h2>👨‍🏫 Want to Teach?</h2>
+  <p>Join hundreds of instructors sharing knowledge and earning while doing it.</p>
+  <a routerLink="/register" class="cta-btn">Become an Instructor</a>
+</section>
 
+<!-- 📩 Newsletter -->
+<section class="newsletter">
+  <h2>📬 Stay in the Loop</h2>
+  <p>Subscribe to get course updates, discounts, and tips straight to your inbox.</p>
+  <form (submit)="subscribeNewsletter()">
+    <input type="email" placeholder="Enter your email" [(ngModel)]="newsletterEmail" name="email" required />
+    <button type="submit" class="btn">Subscribe</button>
+  </form>
+</section>
+
+<!-- 🔚 Footer -->
 <footer class="footer">
   <div class="footer-container">
     <div class="footer-section">

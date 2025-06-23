@@ -37,6 +37,15 @@ export class CertificateService {
     )
   }
 
+  getCertificateForAdmin():Observable<any>{
+    return this.http.get(`https://school-online-backend.onrender.com/api/v1/certificates/admin/get`,
+      {
+        headers: this.getAuthHeaders()
+      }
+    )
+  }
+
+
   getUserCertificates(userId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`,{
       headers: this.getAuthHeaders()

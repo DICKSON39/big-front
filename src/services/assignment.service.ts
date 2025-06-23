@@ -123,4 +123,22 @@ getSubmissionsByCourse(courseId: number): Observable<any> {
       { headers: this.getAuthHeaders() }
     );
   }
+
+  resubmitAssignment(data: {
+  assignment_id: number;
+  user_id: number;
+  submission_url: string;
+}): Observable<any> {
+  return this.http.put(`https://school-online-backend.onrender.com/api/submissions/resubmit`, data,{
+    headers: this.getAuthHeaders()
+  }); // Adjust your route accordingly
+}
+
+
+deleteSubmission(userId: number, assignmentId: number): Observable<any> {
+  return this.http.delete(`https://school-online-backend.onrender.com/api/submissions/${userId}/${assignmentId}`,{
+    headers: this.getAuthHeaders()
+  });
+}
+
 }

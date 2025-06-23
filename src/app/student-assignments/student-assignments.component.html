@@ -4,16 +4,26 @@
   <p>📅 Due: {{ a.due_date | date: 'mediumDate' }}</p>
 
   <ng-container *ngIf="a.submission; else submissionForm">
-    <p class="status">✅ <strong>Submitted</strong></p>
-    <p><strong>Grade:</strong> {{ a.submission.grade || 'Pending' }}</p>
-    <p><strong>Feedback:</strong> {{ a.submission.feedback || 'N/A' }}</p>
-    <a
-      *ngIf="a.submission.url"
-      [href]="a.submission.url"
-      target="_blank"
-      class="submitted-link"
-      >🔗 View Submission</a
-    >
+    <div class="status-box" [ngClass]="{'status-submitted': a.submission, 'status-graded': a.submission?.grade}">
+  <span class="status-badge">
+    <ng-container *ngIf="a.submission?.grade">Graded</ng-container>
+    <ng-container *ngIf="!a.submission?.grade">Submitted</ng-container>
+  </span>
+
+  <p><strong>Grade:</strong> {{ a.submission?.grade || 'Pending' }}</p>
+  <p><strong>Feedback:</strong> {{ a.submission?.feedback || 'N/A' }}</p>
+  <a *ngIf="a.submission?.url" [href]="a.submission.url" target="_blank" class="submitted-link">🔗 View Submission</a>
+
+  <!-- 🔁 Resubmit + ❌ Delete -->
+  <div class="submission-actions">
+    <input [(ngModel)]="a.submissionUrl" placeholder="New submission link" class="submission-input" />
+    <button class="submit-btn" (click)="resubmitAssignment(a.id, a.submissionUrl)" [disabled]="!a.submissionUrl">
+      🔁 Resubmit
+    </button>
+    <button class="delete-btn" (click)="deleteSubmission(a.id)">❌ Delete</button>
+  </div>
+</div>
+
   </ng-container>
 
   <ng-template #submissionForm>

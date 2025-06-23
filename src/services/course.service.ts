@@ -117,7 +117,7 @@ export class CourseService {
     .set('search', search)
     .set('category', category);
 
-  return this.http.get(`${this.apiUrl}/all`, {
+  return this.http.get(`${this.apiUrl}/teacher`, {
     headers: this.getAuthHeaders(),
     params
   });
@@ -150,6 +150,13 @@ export class CourseService {
   
 
 }
+
+getEnrolledCourses() {
+  return this.http.get<any>('https://school-online-backend.onrender.com/api/v1/enrollments/enrolled', {
+    headers: this.getAuthHeaders()
+  }); // 🔁 Adjust URL to your backend route
+}
+
 
 getStudentsInCourseWithProgress(courseId: string): Observable<StudentProgress[]> {
     return this.http.get<StudentProgress[]>(`https://school-online-backend.onrender.com/api/v1/progress/students/${courseId}/students-progress`, {

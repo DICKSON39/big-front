@@ -15,6 +15,8 @@ interface Course {
   image_url?: string;
   progress: number;                // Add this
   certificate_url?: string | null; 
+  average_grade?: number | null; 
+  submissions_made?: number | null; 
 }
 
 @Component({
@@ -67,24 +69,29 @@ export class UserComponent implements OnInit, OnDestroy {
       () => this.redirectToLogin()
     );
 
+    
     // Fetch real courses
-    this.courseService.getCourses(1, 6).subscribe({
-      next: (res: any) => {
-        this.allCourses = res.results.map((c: any) => ({
-  id: +c.id,
-  title: c.title,
-  instructor: c.instructor,
-  price: c.price,
-  image_url: c.image_url,
-  progress: c.progress, // <- must come from backend
-  certificate_url: c.certificate_url // <- must come from backend
-}));
-;
-      },
-      error: () => {
-        console.error('Failed to load courses');
-      }
-    });
+// Fetch only enrolled courses for current user
+this.courseService.getEnrolledCourses().subscribe({
+  next: (res: any) => {
+    this.allCourses = res?.data?.map((c: any) => ({
+      id: +c.id,
+      title: c.title,
+      instructor: c.instructor,
+      price: c.price,
+      image_url: c.image_url,
+      progress: c.progress,
+      average_grade: c.average_grade,
+      submissions_made: c.submissions_made // 👈🔥 add this
+    })) || [];
+  },
+  error: () => {
+    console.error('Failed to load enrolled courses');
+  }
+});
+
+
+
   }
 
   ngOnDestroy(): void {
@@ -104,4 +111,7 @@ export class UserComponent implements OnInit, OnDestroy {
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
   }
+
+
+  
 }

@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-student-assignments',
   templateUrl: './student-assignments.component.html',
   imports: [CommonModule, FormsModule],
+  styleUrls: ['./student-assignments.component.css']
 })
 export class StudentAssignmentsComponent implements OnInit {
   assignments: any[] = [];
@@ -77,4 +78,41 @@ export class StudentAssignmentsComponent implements OnInit {
         },
       });
   }
+
+  resubmitAssignment(assignmentId: number, newUrl: string): void {
+  this.assignmentService
+    .resubmitAssignment({
+      assignment_id: assignmentId,
+      user_id: +this.userId,
+      submission_url: newUrl,
+    })
+    .subscribe({
+      next: () => {
+        alert('🔁 Assignment resubmitted!');
+        this.loadAssignments(this.courseId, this.userId);
+      },
+      error: (err) => {
+        console.error('❌ Resubmission failed:', err);
+        alert('❌ Failed to resubmit assignment.');
+      },
+    });
+}
+
+
+
+deleteSubmission(assignmentId: number): void {
+  if (!confirm('Are you sure you want to delete this submission?')) return;
+
+  this.assignmentService.deleteSubmission(+this.userId, assignmentId).subscribe({
+    next: () => {
+      alert('❌ Submission deleted.');
+      this.loadAssignments(this.courseId, this.userId);
+    },
+    error: (err) => {
+      console.error('❌ Deletion failed:', err);
+      alert('❌ Failed to delete submission.');
+    },
+  });
+}
+
 }

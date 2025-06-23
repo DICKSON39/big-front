@@ -37,7 +37,7 @@ export class ClassService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  // 🔥 Accepts FormData instead of CreateClassPayload
+  
   createClass(formData: FormData): Observable<CreateClassResponse> {
   return this.http.post<CreateClassResponse>(`${this.apiUrl}/create`, formData, {
     headers: this.getAuthHeaders(),

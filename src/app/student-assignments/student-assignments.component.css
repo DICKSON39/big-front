@@ -1,187 +1,196 @@
-/* General container for assignment cards if they are in a list/grid */
-.assignments-list-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
-  gap: 25px; /* Space between cards */
-  padding: 20px; /* Optional: padding around the entire list */
-  background-color: #f9fbfd; /* Slightly different background for the list area */
-  border-radius: 10px;
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.03); /* Subtle inner shadow */
-}
-
-/* Styles for an individual student assignment card */
+/* General styling for the assignment card */
 .assignment-card {
-  background-color: #ffffff; /* White background for the card */
-  border: 1px solid #e0e0e0; /* Light gray border */
-  border-radius: 12px; /* Slightly more rounded corners */
-  padding: 25px; /* Ample internal spacing */
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); /* More pronounced shadow for individual cards */
-  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effects */
-  display: flex; /* Use flexbox for layout within the card */
-  flex-direction: column; /* Stack content vertically */
-  gap: 15px; /* Increased space between elements inside the card */
-  position: relative; /* For potential badges or overlays */
-  overflow: hidden; /* Ensure content respects border-radius */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px; /* Added more space between cards */
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Slightly more prominent shadow */
+    display: flex;
+    flex-direction: column; /* Arrange content vertically */
+    gap: 15px; /* Space between main sections of the card */
 }
 
-.assignment-card:hover {
-  transform: translateY(-5px); /* Lift card more noticeably on hover */
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
-}
-
-/* Assignment Title */
 .assignment-card h3 {
-  font-size: 1.6em; /* Larger, prominent title */
-  color: #2c3e50; /* Dark blue-gray from your dashboard */
-  margin: 0; /* Reset default margin */
-  padding-bottom: 10px; /* Space below title */
-  border-bottom: 2px solid #f39c12; /* Teacher accent color as an underline */
-  text-align: left; /* Align title to the left */
+    color: #333;
+    margin-top: 0; /* Ensure no default top margin */
+    margin-bottom: 5px; /* Reduced margin below heading */
+    font-size: 1.5em;
 }
 
-/* Assignment Description and Due Date */
 .assignment-card p {
-  font-size: 0.98em;
-  color: #555; /* Medium gray for general text */
-  margin: 0; /* Reset default paragraph margin */
-  line-height: 1.6; /* Improve readability */
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 5px; /* Consistent spacing */
 }
 
-/* Style for strong text, like 'Grade' and 'Feedback' labels */
-.assignment-card p strong {
-  color: #333; /* Darker color for emphasized text */
+.assignment-card p:last-of-type {
+    margin-bottom: 0; /* Remove bottom margin for last paragraph */
 }
 
-/* Submitted Status */
-.assignment-card .status {
-  font-weight: 700; /* Extra bold for status */
-  color: #28a745; /* Green for submitted status */
-  display: flex;
-  align-items: center;
-  gap: 8px; /* Space between emoji and text */
-  padding: 5px 0; /* Vertical padding */
-  border-top: 1px dashed #e0e0e0; /* Subtle separator */
-  margin-top: 10px; /* Space above status */
+/* Styling for the status box (Submitted/Graded section) */
+.status-box {
+    margin-top: 15px;
+    padding: 20px; /* Increased padding */
+    border-radius: 10px; /* Slightly more rounded corners */
+    background-color: #fcfcfc; /* Lighter background for distinction */
+    border: 1px solid #e9e9e9;
+    display: flex;
+    flex-direction: column; /* Stack elements inside status box */
+    gap: 10px; /* Space between elements within the status box */
 }
 
-/* View Submission Link */
-.assignment-card .submitted-link {
-  display: inline-flex; /* Use flex for icon and text alignment */
-  align-items: center;
-  gap: 6px; /* Space between icon and text */
-  background-color: #3498db; /* Blue for action link */
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 8px;
-  text-decoration: none; /* Remove underline */
-  font-weight: 500;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  margin-top: 10px; /* Space above the link */
-  align-self: flex-start; /* Align to the left/start */
+/* Base styling for the status badge with glow */
+.status-badge {
+    display: inline-block;
+    padding: 7px 14px; /* Slightly larger padding */
+    border-radius: 25px; /* More pill-shaped */
+    font-size: 0.9em; /* Slightly larger font */
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Base glow for all badges */
+    align-self: flex-start; /* Align badge to the left */
 }
 
-.assignment-card .submitted-link:hover {
-  background-color: #2980b9; /* Darker blue on hover */
-  transform: translateY(-1px);
+/* Styling for the submitted badge (pending grade) with specific glow */
+.status-submitted .status-badge {
+    background-color: #ffc107; /* Amber/Orange for submitted */
+    color: #343a40; /* Darker text for contrast */
+    box-shadow: 0 4px 10px rgba(255, 193, 7, 0.5); /* More prominent glow for submitted */
 }
 
-/* Submission Input Field */
-.assignment-card .submission-input {
-  width: calc(100% - 24px); /* Full width minus padding */
-  padding: 14px 12px; /* More padding for better touch/click area */
-  border: 1px solid #ccc; /* Light gray border */
-  border-radius: 8px; /* Rounded corners */
-  font-size: 1em;
-  color: #333;
-  box-sizing: border-box; /* Include padding and border in element's total width and height */
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  margin-top: auto; /* Pushes the input/button to the bottom of the card */
+/* Styling for the graded badge with specific glow */
+.status-graded .status-badge {
+    background-color: #28a745; /* Green for graded */
+    color: white; /* White text for contrast */
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.5); /* More prominent glow for graded */
 }
 
-.assignment-card .submission-input::placeholder {
-  color: #999; /* Placeholder text color */
+/* Container for Grade and Feedback */
+.grade-feedback-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Space between grade and feedback lines */
 }
 
-.assignment-card .submission-input:focus {
-  border-color: #007bff; /* Primary blue border on focus */
-  outline: none; /* Remove default outline */
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); /* Subtle blue glow on focus */
+.grade-feedback-container p {
+    margin: 0; /* Remove default paragraph margins */
+    font-size: 1em;
+    color: #444;
 }
 
-/* Submit Button */
-.assignment-card .submit-btn {
-  background-color: #007bff; /* Primary blue for action button */
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1em;
-  font-weight: 600; /* Bolder text for button */
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  align-self: flex-end; /* Align button to the right/end of the flex container */
+.grade-feedback-container strong {
+    color: #222;
 }
 
-.assignment-card .submit-btn:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-  transform: translateY(-1px); /* Slight lift */
+
+.submitted-link {
+    display: inline-block;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease;
 }
 
-.assignment-card .submit-btn:active {
-  transform: translateY(0); /* Press effect */
+.submitted-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
 }
 
-.assignment-card .submit-btn:disabled {
-  background-color: #cccccc; /* Gray background for disabled state */
-  cursor: not-allowed; /* Not-allowed cursor */
-  transform: none; /* No transform when disabled */
-  box-shadow: none;
+/* Submission/Resubmission form and actions */
+.submission-actions {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    gap: 10px; /* Space between input and buttons */
+    margin-top: 15px; /* Space from feedback/link */
+    align-items: center; /* Align items vertically in the center */
 }
 
-/* Optional: Overdue Indicator (if you plan to add this logic to your component) */
-.assignment-card.overdue {
-  border-left: 6px solid #e74c3c; /* Red border on the left for overdue */
-  background-color: #fffafa; /* Very light red tint */
+.submission-input {
+    flex-grow: 1; /* Allow input to take available space */
+    min-width: 200px; /* Minimum width for the input before wrapping */
+    padding: 12px; /* Increased padding */
+    border: 1px solid #ccc;
+    border-radius: 6px; /* Slightly more rounded */
+    font-size: 1em;
+    outline: none; /* Remove default focus outline */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
-  .assignments-list-container {
-    grid-template-columns: 1fr; /* Stack cards vertically on small screens */
-    gap: 20px;
-    padding: 15px;
-  }
-
-  .assignment-card {
-    padding: 20px; /* Slightly reduced padding */
-    gap: 12px;
-  }
-
-  .assignment-card h3 {
-    font-size: 1.4em;
-    padding-bottom: 8px;
-  }
-
-  .assignment-card .submission-input,
-  .assignment-card .submit-btn {
-    width: 100%; /* Full width for inputs and buttons on mobile */
-    align-self: stretch; /* Ensure it stretches */
-  }
+.submission-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Focus glow */
 }
 
-@media (max-width: 480px) {
-  .assignment-card {
-    padding: 15px;
-  }
+/* Buttons for submit/resubmit/delete */
+.submit-btn,
+.delete-btn {
+    padding: 12px 20px; /* Larger padding for better touch targets */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+}
 
-  .assignment-card h3 {
-    font-size: 1.2em;
-  }
+.submit-btn {
+    background-color: #007bff; /* Primary blue */
+    color: white;
+}
 
-  .assignment-card p,
-  .assignment-card .submission-input,
-  .assignment-card .submit-btn,
-  .assignment-card .submitted-link {
-    font-size: 0.95em;
-  }
+.submit-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.submit-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none; /* No transform when disabled */
+    box-shadow: none;
+}
+
+.delete-btn {
+    background-color: #dc3545; /* Red for delete */
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* Styling for the initial submission form */
+ng-template .submission-input {
+    margin-bottom: 10px; /* Add margin below input if it's not in a flex container */
+}
+
+/* Mobile adjustments for submission actions */
+@media (max-width: 576px) {
+    .submission-actions {
+        flex-direction: column; /* Stack input and buttons vertically */
+        align-items: stretch; /* Stretch items to full width */
+    }
+
+    .submission-input {
+        width: 100%; /* Full width for input */
+        min-width: unset; /* Remove min-width override */
+        margin-right: 0; /* Remove right margin */
+    }
+
+    .submit-btn,
+    .delete-btn {
+        width: 100%; /* Full width for buttons */
+    }
+
+    .status-box {
+        padding: 15px; /* Slightly less padding on very small screens */
+    }
 }

@@ -17,6 +17,8 @@ export class ClassFormComponent implements OnInit {
   classForm!: FormGroup;
   courses: any[] = [];
 
+  isLoading = false;
+
   @Input() preselectedCourseId: number | null = null;
   selectedFile: File | null = null;
 
@@ -73,23 +75,29 @@ export class ClassFormComponent implements OnInit {
     formData.append('course_id', this.classForm.get('course_id')?.value);
     formData.append('file', this.selectedFile);
 
+    this.isLoading = true;
     this.classService.createClass(formData).subscribe({
-      next: (res) => {
-        this.snackBar.open(res.message || 'Class created successfully!', 'Close', {
-          duration: 3000,
-        });
-        this.closeModal.emit(); // Emit the event
-      },
-      error: (err) => {
-        this.snackBar.open(err.error?.message || 'Failed to create class', 'Close', {
-          duration: 3000,
-        });
-      },
+  next: (res) => {
+    this.snackBar.open(res.message || 'Class created successfully!', 'Close', {
+      duration: 3000,
     });
+    this.isLoading = false;
+    this.closeModal.emit();
+  },
+  error: (err) => {
+    this.snackBar.open(err.error?.message || 'Failed to create class', 'Close', {
+      duration: 3000,
+    });
+    this.isLoading = false;
+  },
+})
   }
 
   // RENAMED THIS METHOD: From 'closeModal()' to 'onClose()'
   onClose(): void {
     this.closeModal.emit(); // Emit the event
   }
+
+ 
+
 }

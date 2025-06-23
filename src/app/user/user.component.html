@@ -39,31 +39,47 @@
 
         <section class="user-section all-courses-section">
             <h3>Explore All Courses</h3>
-            <div class="course-card" *ngFor="let course of allCourses">
-  <img *ngIf="course.image_url" [src]="course.image_url" alt="{{ course.title }}" />
-  <h4>{{ course.title }}</h4>
-  <p class="course-instructor">
-    By {{ course.instructor.first_name }} {{ course.instructor.last_name }}
-  </p>
-  <p class="course-price">
-    {{ course.price === 0 ? 'Free' : (course.price | currency:'KES') }}
-  </p>
+            <div class="course-cards-grid">
+                <div class="course-card" *ngFor="let course of allCourses">
+                    <img *ngIf="course.image_url" [src]="course.image_url" alt="{{ course.title }}" />
+                    <h4>{{ course.title }}</h4>
 
-  <!-- 🎯 Add View Assignments link -->
-  <button class="btn-view-course" [routerLink]="['/courses', course.id, 'assignments']">
-    Assignments
-  </button>
-</div>
+                    <p class="course-instructor">
+                        By {{ course.instructor.first_name }} {{ course.instructor.last_name }}
+                    </p>
 
+                    <p class="course-price">
+                        {{ course.price === 0 ? 'Free' : (course.price | currency:'KES') }}
+                    </p>
+
+                    <div class="progress-container">
+                        <div class="progress-label">Progress: {{ course.progress }}%</div>
+                        <div class="progress-bar">
+                            <div
+                                class="progress-fill"
+                                [style.width.%]="course.progress"
+                                [class.completed]="course.progress === 100"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <div class="grade-stats">
+                        <p><strong>Grade:</strong> {{ course.average_grade ?? 'N/A' }}</p>
+                        <p><strong>Submissions:</strong> {{ course.submissions_made }}</p>
+                    </div>
+
+                    <div *ngIf="course.progress === 100 && course.certificate_url" class="cert-badge">
+                        🎓 Certificate Available
+                    </div>
+
+                    <button class="btn-view-course" [routerLink]="['/courses', course.id, 'assignments']">
+                        Assignments
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="!allCourses || allCourses.length === 0" class="no-data-message">
+                No courses available at the moment.
+            </div>
         </section>
     </main>
 </div>
-
-<div *ngFor="let course of allCourses">
-  <h3>{{ course.title }}</h3>
-
-  <!-- certificate progress & link -->
-  
-
-
-

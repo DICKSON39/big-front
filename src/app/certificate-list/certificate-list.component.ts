@@ -14,7 +14,7 @@ export class CertificateListComponent {
   @Output() delete = new EventEmitter<number>();
 
   onDelete(certId: number): void {
-     console.log('Deleting cert with ID:', certId);
+     
     this.delete.emit(certId); // 🔥 this emits number, just what parent needs
   }
 

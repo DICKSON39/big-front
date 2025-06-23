@@ -190,7 +190,6 @@ body {
 /* Style for app-notification directly in header */
 .user-header app-notification {
     display: block; /* Ensure it's treated as a block for sizing */
-    /* Add specific styling for your notification component/icon */
     font-size: 1.8em; /* Example: adjust bell icon size */
     color: #007bff; /* Example: primary blue color for bell */
     cursor: pointer;
@@ -301,9 +300,13 @@ body {
     padding-bottom: 10px;
 }
 
-/* All Courses Section specific styling */
-/* Course Cards Grid */
-.course-cards {
+/* All Courses Section specific styling - now just a container for content */
+.all-courses-section {
+    /* No grid properties here anymore, they moved to .course-cards-grid */
+}
+
+/* NEW: Grid container for course cards */
+.course-cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
@@ -357,8 +360,70 @@ body {
     font-weight: 600;
     color: #28a745; /* Green for price */
     margin-bottom: 15px;
-    flex-grow: 1; /* Pushes button to the bottom */
+    /* flex-grow: 1;  Removed as it can interfere with consistent button alignment when combined with margin-top: auto on button */
 }
+
+/* Progress Bar Styles */
+.progress-container {
+    margin-bottom: 15px;
+}
+
+.progress-label {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: right; /* Align progress percentage to the right */
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    height: 10px;
+    overflow: hidden; /* Ensure fill stays within bounds */
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #007bff; /* Primary blue for progress */
+    border-radius: 5px;
+    transition: width 0.4s ease-in-out; /* Smooth transition for progress changes */
+}
+
+.progress-fill.completed {
+    background-color: #28a745; /* Green when 100% complete */
+}
+
+/* Grade and Submissions Stats */
+.grade-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 10px; /* Space above grade stats */
+    margin-bottom: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed #eee; /* Subtle separator */
+}
+
+.grade-stats strong {
+    color: #333;
+}
+
+/* Certificate Badge */
+.cert-badge {
+    background-color: #ffc107; /* Yellow for attention */
+    color: #333;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 15px; /* Space above button */
+    font-size: 0.9em;
+    align-self: center; /* Center the badge within the card */
+}
+
 
 .btn-view-course {
     background-color: #007bff;
@@ -371,6 +436,7 @@ body {
     margin-top: auto; /* Push button to bottom of card */
     transition: background-color 0.2s ease, transform 0.1s ease;
     align-self: flex-start; /* Align button to the left within its card */
+    width: fit-content; /* Make button only as wide as its content */
 }
 
 .btn-view-course:hover {
@@ -515,13 +581,14 @@ body {
     }
 
     /* Adjust course cards for very small screens */
-    .course-cards {
+    .course-cards-grid { /* Target the grid container */
         grid-template-columns: 1fr; /* Stack cards vertically */
         gap: 15px;
     }
 
     .course-card {
         padding: 15px;
+        margin-bottom: 0; /* Remove specific margin-bottom from course-card as gap handles spacing */
     }
     .course-card img {
         height: 140px; /* Further reduced height for very small screens */

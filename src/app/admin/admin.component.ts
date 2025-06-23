@@ -108,7 +108,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   loadCertificates(): void {
-    this.certificateService.getCertificate().subscribe(res => {
+    this.certificateService.getCertificateForAdmin().subscribe(res => {
       this.adminCertificates = res.certificate || res.data || res;
       this.groupCertificates();
     });

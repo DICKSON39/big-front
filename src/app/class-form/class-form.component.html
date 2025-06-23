@@ -25,10 +25,13 @@
       </select>
     </div>
 
-    <div class="btns">
-      <button type="submit" [disabled]="classForm.invalid">🎬 Create</button>
-      <button type="button" class="cancel" (click)="closeModal.emit()">❌ Cancel</button>
-    </div>
+   <div class="btns">
+  <button type="submit" [disabled]="classForm.invalid || isLoading">
+    <span *ngIf="!isLoading">🎬 Create</span>
+    <span *ngIf="isLoading" class="spinner"></span>
+  </button>
+  <button type="button" class="cancel" (click)="closeModal.emit()">❌ Cancel</button>
+</div>
 
   </form>
 </div>

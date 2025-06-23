@@ -142,7 +142,7 @@ export class CourseService {
   }
 
   getAllCoursesForDropdown(): Observable<any> {
-  return this.http.get(`https://school-online-backend.onrender.comapi/v1/courses/teacher/get`, {
+  return this.http.get(`https://school-online-backend.onrender.com/api/v1/courses/teacher/get`, {
     headers: this.getAuthHeaders()
   });
 

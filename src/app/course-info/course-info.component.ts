@@ -24,6 +24,14 @@ export interface Course {
     email: string;
     role?: string;
   };
+  classes?: {
+    id: number;
+    title: string;
+    description: string;
+    video_url: string;
+    created_by: number;
+  }[];
+  classCount?: number; // <-- Add this
 }
 
 @Component({

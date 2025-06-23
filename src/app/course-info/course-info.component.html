@@ -9,6 +9,8 @@
     <p><strong>Category:</strong> {{ course.category }}</p>
     <p><strong>Duration:</strong> {{ course.duration }}</p>
     <p><strong>Price:</strong> KES {{ course.price }}</p>
+    <p><strong>Number of Classes:</strong> {{ course.classes?.length || 0 }}</p>
+
 
     <div class="instructor" *ngIf="course.instructor">
       <p><strong>Instructor:</strong> {{ course.instructor.first_name }} {{ course.instructor.last_name }}</p>

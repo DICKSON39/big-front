@@ -1,0 +1,509 @@
+/* --- Global Styles & Layout --- */
+body {
+  font-family: 'Inter', sans-serif; /* Modern font choice */
+  background-color: #eef2f6; /* Lighter, subtle background */
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+h2 {
+  text-align: center;
+  color: #2c3e50; /* Darker, professional text */
+  margin-bottom: 15px;
+  font-size: 2em;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.greeting {
+  text-align: center;
+  color: #607d8b;
+  margin-bottom: 25px;
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+.chatbox-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); /* Softer, more pronounced shadow */
+  width: 100%;
+  max-width: 850px; /* Slightly wider chatbox */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 600px; /* Minimum height for a substantial feel */
+}
+
+/* --- Chatbox Area --- */
+.chatbox {
+  flex-grow: 1;
+  padding: 25px; /* Increased padding */
+  overflow-y: auto;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* More space between messages */
+}
+
+/* --- Message Bubbles --- */
+.message {
+  max-width: 75%; /* Slightly narrower for more defined bubbles */
+  padding: 15px 20px;
+  border-radius: 22px; /* More rounded */
+  line-height: 1.7;
+  position: relative;
+  word-wrap: break-word;
+  font-size: 0.95em;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+}
+
+.message strong {
+  font-weight: 600; /* Slightly bolder */
+  display: block; /* Ensures 'You' or 'AI' is on its own line for clarity */
+  margin-bottom: 5px;
+  color: #34495e; /* Consistent dark text */
+}
+
+.message p {
+  margin: 0;
+}
+
+/* User Message Styles */
+.message.user {
+  align-self: flex-end;
+  background-color: #4a90e2; /* Modern blue */
+  color: white;
+  border-bottom-right-radius: 8px; /* Sharper corner on one side */
+}
+
+.message.user strong {
+  color: #e0f2f7; /* Lighter text for user label */
+}
+
+/* AI Message Styles */
+.message.ai {
+  align-self: flex-start;
+  background-color: #f0f4f7; /* Light grey/blue for AI */
+  color: #34495e; /* Dark text for readability */
+  border-bottom-left-radius: 8px; /* Sharper corner on one side */
+}
+
+/* --- AI Structured Path & Courses --- */
+.message.ai .path-title {
+  font-size: 1.2em;
+  color: #2980b9; /* Slightly darker blue for titles */
+  margin-bottom: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.message.ai ol {
+  list-style: decimal;
+  padding-left: 25px; /* More indent */
+  margin-top: 15px;
+}
+
+.message.ai li {
+  margin-bottom: 15px; /* More space between steps */
+  padding-left: 8px;
+  font-size: 0.9em;
+  color: #4a4a4a;
+}
+
+/* Course Card Styles (Shared) */
+.course-card {
+  display: flex;
+  align-items: flex-start; /* Align image and text to top */
+  background-color: #ffffff; /* White background for cards */
+  border: 1px solid #e0e6ec; /* Subtle border */
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 12px; /* Space from step description */
+  gap: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); /* More prominent card shadow */
+  transition: all 0.25s ease-in-out;
+}
+
+.course-card:hover {
+  transform: translateY(-5px); /* More noticeable lift on hover */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.course-card img {
+  width: 90px; /* Slightly larger image */
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Image shadow */
+}
+
+.course-info {
+  flex-grow: 1;
+}
+
+.course-info h4 {
+  margin: 0 0 8px 0;
+  color: #007bff; /* Primary blue for course title */
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.course-info p {
+  margin: 0 0 6px 0;
+  font-size: 0.88em;
+  color: #555;
+}
+
+.course-info .duration {
+  font-size: 0.8em;
+  color: #777;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.enroll-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 18px;
+  margin-top: 12px;
+  background-color: #2ecc71; /* Vibrant green for enroll */
+  color: white;
+  border: none;
+  border-radius: 25px; /* More rounded button */
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.15s ease;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(46, 204, 113, 0.3); /* Green shadow */
+}
+
+.enroll-btn:hover {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+}
+
+/* --- Full Course List Section --- */
+.course-list {
+  display: grid; /* Use grid for a neat layout */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid */
+  gap: 20px; /* Space between course cards */
+  margin-top: 20px;
+}
+
+.course-list .course-card {
+  flex-direction: column; /* Stack content vertically in grid */
+  align-items: center;
+  text-align: center;
+  padding: 20px; /* More padding for standalone cards */
+}
+
+.course-list .course-card img {
+  width: 120px; /* Larger images for full list */
+  height: 120px;
+  margin-bottom: 15px;
+}
+
+.course-list .course-info {
+  width: 100%; /* Take full width in column layout */
+}
+
+.course-list .course-info h4 {
+  font-size: 1.2em;
+}
+
+.course-list .course-info p {
+  font-size: 0.95em;
+}
+
+
+/* --- Skill Quiz UI --- */
+.quiz-form {
+  background-color: #fdfdfd;
+  border: 1px solid #e0e6ec;
+  border-radius: 10px;
+  padding: 30px; /* More generous padding */
+  margin: 30px auto;
+  max-width: 550px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.quiz-form h3 {
+  text-align: center;
+  color: #2980b9;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.quiz-form p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 1em;
+}
+
+.quiz-question {
+  margin-bottom: 25px; /* More space between questions */
+}
+
+.quiz-question label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 1.05em;
+}
+
+.quiz-question select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1em;
+  background-color: white;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5z%22%20fill%3D%22%23333%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 12px;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.quiz-question select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+  outline: none;
+}
+
+.quiz-form button[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 14px 25px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 30px; /* Even more rounded */
+  font-size: 1.15em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.15s ease;
+  margin-top: 30px;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+.quiz-form button[type="submit"]:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+}
+
+.quiz-form button[type="submit"]:disabled {
+  background-color: #cdd4dc;
+  cursor: not-allowed;
+  opacity: 0.8;
+  box-shadow: none;
+}
+
+/* --- Chat Input Area --- */
+.chat-input {
+  display: flex;
+  padding: 20px 25px; /* More padding */
+  border-top: 1px solid #e0e6ec; /* Subtle border */
+  background-color: #fdfdfe;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex-grow: 1;
+  padding: 14px 20px; /* Larger input field */
+  border: 1px solid #dcdfe6; /* Lighter border */
+  border-radius: 30px; /* More rounded input */
+  font-size: 1em;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.chat-input input::placeholder {
+  color: #9aa5b1;
+}
+
+.chat-input input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.chat-input button {
+  padding: 14px 30px; /* Larger button */
+  background-color: #4a90e2; /* Matching send button */
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.15s ease;
+  box-shadow: 0 3px 10px rgba(74, 144, 226, 0.3);
+}
+
+.chat-input button:hover:not(:disabled) {
+  background-color: #357ABD;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(74, 144, 226, 0.4);
+}
+
+.chat-input button:disabled {
+  background-color: #cdd4dc;
+  cursor: not-allowed;
+  opacity: 0.8;
+  box-shadow: none;
+}
+
+/* --- Loading Indicator --- */
+.loading-indicator {
+  text-align: center;
+  padding: 15px;
+  color: #666;
+  font-style: italic;
+  background-color: #f8fbfd;
+  border-top: 1px solid #e0e6ec;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* --- Scrollbar Styles (for Webkit browsers) --- */
+.chatbox::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chatbox::-webkit-scrollbar-track {
+  background: #f1f6fa;
+  border-radius: 10px;
+}
+
+.chatbox::-webkit-scrollbar-thumb {
+  background: #a9c7e0; /* Softer scrollbar color */
+  border-radius: 10px;
+}
+
+.chatbox::-webkit-scrollbar-thumb:hover {
+  background: #8faacd;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 1.6em;
+    margin-bottom: 10px;
+  }
+
+  .greeting {
+    font-size: 1em;
+    margin-bottom: 20px;
+  }
+
+  .chatbox-container {
+    margin: 0;
+    min-height: 80vh;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .chatbox {
+    padding: 15px;
+    gap: 15px;
+    max-height: 75vh;
+  }
+
+  .message {
+    max-width: 90%;
+    padding: 12px 16px;
+    font-size: 0.9em;
+  }
+
+  .message strong {
+    font-size: 0.9em;
+  }
+
+  .quiz-form {
+    padding: 20px;
+    margin: 20px auto;
+  }
+
+  .quiz-form h3 {
+    font-size: 1.5em;
+  }
+
+  .quiz-form p {
+    font-size: 0.9em;
+    margin-bottom: 20px;
+  }
+
+  .quiz-question select {
+    padding: 10px 12px;
+  }
+
+  .quiz-form button[type="submit"] {
+    font-size: 1em;
+    padding: 12px 20px;
+  }
+
+  .course-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+  }
+
+  .course-card img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .course-list {
+    grid-template-columns: 1fr; /* Single column on small screens */
+    gap: 15px;
+  }
+
+  .chat-input {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .chat-input input {
+    margin-right: 0;
+    width: 100%;
+    padding: 12px 18px;
+  }
+
+  .chat-input button {
+    width: 100%;
+    padding: 12px 20px;
+  }
+}

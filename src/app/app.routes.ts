@@ -34,6 +34,8 @@ import { AssignmentFormComponent } from './assignment-form/assignment-form.compo
 import { StudentAssignmentsComponent } from './student-assignments/student-assignments.component';
 import { SubmissionGradingComponent } from './submission-grading/submission-grading.component';
 import { AdminPaymentsComponent } from './admin-payments/admin-payments.component';
+import { AiCareerChatComponent } from './ai-career-chat/ai-career-chat.component';
+
 
 export const routes: Routes = [
   {
@@ -281,8 +283,17 @@ export const routes: Routes = [
     data: {
       roles:[1]
     }
-  }
+  },
+  {
+    path: 'ai-career',
+    component: AiCareerChatComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles:[1,2,3]
+    }
 
+  }
+  
  
   
 

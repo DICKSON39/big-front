@@ -5,6 +5,7 @@ import { AuthService, User } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { CourseService } from '../../services/course.service';
 import { NotificationComponent } from '../notification/notification.component';
+import { UserStatsComponent } from '../user-stats/user-stats.component';
 
 
 interface Course {
@@ -22,7 +23,7 @@ interface Course {
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, CurrencyPipe,NotificationComponent,],
+  imports: [CommonModule, RouterLink, RouterLinkActive, CurrencyPipe,NotificationComponent,UserStatsComponent],
   templateUrl: './user.component.html',
 
   styleUrl: './user.component.css'

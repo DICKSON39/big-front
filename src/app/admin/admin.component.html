@@ -14,18 +14,22 @@
   </header>
 
   <div class="main-content-area">
-    <section class="stats-grid">
-      <div *ngFor="let stat of stats" class="stat-card">
-        <h3>{{ stat.title }}</h3>
-        <p class="stat-count">{{ stat.count }}</p>
-      </div>
-    </section>
+   
+    <div class="main-content-area">
+  <!-- 📊 Admin Stats Overview -->
+  <app-admin-stats></app-admin-stats>
 
     <section class="dashboard-sections">
       <div class="section-card">
         <h2>Add Users</h2>
         <p>Add new user accounts to the system.</p>
         <a routerLink="/admin/add-user" class="section-link">Add Users</a>
+      </div>
+
+      <div class="section-card">
+        <h2>Get Payments</h2>
+        <p>Get New Users Payments details.</p>
+        <a routerLink="/payment/admin" class="section-link">Go To Payments</a>
       </div>
 
       <div class="section-card">

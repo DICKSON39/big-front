@@ -23,6 +23,7 @@ import { CertificateComponent } from '../certificate/certificate.component';
 import { AssignmentFormComponent } from '../assignment-form/assignment-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AssignmentService } from '../../services/assignment.service';
+import { TeacherStatsComponent } from '../teacher-stats/teacher-stats.component';
 interface TeacherStat {
   title: string;
   count: number;
@@ -42,7 +43,7 @@ interface UpcomingAssignment {
 @Component({
   selector: 'app-teacher',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, ClassFormComponent, CourseFormComponent, FormsModule, CertificateComponent, CertificateListComponent,],
+  imports: [CommonModule, RouterLink, RouterLinkActive, ClassFormComponent, CourseFormComponent, FormsModule, CertificateComponent, CertificateListComponent,TeacherStatsComponent],
   templateUrl: './teacher.component.html',
 
   styleUrls: ['./teacher.component.css'],

@@ -1,0 +1,135 @@
+/* user-stats-container: General section styling for the user's personal dashboard stats */
+.user-stats-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    text-align: center; /* Center the heading and loading/error messages */
+}
+
+.user-stats-container h2 {
+    font-size: 2em;
+    color: #34495e;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    display: inline-block; /* Allows border-bottom to fit content */
+}
+
+/* Loading and Error messages */
+.user-stats-container > div:first-of-type { /* Targets the loading message */
+    font-size: 1.1em;
+    color: #6c757d;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.user-stats-container .error {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    font-size: 1.1em; /* Ensure error messages are styled consistently */
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Container for the actual statistics */
+.user-stats-container .stats-display { /* Added a class for the stats div in HTML for clarity */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Space between stat items */
+    margin-top: 30px; /* Space from the heading */
+    padding: 0 10px; /* Slight horizontal padding for grid on larger screens */
+}
+
+.user-stats-container p {
+    background-color: #e0f7fa; /* Light cyan background for each stat item */
+    border: 1px solid #b2ebf2;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: left; /* Align text to the left within the card */
+    font-size: 1.1em;
+    color: #006064; /* Darker teal for text */
+    box-shadow: 0 2px 8px rgba(0, 150, 136, 0.1); /* Subtle teal shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex; /* Use flex to align content if needed */
+    justify-content: space-between; /* Space between label and value */
+    align-items: center; /* Vertically center content */
+    font-weight: 500;
+}
+
+.user-stats-container p:hover {
+    transform: translateY(-3px); /* Lift effect on hover */
+    box-shadow: 0 6px 15px rgba(0, 150, 136, 0.2); /* More prominent shadow on hover */
+    background-color: #ccf2f5; /* Slightly darker background on hover */
+}
+
+.user-stats-container p strong {
+    font-size: 1.5em; /* Larger font size for the numbers */
+    color: #00796b; /* Stronger teal for the values */
+    font-weight: 700;
+    flex-shrink: 0; /* Prevent the number from shrinking */
+    margin-left: 10px; /* Space between label and number */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .user-stats-container {
+        padding: 20px;
+    }
+
+    .user-stats-container h2 {
+        font-size: 1.6em;
+        margin-bottom: 20px;
+    }
+
+    .user-stats-container .stats-display {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Adjust min-width */
+        gap: 15px;
+        padding: 0; /* Remove horizontal padding */
+    }
+
+    .user-stats-container p {
+        padding: 18px;
+        font-size: 1em;
+    }
+
+    .user-stats-container p strong {
+        font-size: 1.3em;
+    }
+}
+
+@media (max-width: 576px) {
+    .user-stats-container {
+        padding: 15px;
+    }
+
+    .user-stats-container h2 {
+        font-size: 1.4em;
+        margin-bottom: 15px;
+    }
+
+    .user-stats-container .stats-display {
+        grid-template-columns: 1fr; /* Stack vertically on very small screens */
+        gap: 10px;
+    }
+
+    .user-stats-container p {
+        flex-direction: column; /* Stack label and value vertically */
+        align-items: flex-start; /* Align text to the start */
+        padding: 15px;
+        font-size: 0.95em;
+    }
+
+    .user-stats-container p strong {
+        font-size: 1.2em;
+        margin-left: 0; /* Remove left margin when stacked */
+        margin-top: 5px; /* Add top margin when stacked */
+    }
+}

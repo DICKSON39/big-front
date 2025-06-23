@@ -1,0 +1,144 @@
+/* teacher-stats-container: General section styling for the teacher's personal dashboard stats */
+.teacher-stats-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    text-align: center; /* Center the heading */
+}
+
+.teacher-stats-container h2 {
+    font-size: 2em;
+    color: #34495e;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    display: inline-block; /* Allows border-bottom to fit content */
+}
+
+/* Grid container for the statistics cards */
+.teacher-stats-container { /* Applying grid directly to the container as it wraps only cards */
+    display: grid;
+    /* Responsive grid columns: min 280px, auto-fit as many as possible */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px; /* Space between the stat cards */
+    margin-top: 30px; /* Space from the heading, also handles container's top margin */
+    padding: 30px; /* Apply padding here if it's the main grid container */
+    background-color: #fff; /* Ensure background is white */
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Ensure shadow is applied */
+    margin-bottom: 30px;
+}
+
+/* Individual stat-card styling */
+.teacher-stats-container .stat-card {
+    background-color: #e6f7ff; /* Light blue for teacher stats */
+    border: 1px solid #91d5ff; /* Slightly darker blue border */
+    border-radius: 10px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(24, 144, 255, 0.1); /* Subtle blue shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 140px; /* Ensure consistent height for cards */
+}
+
+.teacher-stats-container .stat-card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 8px 20px rgba(24, 144, 255, 0.2); /* More prominent shadow on hover */
+    background-color: #d6eaff; /* Slightly darker background on hover */
+}
+
+.teacher-stats-container .stat-card h3 {
+    font-size: 1.2em; /* Smaller, clear label */
+    color: #003a8c; /* Darker blue for label */
+    margin-top: 0;
+    margin-bottom: 10px; /* Space between label and number */
+    font-weight: 600;
+}
+
+.teacher-stats-container .stat-card p {
+    font-size: 2.5em; /* Large, prominent number */
+    color: #1890ff; /* Primary blue for the number */
+    margin: 0; /* Remove default paragraph margins */
+    font-weight: 800; /* Extra bold for emphasis */
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .teacher-stats-container {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Adjust min-width for medium screens */
+        gap: 18px;
+    }
+
+    .teacher-stats-container .stat-card {
+        padding: 20px;
+        min-height: 120px;
+    }
+
+    .teacher-stats-container .stat-card h3 {
+        font-size: 1.1em;
+    }
+
+    .teacher-stats-container .stat-card p {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 768px) {
+    .teacher-stats-container {
+        padding: 20px; /* Adjust container padding */
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Smaller min-width for tablets */
+        gap: 15px;
+        margin-top: 20px; /* Adjust top margin for smaller screens */
+    }
+
+    .teacher-stats-container h2 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .teacher-stats-container .stat-card {
+        padding: 18px;
+        min-height: 100px;
+    }
+
+    .teacher-stats-container .stat-card h3 {
+        font-size: 1em;
+    }
+
+    .teacher-stats-container .stat-card p {
+        font-size: 1.8em;
+    }
+}
+
+@media (max-width: 576px) {
+    .teacher-stats-container {
+        padding: 15px; /* Adjust container padding */
+        grid-template-columns: 1fr; /* Stack cards vertically on very small screens */
+        gap: 10px;
+        margin-top: 15px; /* Adjust top margin for very small screens */
+    }
+
+    .teacher-stats-container h2 {
+        font-size: 1.6em;
+        margin-bottom: 15px;
+    }
+
+    .teacher-stats-container .stat-card {
+        padding: 15px;
+        min-height: 90px; /* Slightly smaller height */
+    }
+
+    .teacher-stats-container .stat-card h3 {
+        font-size: 0.9em;
+    }
+
+    .teacher-stats-container .stat-card p {
+        font-size: 1.6em;
+    }
+}

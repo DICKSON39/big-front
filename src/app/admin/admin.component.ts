@@ -9,12 +9,14 @@ import { CertificateComponent } from '../certificate/certificate.component';
 import { CertificateService } from '../../services/certificate.service';
 import { CertificateListComponent } from '../certificate-list/certificate-list.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AdminStatsComponent } from '../admin-stats/admin-stats.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [RouterLink, CommonModule, AdminEnrollStudentComponent, CertificateComponent, CertificateListComponent],
+  imports: [RouterLink, CommonModule, AdminEnrollStudentComponent, CertificateComponent, CertificateListComponent,AdminStatsComponent],
   templateUrl: './admin.component.html',
+  
   styleUrl: './admin.component.css'
 })
 export class AdminComponent implements OnInit, OnDestroy {
@@ -30,13 +32,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   showEnrollModal = false;
   showCertificateModal = false;
 
-  stats = [
-    { title: 'Total Users', count: 320 },
-    { title: 'Courses', count: 45 },
-    { title: 'Payments', count: 'KES 35,000' },
-    { title: 'Certificates Issued', count: 87 }
-  ];
-
+  
   constructor(
     private authService: AuthService,
     private router: Router,

@@ -33,6 +33,7 @@ import { AdminCertListComponent } from './admin-cert-list/admin-cert-list.compon
 import { AssignmentFormComponent } from './assignment-form/assignment-form.component';
 import { StudentAssignmentsComponent } from './student-assignments/student-assignments.component';
 import { SubmissionGradingComponent } from './submission-grading/submission-grading.component';
+import { AdminPaymentsComponent } from './admin-payments/admin-payments.component';
 
 export const routes: Routes = [
   {
@@ -272,7 +273,17 @@ export const routes: Routes = [
     data: {
       roles:[1,2]
     }
+  },
+  {
+    path: 'payment/admin',
+    component: AdminPaymentsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles:[1]
+    }
   }
+
+ 
   
 
 

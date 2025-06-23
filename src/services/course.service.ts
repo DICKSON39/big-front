@@ -130,7 +130,7 @@ export class CourseService {
   }
 
   getCourseById(id: number): Observable<Course> {
-    return this.http.get<Course>(`https://school-online-backend.onrender.com/api/v1/courses/details/${id}`, {
+    return this.http.get<Course>(`https://school-online-backend.onrender.comapi/v1/courses/details/${id}`, {
       headers: this.getAuthHeaders(),
     });
   }
@@ -142,7 +142,7 @@ export class CourseService {
   }
 
   getAllCoursesForDropdown(): Observable<any> {
-  return this.http.get(`https://school-online-backend.onrender.com/api/v1/courses/teacher/get`, {
+  return this.http.get(`https://school-online-backend.onrender.comapi/v1/courses/teacher/get`, {
     headers: this.getAuthHeaders()
   });
 

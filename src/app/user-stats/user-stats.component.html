@@ -1,0 +1,14 @@
+<div class="user-stats-container">
+  <h2>📊 Your Dashboard Stats</h2>
+
+  <div *ngIf="loading">Loading stats...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div *ngIf="stats && !loading">
+    <p><strong>Total Courses:</strong> {{ stats.total_courses }}</p>
+    <p><strong>Total Assignments:</strong> {{ stats.total_assignments }}</p>
+    <p><strong>Total Classes:</strong> {{ stats.total_classes }}</p>
+    <p><strong>Average Progress:</strong> {{ stats.average_progress }}%</p>
+    <p><strong>Total Certificates:</strong> {{ stats.total_certificates }}</p>
+  </div>
+</div>

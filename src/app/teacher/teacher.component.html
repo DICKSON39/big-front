@@ -59,6 +59,8 @@
   </aside>
 
   <main class="main-content" [class.shifted]="sidebarOpen && screenWidth > 768">
+
+    
     <header class="header">
       <h2>📚 Teacher Dashboard</h2>
       <div class="user-info-section">
@@ -69,6 +71,8 @@
         <button class="home-btn" routerLink="/">Home</button>
       </div>
     </header>
+
+    <app-teacher-stats></app-teacher-stats>
 
     <section class="stats-section">
       <h3>📊 Your Overview</h3>

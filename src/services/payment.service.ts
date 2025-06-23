@@ -19,7 +19,7 @@ export class PaymentService {
 
   makePayment(courseId: number, amount: number) {
     return this.http.post<{ clientSecret: string }>(
-      'https://school-online-backend.onrender.com/api/v1/payment/create-payment-intent',
+      'https://school-online-backend.onrender.com/create-payment-intent',
       { courseId, amount },
       {
         headers: this.getAuthHeaders(),

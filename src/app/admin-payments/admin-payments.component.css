@@ -1,0 +1,130 @@
+/* payment-section: General section styling */
+.payment-section {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    text-align: center; /* Center the heading and messages */
+}
+
+.payment-section h2 {
+    font-size: 2em;
+    color: #34495e;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    display: inline-block; /* Allows border-bottom to fit content */
+}
+
+/* Loading and No Payments Found messages */
+.payment-section > div { /* Targets direct div children for loading/empty states */
+    font-size: 1.1em;
+    color: #6c757d;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* payment-table: Base table styling */
+.payment-table {
+    width: 100%; /* Full width */
+    border-collapse: collapse; /* Collapse borders between cells */
+    margin-top: 30px; /* Space from the heading */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow for the table */
+    border-radius: 8px; /* Apply border-radius to the table itself */
+    overflow: hidden; /* Ensures border-radius clips content, esp. for first/last rows */
+}
+
+/* Table header styling */
+.payment-table thead {
+    background-color: #007bff; /* Primary blue background for header */
+    color: white;
+}
+
+.payment-table th {
+    padding: 15px 10px; /* Padding for header cells */
+    text-align: left; /* Align text to the left */
+    font-weight: 600; /* Bold font for headers */
+    font-size: 0.95em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Light border for separation */
+    white-space: nowrap; /* Prevent headers from wrapping too early */
+}
+
+/* Table body styling */
+.payment-table tbody tr {
+    border-bottom: 1px solid #e0e0e0; /* Border between rows */
+    transition: background-color 0.2s ease;
+}
+
+.payment-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Zebra striping for readability */
+}
+
+.payment-table tbody tr:hover {
+    background-color: #f0f8ff; /* Light blue hover effect on rows */
+}
+
+.payment-table td {
+    padding: 12px 10px; /* Padding for data cells */
+    text-align: left; /* Align text to the left */
+    font-size: 0.9em;
+    color: #555;
+    white-space: nowrap; /* Prevent content from wrapping too early */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Add ellipsis for overflow */
+    max-width: 150px; /* Optional: Limit max width for columns to encourage ellipsis */
+}
+
+/* Status cell styling */
+.payment-table td.success {
+    color: #28a745; /* Green for success */
+    font-weight: 600;
+}
+
+.payment-table td.fail {
+    color: #dc3545; /* Red for fail */
+    font-weight: 600;
+}
+
+/* Responsive Table: Make table scrollable on small screens */
+/* Wrap the table in a div for horizontal scrolling */
+.table-responsive-wrapper {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    margin-top: 30px; /* Space from heading */
+    border-radius: 10px; /* Match outer section border-radius */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Match outer section shadow */
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .payment-section {
+        padding: 20px;
+    }
+
+    .payment-section h2 {
+        font-size: 1.6em;
+        margin-bottom: 20px;
+    }
+
+    /* For smaller screens, reduce padding in table cells */
+    .payment-table th,
+    .payment-table td {
+        padding: 10px 8px;
+        font-size: 0.85em;
+    }
+}
+
+@media (max-width: 576px) {
+    .payment-section {
+        padding: 15px;
+    }
+
+    .payment-section h2 {
+        font-size: 1.4em;
+        margin-bottom: 15px;
+    }
+}

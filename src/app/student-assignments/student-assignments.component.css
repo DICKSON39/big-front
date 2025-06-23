@@ -1,3 +1,18 @@
+/* No Assignments Message */
+.no-assignments-message {
+    text-align: center;
+    padding: 30px;
+    color: #6c757d;
+    font-style: italic;
+    font-size: 1.2em;
+    background-color: #fcfcfc;
+    border: 1px dashed #e0e0e0; /* Dashed border for a friendly look */
+    border-radius: 8px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03); /* Very light shadow */
+}
+
 /* General styling for the assignment card */
 .assignment-card {
     border: 1px solid #e0e0e0;
@@ -68,20 +83,24 @@
     box-shadow: 0 4px 10px rgba(40, 167, 69, 0.5); /* More prominent glow for graded */
 }
 
-/* Container for Grade and Feedback */
-.grade-feedback-container {
+/* Container for Grade and Feedback - NOTE: This was a conceptual class in previous output.
+   If you didn't add it in HTML, these styles won't apply directly.
+   However, the p tags for grade and feedback are direct children of status-box and will benefit
+   from status-box's flex-direction: column and gap. */
+/* .grade-feedback-container {
     display: flex;
     flex-direction: column;
-    gap: 5px; /* Space between grade and feedback lines */
-}
+    gap: 5px;
+} */
 
-.grade-feedback-container p {
-    margin: 0; /* Remove default paragraph margins */
+/* Ensure the grade and feedback paragraphs are well-styled */
+.status-box p {
+    margin: 0; /* Remove default paragraph margins within status-box */
     font-size: 1em;
     color: #444;
 }
 
-.grade-feedback-container strong {
+.status-box p strong {
     color: #222;
 }
 
@@ -167,10 +186,9 @@
     box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
 }
 
-/* Styling for the initial submission form */
-ng-template .submission-input {
-    margin-bottom: 10px; /* Add margin below input if it's not in a flex container */
-}
+/* Styling for the initial submission form (ng-template content) */
+/* The input and button directly within ng-template are now handled by submission-actions styles */
+/* No specific additional styles needed for ng-template content beyond the shared input/button styles */
 
 /* Mobile adjustments for submission actions */
 @media (max-width: 576px) {

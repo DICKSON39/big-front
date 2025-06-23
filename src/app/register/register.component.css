@@ -1,35 +1,128 @@
+/* Overall container for the registration form */
 .register-container {
-  max-width: 400px;
-  margin: auto;
-  padding: 2rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    max-width: 450px; /* Increased max-width for a slightly larger form */
+    margin: 40px auto; /* Center the form with top/bottom margin */
+    padding: 2.5rem; /* Increased padding */
+    background: #ffffff; /* White background */
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* More prominent, soft shadow */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Consistent font */
 }
 
-form h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
+/* Form heading */
+.register-container h2 {
+    text-align: center;
+    margin-bottom: 2rem; /* More space below heading */
+    color: #34495e; /* Darker heading color */
+    font-size: 2em; /* Larger heading font size */
+    font-weight: 700;
 }
 
+/* Individual form group for labels and inputs */
 .form-group {
-  margin-bottom: 1rem;
+    margin-bottom: 1.5rem; /* Increased spacing between form groups */
 }
 
 label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.3rem;
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem; /* More space below label */
+    color: #555; /* Slightly softer label color */
+    font-size: 0.95em;
 }
 
-input {
-  width: 100%;
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+/* Input field styling */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.8rem 1rem; /* Increased padding inside inputs */
+    border: 1px solid #dcdcdc; /* Lighter border color */
+    border-radius: 8px; /* More rounded input corners */
+    font-size: 1em; /* Standard font size */
+    color: #333;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transitions */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #007bff; /* Primary blue on focus */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Focus glow */
+    outline: none; /* Remove default outline */
+}
+
+/* Validation error messages */
 small {
-  color: red;
-  font-size: 0.8rem;
+    color: #dc3545; /* Red for errors */
+    font-size: 0.85rem; /* Slightly larger font size */
+    margin-top: 0.3rem; /* Space above the error message */
+    display: block; /* Ensure it's on its own line */
+}
+
+/* Submit button styling */
+.btn {
+    width: 100%; /* Full width button */
+    padding: 1rem 1.5rem; /* Generous padding */
+    background-color: #007bff; /* Primary blue background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 8px; /* More rounded button corners */
+    font-size: 1.1em; /* Larger font size for button text */
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease; /* Smooth transitions */
+    margin-top: 1.5rem; /* Space above the button */
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); /* Subtle button shadow */
+}
+
+.btn:hover:not(:disabled) {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3); /* More prominent shadow on hover */
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0); /* Return to original position on click */
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2); /* Smaller shadow on click */
+}
+
+.btn:disabled {
+    background-color: #cccccc; /* Grey when disabled */
+    cursor: not-allowed;
+    opacity: 0.7; /* Slightly transparent */
+    box-shadow: none; /* No shadow when disabled */
+    transform: none; /* No transform when disabled */
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    .register-container {
+        margin: 20px; /* Reduce margin on very small screens */
+        padding: 1.5rem; /* Reduce padding */
+        border-radius: 10px; /* Slightly less rounded */
+    }
+
+    .register-container h2 {
+        font-size: 1.8em;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.95em;
+    }
+
+    .btn {
+        padding: 0.8rem 1rem;
+        font-size: 1em;
+        border-radius: 6px;
+    }
 }

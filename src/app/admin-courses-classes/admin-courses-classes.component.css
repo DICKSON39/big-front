@@ -1,0 +1,151 @@
+/* General Body and Container Styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5; /* Light grey background */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align to the top, not center vertically */
+  min-height: 100vh;
+  margin: 0;
+  padding: 30px 20px; /* Ample padding around the content */
+  box-sizing: border-box;
+}
+
+.container {
+  background-color: #ffffff; /* White background for the main container */
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Soft, prominent shadow */
+  padding: 30px; /* Generous padding inside the container */
+  width: 100%;
+  max-width: 900px; /* Max width for readability */
+  box-sizing: border-box;
+}
+
+h2 {
+  text-align: center;
+  color: #2c3e50; /* Dark, professional heading color */
+  margin-bottom: 30px;
+  font-size: 2.2em;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* Loading and Empty States */
+/* Your CSS */
+.loading-message {
+  text-align: center;
+  font-size: 1.2em;
+  color: #555;
+  padding: 40px 0;
+}
+
+.no-classes-message {
+  text-align: center;
+  font-size: 1.1em;
+  color: #777;
+  padding: 40px 0;
+  border: 1px dashed #cccccc;
+  border-radius: 8px;
+  background-color: #fdfdfd;
+}
+
+/* Class Card Styling */
+.class-card {
+  background-color: #f8fbfd; /* Slightly off-white for individual cards */
+  border: 1px solid #e0e6ec; /* Subtle border */
+  border-radius: 10px;
+  padding: 25px; /* Ample padding inside cards */
+  margin-bottom: 25px; /* Space between cards */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Soft shadow for lift */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transitions */
+}
+
+.class-card:last-child {
+  margin-bottom: 0; /* No margin after the last card */
+}
+
+.class-card:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Enhanced shadow on hover */
+}
+
+.class-card h4 {
+  color: #007bff; /* Vibrant blue for class titles */
+  font-size: 1.6em;
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.class-card p {
+  color: #555; /* Slightly darker text for descriptions */
+  font-size: 1.05em;
+  line-height: 1.7;
+  margin-bottom: 20px; /* Space between description and video */
+}
+
+/* Video Player Styling */
+.class-card video {
+  width: 100%; /* Make video player responsive */
+  max-width: 100%; /* Ensure it doesn't overflow */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 8px;
+  background-color: #000; /* Black background for video area */
+  display: block; /* Remove extra space below video */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Shadow for video player */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  body {
+    padding: 20px 10px; /* Reduce horizontal padding on smaller screens */
+  }
+
+  .container {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+  }
+
+  .class-card {
+    padding: 18px;
+    margin-bottom: 20px;
+  }
+
+  .class-card h4 {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+  }
+
+  .class-card p {
+    font-size: 0.95em;
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+
+  h2 {
+    font-size: 1.6em;
+    margin-bottom: 15px;
+  }
+
+  .class-card {
+    padding: 15px;
+  }
+
+  .class-card h4 {
+    font-size: 1.2em;
+  }
+
+  .class-card p {
+    font-size: 0.9em;
+  }
+}

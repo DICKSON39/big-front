@@ -1,11 +1,10 @@
 <div class="container">
   <h2>Classes for Course ID {{ courseId }}</h2>
 
-  <div *ngIf="isLoading">Loading...</div>
-
-  <div *ngIf="!isLoading && classes.length === 0">
+  <div class="loading-message" *ngIf="isLoading">Loading...</div>
+<div class="no-classes-message" *ngIf="!isLoading && classes.length === 0">
     <p>No classes found for this course.</p>
-  </div>
+</div>
 
   <div *ngIf="!isLoading && classes.length > 0">
     <div class="class-card" *ngFor="let cls of classes">

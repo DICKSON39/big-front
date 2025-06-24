@@ -47,7 +47,23 @@ suggestCareerPath(payload: {
   return this.http.get<{ courses: Course[] }>(`${this.apiUrl}/ai/all-courses?user_id=${user_id}`);
 }
 
-  
+saveChatHistory(payload: {
+  user_id: string;
+  from: 'user' | 'ai';
+  message: string;
+  path_name?: string;
+  steps?: string[];
+  courses?: Course[];
+}) {
+  return this.http.post(`${this.apiUrl}/ai/chat-history`, payload);
+}
+
+  getChatHistory(userId: string, limit: number = 10, offset: number = 0) {
+  return this.http.get<{ messages: { from: string; message: string; timestamp?: string; [key: string]: any }[], totalCount: number }>(
+    `${this.apiUrl}/ai-chat-history?user_id=${userId}&limit=${limit}&offset=${offset}`
+  );
+}
+
 
 
 }

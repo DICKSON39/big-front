@@ -1,10 +1,10 @@
-import { Component ,OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AiSuggestionService } from '../../services/ai-suggestion.service';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
-import { AiSuggestionResponse,Course} from '../models/ai-suggestion.model';
+import { AiSuggestionResponse, Course } from '../models/ai-suggestion.model';
 
 interface Message {
   from: 'user' | 'ai';
@@ -13,8 +13,6 @@ interface Message {
   steps?: string[];
   courses?: Course[];
 }
-
-
 
 @Component({
   selector: 'app-ai-career-chat',
@@ -28,8 +26,11 @@ export class AiCareerChatComponent implements OnInit {
   userMessage = '';
   isLoading = false;
   userFullName = 'Learner';
+  limit = 10;
+offset = 0;
+totalMessages = 0;
+isLoadingMore = false;
 
-  // 🧪 Quiz state
   awaitingQuiz = false;
   quizQuestions: string[] = [];
   quizAnswers: Record<string, string> = {};
@@ -40,62 +41,83 @@ export class AiCareerChatComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-
-  // fallback default
-
-ngOnInit(): void {
-  this.authService.getUser().subscribe((user) => {
-    if (user) {
-      this.userFullName = `${user.first_name} ${user.last_name}`;
-      // Push greeting message to chat automatically
-      this.messages.push({
-        from: 'ai',
-        text: `👋 Hello ${this.userFullName}! I'm your LMS Career Advisor AI.  
+  ngOnInit(): void {
+    this.authService.getUser().subscribe((user) => {
+      if (user) {
+        this.userFullName = `${user.first_name} ${user.last_name}`;
+        this.messages.push({
+          from: 'ai',
+          text: `👋 Hello ${this.userFullName}! I'm your LMS Career Advisor AI.  
 I can help you find learning paths, recommend courses, and answer questions about what's offered.  
 Try asking something like:  
 • "I want to learn mobile development"  
 • "What courses do you have?"  
 • "Suggest a career path for web design"`
-      });
-    }
-  });
-}
-
+        });
+      }
+    });
+    this.loadOlderMessages();
+  }
 
   sendMessage() {
     if (!this.userMessage.trim()) return;
 
     const currentMessage = this.userMessage.trim().toLowerCase();
-    this.messages.push({ from: 'user', text: currentMessage });
+    const userMsg: Message = { from: 'user', text: currentMessage };
+    this.messages.push(userMsg);
     this.userMessage = '';
     this.isLoading = true;
 
-    // 👋 Greetings
+    this.authService.getUserId().subscribe(userId => {
+      this.aiService.saveChatHistory({
+        user_id: userId ?? '',
+        from: 'user',
+        message: currentMessage
+      }).subscribe();
+    });
+
     const greetingRegex = /\b(hi|hello|hey|yo|sup|greetings|what can you do)\b/i;
     if (greetingRegex.test(currentMessage)) {
-      this.messages.push({
+      const aiMsg: Message = {
         from: 'ai',
         text: `👋 Hello ${this.userFullName} What Can I do for you?`
-      });
+      };
+      this.messages.push(aiMsg);
       this.isLoading = false;
+
+      this.authService.getUserId().subscribe(userId => {
+        this.aiService.saveChatHistory({
+          user_id: userId ?? '',
+          from: 'ai',
+          message: aiMsg.text!
+        }).subscribe();
+      });
+
       return;
     }
 
-    // 📚 Course list detection
     const courseListRegex = /(what|which)?\s*(courses|classes).*available|do you have|offer/i;
     if (courseListRegex.test(currentMessage)) {
       this.authService.getUserId().pipe(
-        switchMap(userId =>
-          this.aiService.getAllCourses(userId ?? '')
-        )
+        switchMap(userId => this.aiService.getAllCourses(userId ?? ''))
       ).subscribe({
         next: (res) => {
-          this.messages.push({
+          const msg: Message = {
             from: 'ai',
             text: '📚 Here are all the available courses:',
             courses: res.courses || []
-          });
+          };
+          this.messages.push(msg);
           this.isLoading = false;
+
+          this.authService.getUserId().subscribe(userId => {
+            this.aiService.saveChatHistory({
+              user_id: userId ?? '',
+              from: 'ai',
+              message: msg.text!,
+              courses: msg.courses
+            }).subscribe();
+          });
         },
         error: () => {
           this.messages.push({ from: 'ai', text: '⚠️ Failed to fetch courses.' });
@@ -105,7 +127,6 @@ Try asking something like:
       return;
     }
 
-    // 🧠 Regular AI logic
     const isFollowUp = /(also|now|add|too|as well)/i.test(currentMessage);
     if (isFollowUp && this.lastInterest) {
       this.lastInterest += `, ${currentMessage}`;
@@ -166,29 +187,65 @@ Try asking something like:
     });
   }
 
- addAiPathResponse(res: AiSuggestionResponse) {
-  if (res.fallback && (res.suggested_courses?.length ?? 0) > 0) {
-    this.messages.push({
-      from: 'ai',
-      text: res.message ?? 'Here are some suggested alternative courses.',
-      courses: res.suggested_courses
+  addAiPathResponse(res: AiSuggestionResponse) {
+    const msg: Message = res.fallback && (res.suggested_courses?.length ?? 0) > 0
+      ? {
+          from: 'ai',
+          text: res.message ?? 'Here are some suggested alternative courses.',
+          courses: res.suggested_courses
+        }
+      : {
+          from: 'ai',
+          path_name: res.path?.path_name,
+          steps: res.path?.steps || [],
+          courses: res.matching_courses || []
+        };
+
+    this.messages.push(msg);
+
+    this.authService.getUserId().subscribe(userId => {
+      this.aiService.saveChatHistory({
+        user_id: userId ?? '',
+        from: 'ai',
+        message: msg.text ?? '📈 Career Path',
+        path_name: msg.path_name,
+        steps: msg.steps,
+        courses: msg.courses
+      }).subscribe();
     });
-  } else {
-    this.messages.push({
-      from: 'ai',
-      path_name: res.path?.path_name,
-      steps: res.path?.steps || [],
-      courses: res.matching_courses || []
-    });
+
+    this.isLoading = false;
   }
-
-  this.isLoading = false;
-}
-
-
-
 
   allQuizAnswered(): boolean {
     return this.quizQuestions.every(q => this.quizAnswers[q]?.trim());
   }
+
+  loadOlderMessages() {
+  this.isLoadingMore = true;
+
+  this.authService.getUserId().pipe(
+    switchMap(userId =>
+      this.aiService.getChatHistory(userId ?? '', this.limit, this.offset)
+    )
+  ).subscribe({
+    next: (res) => {
+      const mappedMessages: Message[] = (res.messages || []).map((msg: any) => ({
+        from: msg.from === 'ai' || msg.from === 'user' ? msg.from : 'ai',
+        text: msg.text ?? msg.message,
+        path_name: msg.path_name,
+        steps: msg.steps,
+        courses: msg.courses
+      }));
+      this.messages = [...mappedMessages, ...this.messages]; // prepend
+      this.totalMessages = res.totalCount;
+      this.offset += this.limit;
+      this.isLoadingMore = false;
+    },
+    error: () => {
+      this.isLoadingMore = false;
+      console.error('❌ Failed to load chat history');
+    }
+  });
+}
 }

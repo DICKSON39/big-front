@@ -21,6 +21,16 @@
     <button type="submit" [disabled]="isLoading || !allQuizAnswered()">Submit Answers</button>
   </form>
 
+
+  <button
+  *ngIf="messages.length < totalMessages"
+  class="load-more-btn"
+  (click)="loadOlderMessages()"
+  [disabled]="isLoadingMore"
+>
+  🔁 Load Older Messages
+</button>
+
   <!-- 💬 Chat Messages -->
   <div *ngFor="let msg of messages" class="message" [ngClass]="msg.from">
     <strong>{{ msg.from === 'user' ? 'You' : 'AI' }}:</strong>

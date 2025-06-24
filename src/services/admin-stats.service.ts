@@ -41,4 +41,16 @@ export class AdminStatsService {
       }
     );
   }
+
+  
+  getTrendingFallbackTopics():Observable<any>{
+    return this.http.get(`${this.baseUrl}/ai/fallback-trends`,
+      {
+        headers: this.getAuthHeaders()
+      }
+    );
+
+  }
+
+  
 }

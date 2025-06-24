@@ -35,6 +35,7 @@ import { StudentAssignmentsComponent } from './student-assignments/student-assig
 import { SubmissionGradingComponent } from './submission-grading/submission-grading.component';
 import { AdminPaymentsComponent } from './admin-payments/admin-payments.component';
 import { AiCareerChatComponent } from './ai-career-chat/ai-career-chat.component';
+import { TrendingTopicsComponent } from './trending-topics/trending-topics.component';
 
 
 export const routes: Routes = [
@@ -290,6 +291,15 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       roles:[1,2,3]
+    }
+
+  },
+  {
+    path: 'trending-topics',
+    component: TrendingTopicsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles:[1,2]
     }
 
   }

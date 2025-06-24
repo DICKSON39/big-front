@@ -55,12 +55,20 @@ export class AiCareerChatComponent implements OnInit {
         this.userFullName = `${user.first_name} ${user.last_name}`;
         this.messages.push({
           from: 'ai',
-          text: `👋 Hello ${this.userFullName}! I'm your LMS Career Advisor AI.
-I can help you find learning paths, recommend courses, and answer questions about what's offered.
-Try asking something like:
-• "I want to learn mobile development"
-• "What courses do you have?"
-• "Suggest a career path for web design"`
+          text: `💥 *BURP* Hey, kid. I’m “Dickson AI” — LMS-powered, interdimensional intelligence with a TypeScript hangover and questionable design choices.
+
+I’m here to *simulate* being helpful, guide you through career wormholes, and maybe — just maybe — stop you from becoming a tech NPC.
+
+Try saying stuff like:
+• “What path should I follow, Rick—I mean, Dickson AI?”  
+• “Got any courses that won’t destroy my soul?”  
+• “How do I become less... useless?”
+
+🚀 Built with 3 lines of working code and 900 console.logs.  
+Made in Universe C-137. Updated nightly in my garage.
+
+Now come on Morty, let’s pick a career path before I self-destruct again. We don’t have time for a resume crisis AND another evil AI uprising. Let’s gooo!`
+
         });
       }
     });

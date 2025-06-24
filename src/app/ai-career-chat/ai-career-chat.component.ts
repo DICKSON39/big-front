@@ -166,15 +166,27 @@ Try asking something like:
     });
   }
 
-  addAiPathResponse(res: AiSuggestionResponse) {
+ addAiPathResponse(res: AiSuggestionResponse) {
+  if (res.fallback && (res.suggested_courses?.length ?? 0) > 0) {
+    this.messages.push({
+      from: 'ai',
+      text: res.message ?? 'Here are some suggested alternative courses.',
+      courses: res.suggested_courses
+    });
+  } else {
     this.messages.push({
       from: 'ai',
       path_name: res.path?.path_name,
       steps: res.path?.steps || [],
       courses: res.matching_courses || []
     });
-    this.isLoading = false;
   }
+
+  this.isLoading = false;
+}
+
+
+
 
   allQuizAnswered(): boolean {
     return this.quizQuestions.every(q => this.quizAnswers[q]?.trim());

@@ -1,55 +1,65 @@
-<h2>🧠 Career Advisor Chat</h2>
-<p class="greeting">Welcome back, {{ userFullName }}!</p>
+<div class="chatbox-container">
+  <h2>🧠 Career Advisor Chat</h2>
+  <p class="greeting">Welcome back, {{ userFullName }}!</p>
 
-<div class="chatbox">
+  <div class="chatbox">
+    <button *ngIf="messages.length < totalMessages" class="load-more-btn" (click)="loadOlderMessages()"
+      [disabled]="isLoadingMore">
+      🔁 Load Older Messages
+    </button>
 
+    <div *ngFor="let msg of messages" class="message" [ngClass]="msg.from">
+      <strong>{{ msg.from === 'user' ? 'You' : 'AI' }}:</strong>
 
-  <!-- 🧪 Skill Quiz UI -->
-  <form *ngIf="awaitingQuiz" (ngSubmit)="submitQuizAnswers()" class="quiz-form">
-    <h3>📊 Quick Skill Check</h3>
-    <p>Please answer the following to personalize your path:</p>
+      <p *ngIf="msg.text">{{ msg.text }}</p>
 
-    <div *ngFor="let q of quizQuestions" class="quiz-question">
-      <label>{{ q }}</label>
-      <select [(ngModel)]="quizAnswers[q]" [name]="q" required>
-        <option value="" disabled>Select</option>
-        <option value="yes">✅ Yes</option>
-        <option value="no">❌ No</option>
-      </select>
-    </div>
+      <ng-container *ngIf="msg.type === 'quiz'">
+        <form (ngSubmit)="submitQuizAnswers(msg)" class="quiz-form">
+          <h3>📊 Quick Skill Check</h3>
+          <p>Please answer the following to personalize your path:</p>
 
-    <button type="submit" [disabled]="isLoading || !allQuizAnswered()">Submit Answers</button>
-  </form>
+          <div *ngFor="let q of msg.quizQuestions" class="quiz-question">
+            <label>{{ q }}</label>
+            <select [(ngModel)]="msg.quizAnswers![q]" [name]="q" required [disabled]="msg.quizSubmitted ?? false">
+              <option value="" disabled>Select</option>
+              <option value="yes">✅ Yes</option>
+              <option value="no">❌ No</option>
+            </select>
+          </div>
 
+          <button type="submit"
+            [disabled]="isLoading || (msg.quizSubmitted ?? false) || !allQuizAnswered(msg.quizQuestions!, msg.quizAnswers!)">Submit Answers</button>
+        </form>
+      </ng-container>
 
-  <button
-  *ngIf="messages.length < totalMessages"
-  class="load-more-btn"
-  (click)="loadOlderMessages()"
-  [disabled]="isLoadingMore"
->
-  🔁 Load Older Messages
-</button>
+      <div *ngIf="msg.path_name || msg.courses?.length">
+        <p *ngIf="msg.path_name" class="path-title">📈 <strong>{{ msg.path_name }}</strong></p>
 
-  <!-- 💬 Chat Messages -->
-  <div *ngFor="let msg of messages" class="message" [ngClass]="msg.from">
-    <strong>{{ msg.from === 'user' ? 'You' : 'AI' }}:</strong>
+        <ol *ngIf="msg.path_name">
+          <li *ngFor="let step of msg.steps">
+            <p>{{ step }}</p>
 
-    <!-- Regular user or AI text -->
-    <p *ngIf="msg.text">{{ msg.text }}</p>
+            <div *ngFor="let course of msg.courses">
+              <div *ngIf="step.toLowerCase().includes(course.title.toLowerCase())" class="course-card">
+                <img *ngIf="course.image_url" [src]="course.image_url" [alt]="course.title" />
+                <div class="course-info">
+                  <h4>{{ course.title }}</h4>
+                  <p>{{ course.description }}</p>
+                  <p><strong>💰 Price:</strong> {{ course.price }}</p>
+                  <p class="duration">🕒 Duration: {{ course.duration }}</p>
+                  <p class="duration">🕒 Duration: {{ course.category }}</p>
+                  <button class="enroll-btn">🚀 Enroll</button>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ol>
 
-    <!-- 🤖 AI Career Path & Courses -->
-    <div *ngIf="msg.path_name || msg.courses?.length">
-      <!-- Path title and steps -->
-      <p *ngIf="msg.path_name" class="path-title">📈 <strong>{{ msg.path_name }}</strong></p>
+        <div *ngIf="!msg.path_name && (msg.courses?.length ?? 0) > 0">
 
-      <ol *ngIf="msg.path_name">
-        <li *ngFor="let step of msg.steps">
-          <p>{{ step }}</p>
-
-          <!-- Matched courses per step -->
-          <div *ngFor="let course of msg.courses">
-            <div *ngIf="step.toLowerCase().includes(course.title.toLowerCase())" class="course-card">
+          <h4>📚 Available Courses</h4>
+          <div class="course-list">
+            <div class="course-card" *ngFor="let course of msg.courses">
               <img *ngIf="course.image_url" [src]="course.image_url" [alt]="course.title" />
               <div class="course-info">
                 <h4>{{ course.title }}</h4>
@@ -61,41 +71,16 @@
               </div>
             </div>
           </div>
-        </li>
-      </ol>
-
-      <!-- 💥 Full course list if user asked for available courses -->
-      <div *ngIf="!msg.path_name && (msg.courses?.length ?? 0) > 0">
-
-        <h4>📚 Available Courses</h4>
-        <div class="course-list">
-          <div class="course-card" *ngFor="let course of msg.courses">
-            <img *ngIf="course.image_url" [src]="course.image_url" [alt]="course.title" />
-            <div class="course-info">
-              <h4>{{ course.title }}</h4>
-              <p>{{ course.description }}</p>
-              <p><strong>💰 Price:</strong> {{ course.price }}</p>
-              <p class="duration">🕒 Duration: {{ course.duration }}</p>
-              <p class="duration">🕒 Duration: {{ course.category }}</p>
-              <button class="enroll-btn">🚀 Enroll</button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <form (ngSubmit)="sendMessage()" class="chat-input">
+    <input [(ngModel)]="userMessage" name="message" placeholder="Ask for a course path... e.g. 'I want to learn mobile dev'"
+      autocomplete="off" />
+    <button type="submit" [disabled]="isLoading || !userMessage.trim()">Send</button>
+  </form>
+
+  <div *ngIf="isLoading" class="loading-indicator">⏳ Thinking...</div>
 </div>
-
-<!-- 💬 Message Input -->
-<form (ngSubmit)="sendMessage()" class="chat-input" *ngIf="!awaitingQuiz">
-  <input
-    [(ngModel)]="userMessage"
-    name="message"
-    placeholder="Ask for a course path... e.g. 'I want to learn mobile dev'"
-    autocomplete="off"
-  />
-  <button type="submit" [disabled]="isLoading || !userMessage.trim()">Send</button>
-</form>
-
-<!-- 🔄 Loading -->
-<div *ngIf="isLoading" class="loading-indicator">⏳ Thinking...</div>

@@ -12,6 +12,11 @@ interface Message {
   path_name?: string;
   steps?: string[];
   courses?: Course[];
+  // New properties for quiz messages
+  type?: 'text' | 'path' | 'quiz'; // Added 'quiz' type
+  quizQuestions?: string[]; // Questions for the quiz
+  quizAnswers?: Record<string, string>; // Answers for the quiz
+  quizSubmitted?: boolean; // To disable/hide the quiz form after submission
 }
 
 @Component({
@@ -33,10 +38,10 @@ export class AiCareerChatComponent implements OnInit {
   totalMessages = 0;
   isLoadingMore = false;
 
-  // Quiz state
-  awaitingQuiz = false;
-  quizQuestions: string[] = [];
-  quizAnswers: Record<string, string> = {};
+  // Quiz state - these can mostly be removed or refactored
+  // awaitingQuiz = false; // This flag will no longer directly control the quiz form display
+  // quizQuestions: string[] = []; // These will be part of the quiz message object
+  // quizAnswers: Record<string, string> = {}; // These will be part of the quiz message object
   lastInterest = '';
 
   constructor(
@@ -50,11 +55,11 @@ export class AiCareerChatComponent implements OnInit {
         this.userFullName = `${user.first_name} ${user.last_name}`;
         this.messages.push({
           from: 'ai',
-          text: `👋 Hello ${this.userFullName}! I'm your LMS Career Advisor AI.  
-I can help you find learning paths, recommend courses, and answer questions about what's offered.  
-Try asking something like:  
-• "I want to learn mobile development"  
-• "What courses do you have?"  
+          text: `👋 Hello ${this.userFullName}! I'm your LMS Career Advisor AI.
+I can help you find learning paths, recommend courses, and answer questions about what's offered.
+Try asking something like:
+• "I want to learn mobile development"
+• "What courses do you have?"
 • "Suggest a career path for web design"`
         });
       }
@@ -137,24 +142,31 @@ Try asking something like:
       this.lastInterest = currentMessage;
     }
 
-    this.awaitingQuiz = false;
-    this.quizQuestions = [];
-    this.quizAnswers = {};
+    // Remove these flags, as they are now handled by the message object
+    // this.awaitingQuiz = false;
+    // this.quizQuestions = [];
+    // this.quizAnswers = {};
 
     this.authService.getUserId().pipe(
       switchMap(userId =>
         this.aiService.suggestCareerPath({
           user_id: userId ?? '',
           interests: [this.lastInterest],
-          answers: {}
+          answers: {} // Initial call, no answers yet
         })
       )
     ).subscribe({
       next: (res: AiSuggestionResponse) => {
         if (res.ask_quiz) {
-          this.awaitingQuiz = true;
-          this.quizQuestions = res.questions || [];
-          this.quizAnswers = {};
+          // If a quiz is needed, add a specific quiz message
+          this.messages.push({
+            from: 'ai',
+            type: 'quiz',
+            quizQuestions: res.questions || [],
+            quizAnswers: {}, // Initialize empty answers for this new quiz message
+            quizSubmitted: false // Mark as not yet submitted
+          });
+          // No need to set awaitingQuiz or quizQuestions/Answers directly on component anymore
         } else {
           this.addAiPathResponse(res);
         }
@@ -167,25 +179,57 @@ Try asking something like:
     });
   }
 
-  submitQuizAnswers() {
+  // Modified to take the specific quiz message as an argument
+  submitQuizAnswers(quizMessage: Message) {
+    if (!quizMessage.quizAnswers || !this.allQuizAnswered(quizMessage.quizQuestions!, quizMessage.quizAnswers)) {
+      // You might want to show an in-chat message instead of an alert
+      alert('Please answer all quiz questions before submitting.');
+      return;
+    }
+
     this.isLoading = true;
+
+    // Mark the current quiz message as submitted to disable its form
+    quizMessage.quizSubmitted = true;
+
     this.authService.getUserId().pipe(
       switchMap(userId =>
         this.aiService.suggestCareerPath({
           user_id: userId ?? '',
           interests: [this.lastInterest],
-          answers: this.quizAnswers
+          answers: quizMessage.quizAnswers! // Use answers from the specific quiz message
         })
       )
     ).subscribe({
       next: (res: AiSuggestionResponse) => {
-        this.awaitingQuiz = false;
-        this.quizQuestions = [];
+        // You might want to replace the quiz message with a text summary of answers
+        const quizSummaryText = `Skill check completed! You answered:\n${
+          Object.entries(quizMessage.quizAnswers!)
+            .map(([q, a]) => `- ${q}: ${a === 'yes' ? 'Yes' : 'No'}`)
+            .join('\n')
+        }\n\nBased on this, I'll provide tailored recommendations.`;
+
+        // Find the index of the submitted quiz message and update its text
+        const quizIndex = this.messages.indexOf(quizMessage);
+        if (quizIndex !== -1) {
+          this.messages[quizIndex] = {
+            ...quizMessage, // Keep existing properties
+            type: 'text', // Change type to text
+            text: quizSummaryText, // Add the summary text
+            quizQuestions: undefined, // Clear quiz specific data
+            quizAnswers: undefined,
+            quizSubmitted: undefined
+          };
+        }
+
         this.addAiPathResponse(res);
+        this.isLoading = false;
       },
       error: () => {
         this.messages.push({ from: 'ai', text: '⚠️ Something went wrong.' });
         this.isLoading = false;
+        // Revert quizSubmitted if there's an error, or handle as appropriate
+        quizMessage.quizSubmitted = false;
       }
     });
   }
@@ -220,8 +264,10 @@ Try asking something like:
     this.isLoading = false;
   }
 
-  allQuizAnswered(): boolean {
-    return this.quizQuestions.every(q => this.quizAnswers[q]?.trim());
+  // Modified to take questions and answers of the specific quiz message
+  allQuizAnswered(questions: string[], answers: Record<string, string>): boolean {
+    if (!questions || !answers) return false;
+    return questions.every(q => answers[q]?.trim());
   }
 
   loadOlderMessages() {
@@ -234,14 +280,20 @@ Try asking something like:
     ).subscribe({
       next: (res) => {
         const mappedMessages: Message[] = (res.messages || []).map((msg: any) => ({
-          from: msg.from_role, // ✅ this is the fix for showing user + ai messages
+          from: msg.from_role,
           text: msg.text ?? msg.message,
           path_name: msg.path_name,
           steps: msg.steps,
-          courses: msg.courses
+          courses: msg.courses,
+          // When loading history, quizzes would typically be loaded as text
+          // If you want to persist the quiz state across sessions, you'd need more complex logic
+          type: msg.type || (msg.path_name ? 'path' : 'text'), // Default type if not explicitly saved
+          quizQuestions: msg.quizQuestions, // Only if you save quiz questions in history
+          quizAnswers: msg.quizAnswers, // Only if you save quiz answers in history
+          quizSubmitted: msg.quizSubmitted // Only if you save quiz submitted state in history
         }));
 
-        this.messages = [...mappedMessages, ...this.messages]; // prepend older msgs
+        this.messages = [...mappedMessages, ...this.messages];
         this.totalMessages = res.totalCount;
         this.offset += this.limit;
         this.isLoadingMore = false;

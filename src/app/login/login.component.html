@@ -35,3 +35,10 @@
 
   <p class="register-link"><a  routerLink="/">Back to Landing</a></p>
 </div>
+
+<app-modal
+  [visible]="showModal"
+  [message]="modalMessage"
+  (confirm)="onModalConfirm()"
+  (cancel)="onModalCancel()"
+></app-modal>

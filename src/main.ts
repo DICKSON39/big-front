@@ -1,6 +1,9 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
+import './assets/spinners/ball-scale-multiple.css';
+import './assets/spinners/ball-beat.css';
+
 
 bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));

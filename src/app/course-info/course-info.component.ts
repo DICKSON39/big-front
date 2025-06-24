@@ -6,6 +6,7 @@ import { loadStripe, Stripe, StripeElements, StripeCardElement } from '@stripe/s
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EnrollmentService } from '../../services/enrollment.service';
+import { ModalComponent } from '../modal/modal.component';
 
 export interface Course {
   id: number;
@@ -37,7 +38,7 @@ export interface Course {
 @Component({
   selector: 'app-course-info',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,ModalComponent],
   templateUrl: './course-info.component.html',
   styleUrls: ['./course-info.component.css'],
 })
@@ -46,6 +47,11 @@ export class CourseInfoComponent implements OnInit {
   course!: Course;
   isLoading = true;
   errorMessage = '';
+
+
+  modalMessage = '';
+showModal = false;
+showConfirmButtons = true;
 
   // Payment states
   paymentInProgress = false;
@@ -103,15 +109,11 @@ export class CourseInfoComponent implements OnInit {
     });
   }
 
-  openPaymentModal(): void {
-    this.showPaymentModal = true;
-    this.selectedPaymentMethod = 'stripe';
-
-    // Wait a tick to ensure modal is in DOM
-    setTimeout(() => {
-      this.mountStripeCardElement();
-    }, 0);
-  }
+ openPaymentModal(): void {
+  this.modalMessage = `Pay KES ${this.course.price} for ${this.course.title}?`;
+  this.showConfirmButtons = true;
+  this.showModal = true;
+}
 
   closePaymentModal(): void {
     this.showPaymentModal = false;
@@ -192,9 +194,13 @@ export class CourseInfoComponent implements OnInit {
         this.closePaymentModal();
       },
       error: (err) => {
-        console.error('M-Pesa Error:', err);
-        this.paymentInProgress = false;
-      },
+  console.error('M-Pesa Error:', err);
+  this.paymentInProgress = false;
+  this.modalMessage = 'M-Pesa payment failed. Please try again.';
+  this.showConfirmButtons = false;
+  this.showModal = true;
+}
+,
     });
   }
 
@@ -210,4 +216,30 @@ export class CourseInfoComponent implements OnInit {
     }
   });
 }
+
+openStripeForm(): void {
+  this.showPaymentModal = true;
+
+  setTimeout(() => {
+    this.mountStripeCardElement();
+  }, 0);
+}
+
+
+
+onModalConfirm(): void {
+  this.showModal = false;
+
+  if (this.selectedPaymentMethod === 'stripe') {
+    this.openStripeForm(); // open and mount card element
+  } else if (this.selectedPaymentMethod === 'mpesa') {
+    this.handleMpesaPayment();
+  }
+}
+
+onModalCancel(): void {
+  this.showModal = false;
+}
+
+
 }

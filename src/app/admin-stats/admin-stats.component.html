@@ -5,29 +5,29 @@
   <div *ngIf="error">{{ error }}</div>
 
   <div *ngIf="stats" class="stats-grid">
-    <div class="stat-card">👥 Total Users: <strong>{{ stats.total_users }}</strong></div>
-    <div class="stat-card">🎓 Students: <strong>{{ stats.total_students }}</strong></div>
-    <div class="stat-card">🧑‍🏫 Teachers: <strong>{{ stats.total_teachers }}</strong></div>
-    <div class="stat-card">📚 Courses: <strong>{{ stats.total_courses }}</strong></div>
-    <div class="stat-card">📥 Enrollments: <strong>{{ stats.total_enrollments }}</strong></div>
-    <div class="stat-card">📨 Submissions: <strong>{{ stats.total_submissions }}</strong></div>
-    <div class="stat-card">✅ Completed Classes: <strong>{{ stats.total_completed_classes }}</strong></div>
-    <div class="stat-card">💰 Total Revenue: <strong>KES {{ stats.total_revenue | number:'1.0-0' }}</strong></div>
+    <div class="stat-card">👥 Total Users: <strong>{{ stats?.total_users }}</strong></div>
+    <div class="stat-card">🎓 Students: <strong>{{ stats?.total_students }}</strong></div>
+    <div class="stat-card">🧑‍🏫 Teachers: <strong>{{ stats?.total_teachers }}</strong></div>
+    <div class="stat-card">📚 Courses: <strong>{{ stats?.total_courses }}</strong></div>
+    <div class="stat-card">📥 Enrollments: <strong>{{ stats?.total_enrollments }}</strong></div>
+    <div class="stat-card">📨 Submissions: <strong>{{ stats?.total_submissions }}</strong></div>
+    <div class="stat-card">✅ Completed Classes: <strong>{{ stats?.total_completed_classes }}</strong></div>
+    <div class="stat-card">💰 Total Revenue: <strong>KES {{ stats?.total_revenue | number:'1.0-0' }}</strong></div>
   </div>
 
-  <div *ngIf="stats.revenue_by_method" class="revenue-methods">
+  <div *ngIf="stats?.revenue_by_method" class="revenue-methods">
     <h3>💳 Revenue by Payment Method</h3>
     <ul>
-      <li *ngFor="let method of revenueMethodKeys(stats.revenue_by_method)">
-        {{ method.toUpperCase() }}: KES {{ stats.revenue_by_method[method] | number:'1.0-0' }}
+      <li *ngFor="let method of revenueMethodKeys(stats?.revenue_by_method)">
+        {{ method.toUpperCase() }}: KES {{ stats?.revenue_by_method[method] | number:'1.0-0' }}
       </li>
     </ul>
   </div>
 
-  <div *ngIf="stats.revenue_by_course?.length" class="revenue-courses">
+  <div *ngIf="stats?.revenue_by_course?.length" class="revenue-courses">
     <h3>📘 Revenue by Course</h3>
     <ul>
-      <li *ngFor="let course of stats.revenue_by_course">
+      <li *ngFor="let course of stats?.revenue_by_course">
         {{ course.course_title }}: KES {{ course.total_earned | number:'1.0-0' }}
       </li>
     </ul>

@@ -5,10 +5,11 @@ import {CommonModule} from '@angular/common';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http'; // Import HttpErrorResponse for better error typing
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule,CommonModule,ModalComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -16,6 +17,12 @@ export class RegisterComponent implements OnInit { // Add OnInit if you use ngOn
   registerForm!: FormGroup;
   errorMessage: string | null = null;
   successMessage: string | null = null;
+  showModal = false;
+modalMessage = 'Are you sure you want to register?';
+pendingFormData: any = null;
+showConfirmButtons = true;
+
+
 
 
   constructor(private fb: FormBuilder,private router:Router,private authService:AuthService) { // Use consistent casing for AuthService instance
@@ -39,31 +46,45 @@ export class RegisterComponent implements OnInit { // Add OnInit if you use ngOn
   }
 
   onSubmit() {
-    this.errorMessage = null; // Clear previous errors
-    this.successMessage = null; // Clear previous success messages
+  this.errorMessage = null;
+  this.successMessage = null;
 
-    if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe({ // Use 'authService' for consistency
-        next: (response) => {
-          this.successMessage = response.message;
-          console.log('Registration successful:', response);
-
-          // *** DIAGNOSTIC LOG HERE ***
-          const userIdAfterRegister = localStorage.getItem('userId');
-          console.log('RegisterComponent - userId in localStorage after registration:', userIdAfterRegister);
-          // You should see a valid user ID string here if AuthService is working correctly.
-
-          this.router.navigate(['/otp-verification']);
-        },
-        error: (error: HttpErrorResponse) => { // Type error for better error handling
-          this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
-          console.error('Registration error:', error);
-        }
-      });
-    } else {
-      this.errorMessage = 'Please fill in all required fields correctly.';
-      // Mark all controls as touched to display validation errors
-      this.registerForm.markAllAsTouched();
-    }
+  if (this.registerForm.valid) {
+    this.pendingFormData = this.registerForm.value;
+    this.modalMessage = 'Are you sure you want to register with these details?';
+    this.showConfirmButtons = true; // show yes/cancel
+    this.showModal = true;
+  } else {
+    this.errorMessage = 'Please fill in all required fields correctly.';
+    this.registerForm.markAllAsTouched();
   }
+}
+
+
+onModalConfirm(): void {
+  this.showModal = false;
+
+  if (!this.pendingFormData) return;
+
+  this.authService.register(this.pendingFormData).subscribe({
+    next: (response) => {
+      this.successMessage = response.message;
+      this.router.navigate(['/otp-verification']);
+    },
+    error: (error: HttpErrorResponse) => {
+      this.modalMessage = error.error?.message || 'Registration failed. Please try again.';
+      this.showConfirmButtons = false; // only show close btn
+      this.showModal = true; // show error modal
+    }
+  });
+
+  this.pendingFormData = null;
+}
+
+
+onModalCancel(): void {
+  this.showModal = false;
+  this.pendingFormData = null;
+}
+
 }

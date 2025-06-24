@@ -10,6 +10,7 @@ import {CommonModule} from '@angular/common';
 export class ModalComponent {
   @Input() message = 'Are you sure?';
   @Input() visible = false;
+  @Input() showButtons = true;
   @Output() confirm = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();
 

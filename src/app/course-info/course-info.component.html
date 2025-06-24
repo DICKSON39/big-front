@@ -40,16 +40,9 @@
     <span class="close" (click)="showPaymentModal = false">&times;</span>
     <h2>Select Payment Method</h2>
 
-    <!-- Stripe -->
-    <!-- <div class="payment-option">
-      <h3>Pay with Card (Stripe)</h3>
-      <button (click)="handleStripePayment()" [disabled]="paymentInProgress">
-        {{ paymentInProgress ? 'Processing...' : 'Pay with Stripe' }}
-      </button>
-      <div *ngIf="stripeSuccess" class="success-message">✅ Stripe payment successful!</div>
-    </div> -->
+   
 
-    <hr />
+    
 
     <!-- M-Pesa -->
     <div class="payment-option">
@@ -74,3 +67,11 @@
   <div *ngIf="isLoading">Loading course details...</div>
   <div *ngIf="errorMessage">{{ errorMessage }}</div>
 </ng-template>
+
+<app-modal
+  [visible]="showModal"
+  [message]="modalMessage"
+  [showButtons]="showConfirmButtons"
+  (confirm)="onModalConfirm()"
+  (cancel)="onModalCancel()"
+></app-modal>

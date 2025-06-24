@@ -26,11 +26,14 @@ export class AiCareerChatComponent implements OnInit {
   userMessage = '';
   isLoading = false;
   userFullName = 'Learner';
-  limit = 10;
-offset = 0;
-totalMessages = 0;
-isLoadingMore = false;
 
+  // Lazy loading
+  limit = 10;
+  offset = 0;
+  totalMessages = 0;
+  isLoadingMore = false;
+
+  // Quiz state
   awaitingQuiz = false;
   quizQuestions: string[] = [];
   quizAnswers: Record<string, string> = {};
@@ -222,30 +225,31 @@ Try asking something like:
   }
 
   loadOlderMessages() {
-  this.isLoadingMore = true;
+    this.isLoadingMore = true;
 
-  this.authService.getUserId().pipe(
-    switchMap(userId =>
-      this.aiService.getChatHistory(userId ?? '', this.limit, this.offset)
-    )
-  ).subscribe({
-    next: (res) => {
-      const mappedMessages: Message[] = (res.messages || []).map((msg: any) => ({
-        from: msg.from === 'ai' || msg.from === 'user' ? msg.from : 'ai',
-        text: msg.text ?? msg.message,
-        path_name: msg.path_name,
-        steps: msg.steps,
-        courses: msg.courses
-      }));
-      this.messages = [...mappedMessages, ...this.messages]; // prepend
-      this.totalMessages = res.totalCount;
-      this.offset += this.limit;
-      this.isLoadingMore = false;
-    },
-    error: () => {
-      this.isLoadingMore = false;
-      console.error('❌ Failed to load chat history');
-    }
-  });
-}
+    this.authService.getUserId().pipe(
+      switchMap(userId =>
+        this.aiService.getChatHistory(userId ?? '', this.limit, this.offset)
+      )
+    ).subscribe({
+      next: (res) => {
+        const mappedMessages: Message[] = (res.messages || []).map((msg: any) => ({
+          from: msg.from_role, // ✅ this is the fix for showing user + ai messages
+          text: msg.text ?? msg.message,
+          path_name: msg.path_name,
+          steps: msg.steps,
+          courses: msg.courses
+        }));
+
+        this.messages = [...mappedMessages, ...this.messages]; // prepend older msgs
+        this.totalMessages = res.totalCount;
+        this.offset += this.limit;
+        this.isLoadingMore = false;
+      },
+      error: () => {
+        this.isLoadingMore = false;
+        console.error('❌ Failed to load chat history');
+      }
+    });
+  }
 }

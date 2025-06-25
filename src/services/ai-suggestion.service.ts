@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { AiSuggestionResponse, Course } from '../app/models/ai-suggestion.model';
 
 interface CareerSuggestionResponse {
@@ -71,6 +71,15 @@ saveChatHistory(payload: {
     }
   );
 }
+
+getDropdownCourses(): Observable<any[]> {
+    return this.http.get<any>(
+      `https://school-online-backend.onrender.com/api/v1/courses/teacher/get`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      map(res => res.data) // 👈 Return just the array
+    );
+  }
 
 
 

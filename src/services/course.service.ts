@@ -49,6 +49,8 @@ export interface StudentProgress {
   email: string;
   grade?: number | null;
   average_grade?: number | null;
+  assignments_completed?: number;
+  certificates_earned?: number;
   progress: number; // The percentage progress for that course
   // You might add more details here if your backend sends them, e.g.,
   // total_classes_completed: number;
@@ -142,6 +144,7 @@ export class CourseService {
   }
 
   getAllCoursesForDropdown(): Observable<any> {
+    console.log('Calling GET /courses/teacher/get');
   return this.http.get(`https://school-online-backend.onrender.com/api/v1/courses/teacher/get`, {
     headers: this.getAuthHeaders()
   });
@@ -150,6 +153,8 @@ export class CourseService {
   
 
 }
+
+
 
 getEnrolledCourses() {
   return this.http.get<any>('https://school-online-backend.onrender.com/api/v1/enrollments/enrolled', {

@@ -37,6 +37,10 @@ export class AiCareerChatComponent implements OnInit {
   userFullName = 'Learner';
 
   userRole: number | null = null;
+
+  awaitingProgressCourseSelection = false;
+teacherCoursesForProgress: any[] = [];
+
   // Lazy loading
   limit = 10;
   offset = 0;
@@ -91,9 +95,62 @@ sendMessage() {
   this.userMessage = '';
   this.isLoading = true;
 
+  // 🧠 Handle course selection for student progress
+  if (this.awaitingProgressCourseSelection && this.teacherCoursesForProgress.length > 0) {
+    const selectedIndex = parseInt(currentMessage);
+    if (!isNaN(selectedIndex) && selectedIndex > 0 && selectedIndex <= this.teacherCoursesForProgress.length) {
+      const selectedCourse = this.teacherCoursesForProgress[selectedIndex - 1];
+      const userId = this.authService.getUserId();
+
+      this.awaitingProgressCourseSelection = false;
+
+      this.courseService.getStudentsInCourseWithProgress(selectedCourse.id).subscribe({
+        next: (students: any[]) => {
+          if (!students.length) {
+            this.messages.push({
+              from: 'ai',
+              text: `📘 No students have enrolled in your course *${selectedCourse.title}* yet.`
+            });
+            this.isLoading = false;
+            return;
+          }
+
+          const formattedProgress = students.map((s: any, i: number) =>
+            `${i + 1}. ${s.student_name}: ${s.progress_percent}%`
+          ).join('\n');
+
+          const reportMsg = `📈 *Student Progress in ${selectedCourse.title}*:\n\n${formattedProgress}`;
+
+          this.messages.push({ from: 'ai', text: reportMsg });
+
+          this.authService.getUserId().subscribe(userId => {
+            this.aiService.saveChatHistory({
+              user_id: userId ?? '',
+              from: 'ai',
+              message: reportMsg
+            }).subscribe();
+          });
+
+          this.isLoading = false;
+        },
+        error: (err) => {
+          this.messages.push({ from: 'ai', text: '❌ Failed to fetch progress. The server’s doing the moonwalk again.' });
+          this.isLoading = false;
+        }
+      });
+
+      return;
+    } else {
+      this.messages.push({ from: 'ai', text: '❓Please enter a valid course number from the list.' });
+      this.isLoading = false;
+      return;
+    }
+  }
+
   this.authService.getUser().pipe(
     switchMap(user => {
       const userId = user?.id ?? '';
+      // console.log('🧠 USER INSIDE CHAT:', user);
       const roleId = user?.role_id ?? 3;
       this.userFullName = `${user?.first_name} ${user?.last_name}`;
 
@@ -103,7 +160,7 @@ sendMessage() {
         message: currentMessage
       }).subscribe();
 
-      // 🔁 Custom greeting logic
+      // 👋 Greeting
       const greetingRegex = /\b(hi|hello|hey|yo|sup|greetings|what can you do)\b/i;
       if (greetingRegex.test(currentMessage)) {
         let roleGreeting = `👋 Hello ${this.userFullName}, what can I do for you today?`;
@@ -114,11 +171,7 @@ sendMessage() {
           roleGreeting = `📚 Hey Teacher ${this.userFullName}, designing curriculum today or just vibing with Dickson AI?`;
         }
 
-        const aiMsg: Message = {
-          from: 'ai',
-          text: roleGreeting
-        };
-
+        const aiMsg: Message = { from: 'ai', text: roleGreeting };
         this.messages.push(aiMsg);
         this.isLoading = false;
 
@@ -128,44 +181,74 @@ sendMessage() {
           message: aiMsg.text!
         }).subscribe();
 
-        return of(null); // Stop the flow, don’t go to suggestCareerPath
+        return of(null);
       }
 
+      // 📊 Role-based stats
       const statsRegex = /\b(my stats|dashboard|admin stats|teacher stats|show my insights?)\b/i;
-if (statsRegex.test(currentMessage)) {
-  this.getRoleBasedStats(); // 🧠 Let Dickson flex
-  return of(null); // Stop further flow
-}
+      if (statsRegex.test(currentMessage)) {
+        this.getRoleBasedStats();
+        return of(null);
+      }
 
+      // 📈 Student progress
+      const studentProgressRegex = /\b(progress|how are my students|student report|course progress)\b/i;
+      if (studentProgressRegex.test(currentMessage) && roleId === 2) {
+        return this.aiService.getDropdownCourses().pipe(
 
-const teacherCourseRegex = /\b(my courses|my classes|what (did|have) i create(d)?|show my courses|my lessons|i created)\b/i;
-if (teacherCourseRegex.test(currentMessage) && roleId === 2) {
-  return this.courseService.getAllCoursesForDropdown().pipe(
-    switchMap((res: any) => {
-      const teacherMsg: Message = {
-        from: 'ai',
-        text: '🧑‍🏫 Here are the courses you’ve created:',
-        courses: res || []
-      };
-      this.messages.push(teacherMsg);
+          switchMap((courses: any[]) => {
+            
+            if (!courses.length) {
+              this.messages.push({ from: 'ai', text: `😬 You don't seem to have any courses yet.` });
+              this.isLoading = false;
+              return of(null);
+            }
 
-      this.aiService.saveChatHistory({
-        user_id: userId,
-        from: 'ai',
-        message: teacherMsg.text ?? 'Teacher Course List',
-        courses: teacherMsg.courses
-      }).subscribe();
+            this.teacherCoursesForProgress = courses;
+            
+            this.awaitingProgressCourseSelection = true;
 
-      this.isLoading = false;
-      return of(null); // Stop further flow
-    })
-  );
-}
+            const courseList = courses.map((c, i) => `${i + 1}. ${c.title}`).join('\n');
+            const msg = `📘 You’ve created the following courses:\n\n${courseList}\n\nReply with the number (e.g. *1*) to see student progress.`;
 
+            this.messages.push({ from: 'ai', text: msg });
 
+            return this.aiService.saveChatHistory({
+              user_id: userId,
+              from: 'ai',
+              message: msg
+            });
+          })
+        );
+      }
 
-      
+      // 📚 Teacher course list
+      const teacherCourseRegex = /\b(my courses|my classes|what (did|have) i create(d)?|show my courses|my lessons|i created)\b/i;
+      if (teacherCourseRegex.test(currentMessage) && roleId === 2) {
+        
+        return this.aiService.getDropdownCourses().pipe(
+          switchMap((res: any) => {
+            const teacherMsg: Message = {
+              from: 'ai',
+              text: '🧑‍🏫 Here are the courses you’ve created:',
+              courses: res || []
+            };
+            this.messages.push(teacherMsg);
 
+            this.aiService.saveChatHistory({
+              user_id: userId,
+              from: 'ai',
+              message: teacherMsg.text ?? 'Teacher Course List',
+              courses: teacherMsg.courses
+            }).subscribe();
+
+            this.isLoading = false;
+            return of(null);
+          })
+        );
+      }
+
+      // 📚 Available course list
       const courseListRegex = /(what|which)?\s*(courses|classes).*available|do you have|offer/i;
       if (courseListRegex.test(currentMessage)) {
         return this.aiService.getAllCourses(userId);
@@ -188,7 +271,6 @@ if (teacherCourseRegex.test(currentMessage) && roleId === 2) {
     next: (res: AiSuggestionResponse | any) => {
       if (!res) return;
 
-      // 📚 Show available courses
       if (Array.isArray(res?.courses)) {
         const msg: Message = {
           from: 'ai',
@@ -200,7 +282,6 @@ if (teacherCourseRegex.test(currentMessage) && roleId === 2) {
         return;
       }
 
-      // 🧠 Suggest career path or show quiz
       if (res.ask_quiz) {
         this.messages.push({
           from: 'ai',
@@ -221,6 +302,7 @@ if (teacherCourseRegex.test(currentMessage) && roleId === 2) {
     }
   });
 }
+
 
 
   // Modified to take the specific quiz message as an argument
@@ -349,7 +431,7 @@ if (teacherCourseRegex.test(currentMessage) && roleId === 2) {
     });
   }
 
-  getRoleBasedStats(): void {
+ getRoleBasedStats(): void {
   this.isLoading = true;
 
   let statsCall$: Observable<any>;
@@ -376,7 +458,8 @@ if (teacherCourseRegex.test(currentMessage) && roleId === 2) {
 
   statsCall$.subscribe({
     next: (res) => {
-      const formatted = formatter(res.data);
+      const data = res?.data ?? {}; // fallback to empty object
+      const formatted = formatter(data);
       this.messages.push({ from: 'ai', text: `${roleText}\n\n${formatted}` });
       this.isLoading = false;
     },
@@ -386,6 +469,7 @@ if (teacherCourseRegex.test(currentMessage) && roleId === 2) {
     }
   });
 }
+
 
 
 formatAdminStats = (data: any) => `
@@ -419,14 +503,17 @@ ${
 }
 `.trim();
 
-formatTeacherStats = (data: any) => `
+formatTeacherStats = (data: any) => {
+  return `
 📘 *Teacher Dashboard Insights*
 
-📚 Total Courses Created: ${data.total_courses}  
-👨‍🎓 Enrolled Students: ${data.total_enrolled_students}  
-📝 Assignments Given: ${data.total_assignments_given}  
-🎓 Certificates Uploaded: ${data.total_certificates_uploaded}
+📚 Total Courses Created: ${data?.total_courses ?? 0}  
+👨‍🎓 Enrolled Students: ${data?.total_enrolled_students ?? 0}  
+📝 Assignments Given: ${data?.total_assignments_given ?? 0}  
+🎓 Certificates Uploaded: ${data?.total_certificates_uploaded ?? 0}
 `.trim();
+};
+
 
 formatStudentStats = (data: any) => `
 🎓 *Student Progress Report*

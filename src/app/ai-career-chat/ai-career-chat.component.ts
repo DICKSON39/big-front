@@ -5,6 +5,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
 import { AiSuggestionResponse, Course } from '../models/ai-suggestion.model';
+import { Observable, of } from 'rxjs';
+import { AdminStatsService } from '../../services/admin-stats.service';
+import { CourseService } from '../../services/course.service';
+
 
 interface Message {
   from: 'user' | 'ai';
@@ -32,6 +36,7 @@ export class AiCareerChatComponent implements OnInit {
   isLoading = false;
   userFullName = 'Learner';
 
+  userRole: number | null = null;
   // Lazy loading
   limit = 10;
   offset = 0;
@@ -46,13 +51,16 @@ export class AiCareerChatComponent implements OnInit {
 
   constructor(
     private aiService: AiSuggestionService,
-    private authService: AuthService
+    private authService: AuthService,
+    private adminStatsService: AdminStatsService,
+    private courseService: CourseService
   ) {}
 
   ngOnInit(): void {
     this.authService.getUser().subscribe((user) => {
       if (user) {
         this.userFullName = `${user.first_name} ${user.last_name}`;
+        this.userRole = user.role_id;
         this.messages.push({
           from: 'ai',
           text: `💥 *BURP* Hey, kid. I’m “Dickson AI” — LMS-powered, interdimensional intelligence with a TypeScript hangover and questionable design choices.
@@ -74,118 +82,146 @@ Now come on Morty, let’s pick a career path before I self-destruct again. We d
     });
     this.loadOlderMessages();
   }
+sendMessage() {
+  if (!this.userMessage.trim()) return;
 
-  sendMessage() {
-    if (!this.userMessage.trim()) return;
+  const currentMessage = this.userMessage.trim().toLowerCase();
+  const userMsg: Message = { from: 'user', text: currentMessage };
+  this.messages.push(userMsg);
+  this.userMessage = '';
+  this.isLoading = true;
 
-    const currentMessage = this.userMessage.trim().toLowerCase();
-    const userMsg: Message = { from: 'user', text: currentMessage };
-    this.messages.push(userMsg);
-    this.userMessage = '';
-    this.isLoading = true;
+  this.authService.getUser().pipe(
+    switchMap(user => {
+      const userId = user?.id ?? '';
+      const roleId = user?.role_id ?? 3;
+      this.userFullName = `${user?.first_name} ${user?.last_name}`;
 
-    this.authService.getUserId().subscribe(userId => {
       this.aiService.saveChatHistory({
-        user_id: userId ?? '',
+        user_id: userId,
         from: 'user',
         message: currentMessage
       }).subscribe();
-    });
 
-    const greetingRegex = /\b(hi|hello|hey|yo|sup|greetings|what can you do)\b/i;
-    if (greetingRegex.test(currentMessage)) {
-      const aiMsg: Message = {
-        from: 'ai',
-        text: `👋 Hello ${this.userFullName} What Can I do for you?`
-      };
-      this.messages.push(aiMsg);
-      this.isLoading = false;
+      // 🔁 Custom greeting logic
+      const greetingRegex = /\b(hi|hello|hey|yo|sup|greetings|what can you do)\b/i;
+      if (greetingRegex.test(currentMessage)) {
+        let roleGreeting = `👋 Hello ${this.userFullName}, what can I do for you today?`;
 
-      this.authService.getUserId().subscribe(userId => {
+        if (roleId === 1) {
+          roleGreeting = `🧠 Welcome back Admin ${this.userFullName}. Ready to strategize some career moves for your learners?`;
+        } else if (roleId === 2) {
+          roleGreeting = `📚 Hey Teacher ${this.userFullName}, designing curriculum today or just vibing with Dickson AI?`;
+        }
+
+        const aiMsg: Message = {
+          from: 'ai',
+          text: roleGreeting
+        };
+
+        this.messages.push(aiMsg);
+        this.isLoading = false;
+
         this.aiService.saveChatHistory({
-          user_id: userId ?? '',
+          user_id: userId,
           from: 'ai',
           message: aiMsg.text!
         }).subscribe();
-      });
 
-      return;
-    }
-
-    const courseListRegex = /(what|which)?\s*(courses|classes).*available|do you have|offer/i;
-    if (courseListRegex.test(currentMessage)) {
-      this.authService.getUserId().pipe(
-        switchMap(userId => this.aiService.getAllCourses(userId ?? ''))
-      ).subscribe({
-        next: (res) => {
-          const msg: Message = {
-            from: 'ai',
-            text: '📚 Here are all the available courses:',
-            courses: res.courses || []
-          };
-          this.messages.push(msg);
-          this.isLoading = false;
-
-          this.authService.getUserId().subscribe(userId => {
-            this.aiService.saveChatHistory({
-              user_id: userId ?? '',
-              from: 'ai',
-              message: msg.text!,
-              courses: msg.courses
-            }).subscribe();
-          });
-        },
-        error: () => {
-          this.messages.push({ from: 'ai', text: '⚠️ Failed to fetch courses.' });
-          this.isLoading = false;
-        }
-      });
-      return;
-    }
-
-    const isFollowUp = /(also|now|add|too|as well)/i.test(currentMessage);
-    if (isFollowUp && this.lastInterest) {
-      this.lastInterest += `, ${currentMessage}`;
-    } else {
-      this.lastInterest = currentMessage;
-    }
-
-    // Remove these flags, as they are now handled by the message object
-    // this.awaitingQuiz = false;
-    // this.quizQuestions = [];
-    // this.quizAnswers = {};
-
-    this.authService.getUserId().pipe(
-      switchMap(userId =>
-        this.aiService.suggestCareerPath({
-          user_id: userId ?? '',
-          interests: [this.lastInterest],
-          answers: {} // Initial call, no answers yet
-        })
-      )
-    ).subscribe({
-      next: (res: AiSuggestionResponse) => {
-        if (res.ask_quiz) {
-          // If a quiz is needed, add a specific quiz message
-          this.messages.push({
-            from: 'ai',
-            type: 'quiz',
-            quizQuestions: res.questions || [],
-            quizAnswers: {}, // Initialize empty answers for this new quiz message
-            quizSubmitted: false // Mark as not yet submitted
-          });
-          // No need to set awaitingQuiz or quizQuestions/Answers directly on component anymore
-        } else {
-          this.addAiPathResponse(res);
-        }
-        this.isLoading = false;
-      },
-      error: () => {
-        this.messages.push({ from: 'ai', text: '⚠️ Something went wrong.' });
-        this.isLoading = false;
+        return of(null); // Stop the flow, don’t go to suggestCareerPath
       }
-    });
-  }
+
+      const statsRegex = /\b(my stats|dashboard|admin stats|teacher stats|show my insights?)\b/i;
+if (statsRegex.test(currentMessage)) {
+  this.getRoleBasedStats(); // 🧠 Let Dickson flex
+  return of(null); // Stop further flow
+}
+
+
+const teacherCourseRegex = /\b(my courses|my classes|what (did|have) i create(d)?|show my courses|my lessons|i created)\b/i;
+if (teacherCourseRegex.test(currentMessage) && roleId === 2) {
+  return this.courseService.getAllCoursesForDropdown().pipe(
+    switchMap((res: any) => {
+      const teacherMsg: Message = {
+        from: 'ai',
+        text: '🧑‍🏫 Here are the courses you’ve created:',
+        courses: res || []
+      };
+      this.messages.push(teacherMsg);
+
+      this.aiService.saveChatHistory({
+        user_id: userId,
+        from: 'ai',
+        message: teacherMsg.text ?? 'Teacher Course List',
+        courses: teacherMsg.courses
+      }).subscribe();
+
+      this.isLoading = false;
+      return of(null); // Stop further flow
+    })
+  );
+}
+
+
+
+      
+
+      const courseListRegex = /(what|which)?\s*(courses|classes).*available|do you have|offer/i;
+      if (courseListRegex.test(currentMessage)) {
+        return this.aiService.getAllCourses(userId);
+      }
+
+      const isFollowUp = /(also|now|add|too|as well)/i.test(currentMessage);
+      if (isFollowUp && this.lastInterest) {
+        this.lastInterest += `, ${currentMessage}`;
+      } else {
+        this.lastInterest = currentMessage;
+      }
+
+      return this.aiService.suggestCareerPath({
+        user_id: userId,
+        interests: [this.lastInterest],
+        answers: {}
+      });
+    })
+  ).subscribe({
+    next: (res: AiSuggestionResponse | any) => {
+      if (!res) return;
+
+      // 📚 Show available courses
+      if (Array.isArray(res?.courses)) {
+        const msg: Message = {
+          from: 'ai',
+          text: '📚 Here are all the available courses:',
+          courses: res.courses || []
+        };
+        this.messages.push(msg);
+        this.isLoading = false;
+        return;
+      }
+
+      // 🧠 Suggest career path or show quiz
+      if (res.ask_quiz) {
+        this.messages.push({
+          from: 'ai',
+          type: 'quiz',
+          quizQuestions: res.questions || [],
+          quizAnswers: {},
+          quizSubmitted: false
+        });
+      } else {
+        this.addAiPathResponse(res);
+      }
+
+      this.isLoading = false;
+    },
+    error: () => {
+      this.messages.push({ from: 'ai', text: '⚠️ Something went wrong.' });
+      this.isLoading = false;
+    }
+  });
+}
+
 
   // Modified to take the specific quiz message as an argument
   submitQuizAnswers(quizMessage: Message) {
@@ -312,4 +348,97 @@ Now come on Morty, let’s pick a career path before I self-destruct again. We d
       }
     });
   }
+
+  getRoleBasedStats(): void {
+  this.isLoading = true;
+
+  let statsCall$: Observable<any>;
+  let roleText = '';
+  let formatter: (data: any) => string;
+
+  if (this.userRole === 1) {
+    statsCall$ = this.adminStatsService.getStats();
+    roleText = '📊 Admin insights locked and loaded.';
+    formatter = this.formatAdminStats;
+  } else if (this.userRole === 2) {
+    statsCall$ = this.adminStatsService.getTeacherStats();
+    roleText = '📘 Teacher stats ready, prof.';
+    formatter = this.formatTeacherStats;
+  } else if (this.userRole === 3) {
+    statsCall$ = this.adminStatsService.getMyStats();
+    roleText = '🎓 Student dashboard data incoming...';
+    formatter = this.formatStudentStats;
+  } else {
+    this.messages.push({ from: 'ai', text: '🤖 Unknown role. I’m confused, Morty.' });
+    this.isLoading = false;
+    return;
+  }
+
+  statsCall$.subscribe({
+    next: (res) => {
+      const formatted = formatter(res.data);
+      this.messages.push({ from: 'ai', text: `${roleText}\n\n${formatted}` });
+      this.isLoading = false;
+    },
+    error: () => {
+      this.messages.push({ from: 'ai', text: '⚠️ Couldn’t fetch your stats. Interdimensional glitch?' });
+      this.isLoading = false;
+    }
+  });
+}
+
+
+formatAdminStats = (data: any) => `
+📊 *Admin Dashboard Summary*
+
+👥 Total Users: ${data.total_users}  
+🎓 Students: ${data.total_students}  
+🧑‍🏫 Teachers: ${data.total_teachers}  
+📘 Courses Created: ${data.total_courses}  
+📝 Enrollments: ${data.total_enrollments}  
+📤 Submissions: ${data.total_submissions}  
+✅ Completed Classes: ${data.total_completed_classes}  
+💰 Revenue: $${(+data.total_revenue).toFixed(2)}
+
+📦 *Revenue Breakdown*
+${
+  Object.keys(data.revenue_by_method || {}).length
+    ? Object.entries(data.revenue_by_method).map(([method, total]: [string, any]) =>
+        `• ${method}: $${(+total).toFixed(2)}`
+      ).join('\n')
+    : 'No revenue yet... 🫠'
+}
+
+📚 *Top-Earning Courses*
+${
+  (data.revenue_by_course || []).length
+    ? data.revenue_by_course.map((c: any) =>
+        `• ${c.course_title}: $${(+c.total_earned).toFixed(2)}`
+      ).join('\n')
+    : 'None yet! 😤'
+}
+`.trim();
+
+formatTeacherStats = (data: any) => `
+📘 *Teacher Dashboard Insights*
+
+📚 Total Courses Created: ${data.total_courses}  
+👨‍🎓 Enrolled Students: ${data.total_enrolled_students}  
+📝 Assignments Given: ${data.total_assignments_given}  
+🎓 Certificates Uploaded: ${data.total_certificates_uploaded}
+`.trim();
+
+formatStudentStats = (data: any) => `
+🎓 *Student Progress Report*
+
+📘 Courses Enrolled: ${data.total_courses}  
+📝 Assignments Received: ${data.total_assignments}  
+📺 Classes Accessed: ${data.total_classes}  
+📈 Average Progress: ${data.average_progress}%  
+🏆 Certificates Earned: ${data.total_certificates}
+`.trim();
+
+
+
+
 }

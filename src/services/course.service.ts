@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
-
 export interface Course {
   id: number;
   title: string;
@@ -23,24 +22,19 @@ export interface Course {
   teacherId: number;
   teacherName: string;
   roleName: string;
-  course:Course
-  
-  
+  course: Course;
 }
-
 
 interface AssignmentsResponse {
   message: string;
   assignments: Assignment[];
 }
-interface Assignment{
-  id: number,
+interface Assignment {
+  id: number;
   courseId: any;
-  description:string;
+  description: string;
   title: string;
-
 }
-
 
 export interface StudentProgress {
   user_id: string; // The ID of the student
@@ -65,18 +59,12 @@ export interface PaginatedCourseResponse {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CourseService {
-
   private apiUrl = 'https://school-online-backend.onrender.com/api/v1/courses';
 
-
-
-
-
-
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');
@@ -90,40 +78,40 @@ export class CourseService {
   }
 
   getCourses(
-  page: number = 1,
-  limit: number = 10,
-  search: string = '',
-  category: string = ''
-): Observable<any> {
-  let params = new HttpParams()
-    .set('page', page.toString())
-    .set('limit', limit.toString())
-    .set('search', search)
-    .set('category', category);
+    page: number = 1,
+    limit: number = 10,
+    search: string = '',
+    category: string = '',
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString())
+      .set('search', search)
+      .set('category', category);
 
-  return this.http.get(`${this.apiUrl}/all`, {
-    headers: this.getAuthHeaders(),
-    params
-  });
-}
+    return this.http.get(`${this.apiUrl}/all`, {
+      headers: this.getAuthHeaders(),
+      params,
+    });
+  }
 
- getCoursesByTeacher(
-  page: number = 1,
-  limit: number = 10,
-  search: string = '',
-  category: string = ''
-): Observable<any> {
-  let params = new HttpParams()
-    .set('page', page.toString())
-    .set('limit', limit.toString())
-    .set('search', search)
-    .set('category', category);
+  getCoursesByTeacher(
+    page: number = 1,
+    limit: number = 10,
+    search: string = '',
+    category: string = '',
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString())
+      .set('search', search)
+      .set('category', category);
 
-  return this.http.get(`${this.apiUrl}/teacher`, {
-    headers: this.getAuthHeaders(),
-    params
-  });
-}
+    return this.http.get(`${this.apiUrl}/teacher`, {
+      headers: this.getAuthHeaders(),
+      params,
+    });
+  }
 
   updateCourse(id: number, courseData: FormData): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, courseData, {
@@ -132,65 +120,77 @@ export class CourseService {
   }
 
   getCourseById(id: number): Observable<Course> {
-    return this.http.get<Course>(`https://school-online-backend.onrender.com/api/v1/courses/details/${id}`, {
-      headers: this.getAuthHeaders(),
-    });
+    return this.http.get<Course>(
+      `https://school-online-backend.onrender.com/api/v1/courses/details/${id}`,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
   }
 
   deleteCourse(id: number): Observable<any> {
-    return this.http.delete(`https://school-online-backend.onrender.com/api/v1/courses/delete/${id}`, {
-      headers: this.getAuthHeaders(),
-    });
+    return this.http.delete(
+      `https://school-online-backend.onrender.com/api/v1/courses/delete/${id}`,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
   }
 
   getAllCoursesForDropdown(): Observable<any> {
     console.log('Calling GET /courses/teacher/get');
-  return this.http.get(`https://school-online-backend.onrender.com/api/v1/courses/teacher/get`, {
-    headers: this.getAuthHeaders()
-  });
-
-
-  
-
-}
-
-
-
-getEnrolledCourses() {
-  return this.http.get<any>('https://school-online-backend.onrender.com/api/v1/enrollments/enrolled', {
-    headers: this.getAuthHeaders()
-  }); // 🔁 Adjust URL to your backend route
-}
-
-
-getStudentsInCourseWithProgress(courseId: string): Observable<StudentProgress[]> {
-    return this.http.get<StudentProgress[]>(`https://school-online-backend.onrender.com/api/v1/progress/students/${courseId}/students-progress`, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.get(
+      `https://school-online-backend.onrender.com/api/v1/courses/teacher/get`,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
   }
 
+  getEnrolledCourses() {
+    return this.http.get<any>(
+      'https://school-online-backend.onrender.com/api/v1/enrollments/enrolled',
+      {
+        headers: this.getAuthHeaders(),
+      },
+    ); // 🔁 Adjust URL to your backend route
+  }
 
-getCoursesWithClasses(): Observable<any> {
-  return this.http.get(`https://school-online-backend.onrender.com/api/v1/classes/with-classes`, {
-    headers: this.getAuthHeaders()
-  });
+  getStudentsInCourseWithProgress(
+    courseId: string,
+  ): Observable<StudentProgress[]> {
+    return this.http.get<StudentProgress[]>(
+      `https://school-online-backend.onrender.com/api/v1/progress/students/${courseId}/students-progress`,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
+  }
+
+  getCoursesWithClasses(): Observable<any> {
+    return this.http.get(
+      `https://school-online-backend.onrender.com/api/v1/classes/with-classes`,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
+  }
+
+  getSingleCourseWithClasses(courseId: number): Observable<any> {
+    return this.http.get(
+      `https://school-online-backend.onrender.com/api/v1/classes/${courseId}/with-classes`,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
+  }
+
+  getAssignmentsByCourse(courseId: number): Observable<AssignmentsResponse> {
+    return this.http.get<AssignmentsResponse>(
+      `https://school-online-backend.onrender.com/api/v1/assignment/assignments/course/${courseId}`,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
+  }
 }
-
-getSingleCourseWithClasses(courseId: number): Observable<any> {
-  return this.http.get(`https://school-online-backend.onrender.com/api/v1/classes/${courseId}/with-classes`, {
-    headers: this.getAuthHeaders(),
-  });
-}
-
-getAssignmentsByCourse(courseId: number): Observable<AssignmentsResponse> {
-  return this.http.get<AssignmentsResponse>(`https://school-online-backend.onrender.com/api/v1/assignment/assignments/course/${courseId}`, {
-    headers: this.getAuthHeaders()
-  });
-}
-}
-
-
-
-  
-
-

@@ -7,7 +7,7 @@
       <span *ngIf="isMenuOpen">✖</span>
     </div>
 
-    <ul class="nav-links" [ngClass]="{ 'open': isMenuOpen }">
+    <ul class="nav-links" [ngClass]="{ open: isMenuOpen }">
       <li><a routerLink="/">Home</a></li>
       <li><a routerLink="/courses">Courses</a></li>
       <li><a routerLink="/about">About</a></li>
@@ -18,13 +18,14 @@
       </ng-container>
 
       <ng-template #loggedInLinks>
-        <li *ngIf="userName"><span>Hello, {{ userName }}!</span></li>
+        <li *ngIf="userName">
+          <span>Hello, {{ userName }}!</span>
+        </li>
         <li><a [routerLink]="dashboardLink" class="btn">Dashboard</a></li>
-         <li>  <a routerLink="/profile" class="btn">Profile</a></li>
-       
+        <li><a routerLink="/profile" class="btn">Profile</a></li>
+
         <li><a (click)="onLogout()" class="btn logout-btn">Logout</a></li>
       </ng-template>
     </ul>
-   
   </div>
 </nav>

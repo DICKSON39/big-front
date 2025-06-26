@@ -32,7 +32,6 @@ export class AdminStatsComponent implements OnInit {
   }
 
   revenueMethodKeys(methods: Record<string, number>): string[] {
-  return Object.keys(methods);
-}
-
+    return Object.keys(methods);
+  }
 }

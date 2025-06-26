@@ -1,6 +1,6 @@
 /* --- Global Styles & Layout --- */
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: #eef2f6;
   display: flex;
   flex-direction: column;
@@ -192,7 +192,9 @@ h2 {
   font-size: 0.9em;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.15s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.15s ease;
   text-decoration: none;
   box-shadow: 0 2px 8px rgba(46, 204, 113, 0.3);
 }
@@ -287,12 +289,14 @@ h2 {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5z%22%20fill%3D%22%23333%22%2F%3E%3C%2Fsvg%3E');
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5z%22%20fill%3D%22%23333%22%2F%3E%3C%2Fsvg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: 12px;
   cursor: pointer;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
 }
 
 .quiz-question select:focus {
@@ -312,7 +316,9 @@ h2 {
   font-size: 1.05em;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.15s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.15s ease;
   margin-top: 25px;
   box-shadow: 0 3px 8px rgba(0, 123, 255, 0.2);
 }
@@ -347,7 +353,9 @@ h2 {
   border-radius: 30px;
   font-size: 1em;
   outline: none;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
 }
 
 .chat-input input::placeholder {
@@ -368,12 +376,14 @@ h2 {
   font-size: 1em;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.15s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.15s ease;
   box-shadow: 0 3px 10px rgba(74, 144, 226, 0.3);
 }
 
 .chat-input button:hover:not(:disabled) {
-  background-color: #357ABD;
+  background-color: #357abd;
   transform: translateY(-2px);
   box-shadow: 0 5px 12px rgba(74, 144, 226, 0.4);
 }
@@ -443,7 +453,6 @@ h2 {
   cursor: not-allowed;
 }
 
-
 /* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
   body {
@@ -480,11 +489,11 @@ h2 {
   }
 
   .message.user {
-      max-width: 90%;
+    max-width: 90%;
   }
 
   .message.ai {
-      max-width: 95%;
+    max-width: 95%;
   }
 
   .message strong {

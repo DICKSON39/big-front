@@ -2,7 +2,7 @@
 body {
   background-color: #1a1a2e; /* Deep dark blue/purple */
   color: #e0e0e0; /* Light grey for text */
-  font-family: 'Inter', 'Segoe UI', sans-serif; /* Modern, clean font */
+  font-family: "Inter", "Segoe UI", sans-serif; /* Modern, clean font */
   margin: 0;
   padding: 0;
   line-height: 1.6;
@@ -39,7 +39,11 @@ body {
 }
 
 .header-actions .refresh-btn {
-  background-image: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%); /* Gradient button */
+  background-image: linear-gradient(
+    45deg,
+    #6a11cb 0%,
+    #2575fc 100%
+  ); /* Gradient button */
   color: white;
   border: none;
   padding: 12px 25px;
@@ -55,7 +59,11 @@ body {
 }
 
 .header-actions .refresh-btn:hover {
-  background-image: linear-gradient(45deg, #2575fc 0%, #6a11cb 100%); /* Reverse gradient on hover */
+  background-image: linear-gradient(
+    45deg,
+    #2575fc 0%,
+    #6a11cb 100%
+  ); /* Reverse gradient on hover */
   transform: translateY(-3px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
@@ -76,7 +84,9 @@ body {
   font-size: 1.05em;
   color: #e0e0e0;
   box-sizing: border-box;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .search-input::placeholder {
@@ -116,8 +126,9 @@ body {
   margin-right: 0;
 }
 
-.tabs button::after { /* Underline effect */
-  content: '';
+.tabs button::after {
+  /* Underline effect */
+  content: "";
   position: absolute;
   left: 0;
   bottom: 0;
@@ -143,9 +154,9 @@ body {
   background-color: #8aff8a; /* Vibrant green underline for active tab */
 }
 
-
 /* Content Sections for Tabs */
-.tabs > div { /* Targets the div directly under .tabs for content */
+.tabs > div {
+  /* Targets the div directly under .tabs for content */
   padding: 25px;
   background-color: #0f0f1c; /* Match active tab background */
   border-radius: 0 0 12px 12px;
@@ -153,7 +164,6 @@ body {
   border: 1px solid rgba(50, 50, 70, 0.7);
   border-top: none; /* No top border where it meets tabs */
 }
-
 
 /* Message Styles (Loading, Error, No Data) */
 .message {
@@ -203,7 +213,10 @@ body {
   border-radius: 10px;
   padding: 25px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .student-card:hover,
@@ -269,12 +282,14 @@ body {
   border-radius: 8px;
   padding: 18px;
   margin-bottom: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .active > .ng-container > div:not(.pagination):hover {
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   border-color: #2575fc; /* Blue highlight on hover */
 }
 
@@ -294,7 +309,11 @@ body {
 }
 
 .pagination button {
-  background-image: linear-gradient(45deg, #2575fc 0%, #6a11cb 100%); /* Same as refresh button */
+  background-image: linear-gradient(
+    45deg,
+    #2575fc 0%,
+    #6a11cb 100%
+  ); /* Same as refresh button */
   color: white;
   border: none;
   padding: 12px 25px;
@@ -307,7 +326,11 @@ body {
 }
 
 .pagination button:hover:not(:disabled) {
-  background-image: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%); /* Reverse gradient on hover */
+  background-image: linear-gradient(
+    45deg,
+    #6a11cb 0%,
+    #2575fc 100%
+  ); /* Reverse gradient on hover */
   transform: translateY(-2px);
 }
 

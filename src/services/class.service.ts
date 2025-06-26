@@ -15,7 +15,7 @@ interface Class {
 }
 
 interface Video {
-   id: number;
+  id: number;
   title: string;
   url: string;
 }
@@ -25,7 +25,7 @@ interface CreateClassResponse {
   class: Class;
 }
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClassService {
   private apiUrl = 'https://school-online-backend.onrender.com/api/v1/classes'; // Update with your actual API URL
@@ -37,44 +37,49 @@ export class ClassService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  
   createClass(formData: FormData): Observable<CreateClassResponse> {
-  return this.http.post<CreateClassResponse>(`${this.apiUrl}/create`, formData, {
-    headers: this.getAuthHeaders(),
-  }).pipe(
-    catchError((err) => {
-      console.error("Create class failed: ", err);
-      return throwError(() => new Error('Class creation failed. Try again later.'));
-    })
-  );
-}
+    return this.http
+      .post<CreateClassResponse>(`${this.apiUrl}/create`, formData, {
+        headers: this.getAuthHeaders(),
+      })
+      .pipe(
+        catchError((err) => {
+          console.error('Create class failed: ', err);
+          return throwError(
+            () => new Error('Class creation failed. Try again later.'),
+          );
+        }),
+      );
+  }
 
-
-deleteClass(id: number): Observable<any> {
-  return this.http.delete(`${this.apiUrl}/${id}`, {
-    headers: this.getAuthHeaders()
-  });
-}
-
-updateClass(id: number, data: FormData): Observable<any> {
-  return this.http.put(`${this.apiUrl}/${id}`, data, {
-    headers: this.getAuthHeaders()
-  });
-}
-
-getAllClassesForAdmin() {
-  return this.http.get<{ success: boolean; classes: any[] }>
-  (`${this.apiUrl}/admin/classes`,{
-    headers: this.getAuthHeaders()
-  });
-}
-
-
- getClassesByCourseId(courseId: number) {
-  return this.http.get<{ classes: any[] }>(`https://school-online-backend.onrender.com/api/v1/classes/classes/course/${courseId}
-    `,{
-      headers: this.getAuthHeaders()
+  deleteClass(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`, {
+      headers: this.getAuthHeaders(),
     });
-}
+  }
 
+  updateClass(id: number, data: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, data, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  getAllClassesForAdmin() {
+    return this.http.get<{ success: boolean; classes: any[] }>(
+      `${this.apiUrl}/admin/classes`,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
+  }
+
+  getClassesByCourseId(courseId: number) {
+    return this.http.get<{ classes: any[] }>(
+      `https://school-online-backend.onrender.com/api/v1/classes/classes/course/${courseId}
+    `,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
+  }
 }

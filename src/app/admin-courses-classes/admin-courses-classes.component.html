@@ -2,9 +2,9 @@
   <h2>Classes for Course ID {{ courseId }}</h2>
 
   <div class="loading-message" *ngIf="isLoading">Loading...</div>
-<div class="no-classes-message" *ngIf="!isLoading && classes.length === 0">
+  <div class="no-classes-message" *ngIf="!isLoading && classes.length === 0">
     <p>No classes found for this course.</p>
-</div>
+  </div>
 
   <div *ngIf="!isLoading && classes.length > 0">
     <div class="class-card" *ngFor="let cls of classes">
@@ -12,7 +12,7 @@
       <p>{{ cls.description }}</p>
       <div *ngIf="cls.video_url">
         <video controls>
-          <source [src]="cls.video_url" type="video/mp4">
+          <source [src]="cls.video_url" type="video/mp4" />
         </video>
       </div>
     </div>

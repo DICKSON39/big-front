@@ -1,6 +1,6 @@
 /* General Body and Container Styles */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f7f6;
   color: #333;
   margin: 0;
@@ -24,7 +24,7 @@ body {
 }
 
 .section h2::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -10px;
   left: 50%;
@@ -154,7 +154,9 @@ body {
   cursor: pointer;
   font-size: 0.9em;
   margin-right: 8px;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
 }
 
 .delete-btn {
@@ -167,7 +169,8 @@ body {
   transform: translateY(-1px);
 }
 
-.btn-info { /* Used for View and Edit links */
+.btn-info {
+  /* Used for View and Edit links */
   background-color: #17a2b8; /* Teal */
   color: #fff;
   text-decoration: none;
@@ -175,7 +178,9 @@ body {
   border-radius: 5px;
   display: inline-block; /* Allows padding and margin */
   margin-right: 8px;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
 }
 
 .btn-info:hover {
@@ -206,7 +211,9 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.95em;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
 }
 
 .pagination-btn:disabled,
@@ -250,7 +257,8 @@ body {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.4);
 }
 
-.page-numbers span { /* ellipsis */
+.page-numbers span {
+  /* ellipsis */
   align-self: center;
   font-size: 1.2em;
   color: #888;
@@ -285,7 +293,7 @@ body {
     margin-bottom: 15px;
     border: 1px solid #dee2e6;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   }
 
   .user-table td {
@@ -306,19 +314,32 @@ body {
   }
 
   /* Assign data-label to each td in your HTML for responsive table */
-  .user-table td:nth-of-type(1)::before { content: "ID:"; }
-  .user-table td:nth-of-type(2)::before { content: "Name:"; }
-  .user-table td:nth-of-type(3)::before { content: "Email:"; }
-  .user-table td:nth-of-type(4)::before { content: "Phone:"; }
-  .user-table td:nth-of-type(5)::before { content: "Role:"; }
-  .user-table td:nth-of-type(6)::before { content: "Actions:"; }
+  .user-table td:nth-of-type(1)::before {
+    content: "ID:";
+  }
+  .user-table td:nth-of-type(2)::before {
+    content: "Name:";
+  }
+  .user-table td:nth-of-type(3)::before {
+    content: "Email:";
+  }
+  .user-table td:nth-of-type(4)::before {
+    content: "Phone:";
+  }
+  .user-table td:nth-of-type(5)::before {
+    content: "Role:";
+  }
+  .user-table td:nth-of-type(6)::before {
+    content: "Actions:";
+  }
 
   .user-role-badge {
     padding: 4px 8px;
     font-size: 0.8em;
   }
 
-  .action-btn, .btn-info {
+  .action-btn,
+  .btn-info {
     padding: 6px 10px;
     font-size: 0.85em;
     margin-right: 5px;

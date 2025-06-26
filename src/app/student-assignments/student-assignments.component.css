@@ -1,86 +1,86 @@
 /* No Assignments Message */
 .no-assignments-message {
-    text-align: center;
-    padding: 30px;
-    color: #6c757d;
-    font-style: italic;
-    font-size: 1.2em;
-    background-color: #fcfcfc;
-    border: 1px dashed #e0e0e0; /* Dashed border for a friendly look */
-    border-radius: 8px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03); /* Very light shadow */
+  text-align: center;
+  padding: 30px;
+  color: #6c757d;
+  font-style: italic;
+  font-size: 1.2em;
+  background-color: #fcfcfc;
+  border: 1px dashed #e0e0e0; /* Dashed border for a friendly look */
+  border-radius: 8px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03); /* Very light shadow */
 }
 
 /* General styling for the assignment card */
 .assignment-card {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 25px; /* Added more space between cards */
-    background-color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Slightly more prominent shadow */
-    display: flex;
-    flex-direction: column; /* Arrange content vertically */
-    gap: 15px; /* Space between main sections of the card */
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px; /* Added more space between cards */
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Slightly more prominent shadow */
+  display: flex;
+  flex-direction: column; /* Arrange content vertically */
+  gap: 15px; /* Space between main sections of the card */
 }
 
 .assignment-card h3 {
-    color: #333;
-    margin-top: 0; /* Ensure no default top margin */
-    margin-bottom: 5px; /* Reduced margin below heading */
-    font-size: 1.5em;
+  color: #333;
+  margin-top: 0; /* Ensure no default top margin */
+  margin-bottom: 5px; /* Reduced margin below heading */
+  font-size: 1.5em;
 }
 
 .assignment-card p {
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 5px; /* Consistent spacing */
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 5px; /* Consistent spacing */
 }
 
 .assignment-card p:last-of-type {
-    margin-bottom: 0; /* Remove bottom margin for last paragraph */
+  margin-bottom: 0; /* Remove bottom margin for last paragraph */
 }
 
 /* Styling for the status box (Submitted/Graded section) */
 .status-box {
-    margin-top: 15px;
-    padding: 20px; /* Increased padding */
-    border-radius: 10px; /* Slightly more rounded corners */
-    background-color: #fcfcfc; /* Lighter background for distinction */
-    border: 1px solid #e9e9e9;
-    display: flex;
-    flex-direction: column; /* Stack elements inside status box */
-    gap: 10px; /* Space between elements within the status box */
+  margin-top: 15px;
+  padding: 20px; /* Increased padding */
+  border-radius: 10px; /* Slightly more rounded corners */
+  background-color: #fcfcfc; /* Lighter background for distinction */
+  border: 1px solid #e9e9e9;
+  display: flex;
+  flex-direction: column; /* Stack elements inside status box */
+  gap: 10px; /* Space between elements within the status box */
 }
 
 /* Base styling for the status badge with glow */
 .status-badge {
-    display: inline-block;
-    padding: 7px 14px; /* Slightly larger padding */
-    border-radius: 25px; /* More pill-shaped */
-    font-size: 0.9em; /* Slightly larger font */
-    font-weight: bold;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Base glow for all badges */
-    align-self: flex-start; /* Align badge to the left */
+  display: inline-block;
+  padding: 7px 14px; /* Slightly larger padding */
+  border-radius: 25px; /* More pill-shaped */
+  font-size: 0.9em; /* Slightly larger font */
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Base glow for all badges */
+  align-self: flex-start; /* Align badge to the left */
 }
 
 /* Styling for the submitted badge (pending grade) with specific glow */
 .status-submitted .status-badge {
-    background-color: #ffc107; /* Amber/Orange for submitted */
-    color: #343a40; /* Darker text for contrast */
-    box-shadow: 0 4px 10px rgba(255, 193, 7, 0.5); /* More prominent glow for submitted */
+  background-color: #ffc107; /* Amber/Orange for submitted */
+  color: #343a40; /* Darker text for contrast */
+  box-shadow: 0 4px 10px rgba(255, 193, 7, 0.5); /* More prominent glow for submitted */
 }
 
 /* Styling for the graded badge with specific glow */
 .status-graded .status-badge {
-    background-color: #28a745; /* Green for graded */
-    color: white; /* White text for contrast */
-    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.5); /* More prominent glow for graded */
+  background-color: #28a745; /* Green for graded */
+  color: white; /* White text for contrast */
+  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.5); /* More prominent glow for graded */
 }
 
 /* Container for Grade and Feedback - NOTE: This was a conceptual class in previous output.
@@ -95,95 +95,99 @@
 
 /* Ensure the grade and feedback paragraphs are well-styled */
 .status-box p {
-    margin: 0; /* Remove default paragraph margins within status-box */
-    font-size: 1em;
-    color: #444;
+  margin: 0; /* Remove default paragraph margins within status-box */
+  font-size: 1em;
+  color: #444;
 }
 
 .status-box p strong {
-    color: #222;
+  color: #222;
 }
 
-
 .submitted-link {
-    display: inline-block;
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.2s ease;
+  display: inline-block;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease;
 }
 
 .submitted-link:hover {
-    color: #0056b3;
-    text-decoration: underline;
+  color: #0056b3;
+  text-decoration: underline;
 }
 
 /* Submission/Resubmission form and actions */
 .submission-actions {
-    display: flex;
-    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-    gap: 10px; /* Space between input and buttons */
-    margin-top: 15px; /* Space from feedback/link */
-    align-items: center; /* Align items vertically in the center */
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  gap: 10px; /* Space between input and buttons */
+  margin-top: 15px; /* Space from feedback/link */
+  align-items: center; /* Align items vertically in the center */
 }
 
 .submission-input {
-    flex-grow: 1; /* Allow input to take available space */
-    min-width: 200px; /* Minimum width for the input before wrapping */
-    padding: 12px; /* Increased padding */
-    border: 1px solid #ccc;
-    border-radius: 6px; /* Slightly more rounded */
-    font-size: 1em;
-    outline: none; /* Remove default focus outline */
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  flex-grow: 1; /* Allow input to take available space */
+  min-width: 200px; /* Minimum width for the input before wrapping */
+  padding: 12px; /* Increased padding */
+  border: 1px solid #ccc;
+  border-radius: 6px; /* Slightly more rounded */
+  font-size: 1em;
+  outline: none; /* Remove default focus outline */
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .submission-input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Focus glow */
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Focus glow */
 }
 
 /* Buttons for submit/resubmit/delete */
 .submit-btn,
 .delete-btn {
-    padding: 12px 20px; /* Larger padding for better touch targets */
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 600;
-    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-    flex-shrink: 0; /* Prevent buttons from shrinking */
+  padding: 12px 20px; /* Larger padding for better touch targets */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease,
+    box-shadow 0.2s ease;
+  flex-shrink: 0; /* Prevent buttons from shrinking */
 }
 
 .submit-btn {
-    background-color: #007bff; /* Primary blue */
-    color: white;
+  background-color: #007bff; /* Primary blue */
+  color: white;
 }
 
 .submit-btn:hover {
-    background-color: #0056b3;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+  background-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
 }
 
 .submit-btn:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-    opacity: 0.7;
-    transform: none; /* No transform when disabled */
-    box-shadow: none;
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none; /* No transform when disabled */
+  box-shadow: none;
 }
 
 .delete-btn {
-    background-color: #dc3545; /* Red for delete */
-    color: white;
+  background-color: #dc3545; /* Red for delete */
+  color: white;
 }
 
 .delete-btn:hover {
-    background-color: #c82333;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+  background-color: #c82333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
 }
 
 /* Styling for the initial submission form (ng-template content) */
@@ -192,23 +196,23 @@
 
 /* Mobile adjustments for submission actions */
 @media (max-width: 576px) {
-    .submission-actions {
-        flex-direction: column; /* Stack input and buttons vertically */
-        align-items: stretch; /* Stretch items to full width */
-    }
+  .submission-actions {
+    flex-direction: column; /* Stack input and buttons vertically */
+    align-items: stretch; /* Stretch items to full width */
+  }
 
-    .submission-input {
-        width: 100%; /* Full width for input */
-        min-width: unset; /* Remove min-width override */
-        margin-right: 0; /* Remove right margin */
-    }
+  .submission-input {
+    width: 100%; /* Full width for input */
+    min-width: unset; /* Remove min-width override */
+    margin-right: 0; /* Remove right margin */
+  }
 
-    .submit-btn,
-    .delete-btn {
-        width: 100%; /* Full width for buttons */
-    }
+  .submit-btn,
+  .delete-btn {
+    width: 100%; /* Full width for buttons */
+  }
 
-    .status-box {
-        padding: 15px; /* Slightly less padding on very small screens */
-    }
+  .status-box {
+    padding: 15px; /* Slightly less padding on very small screens */
+  }
 }

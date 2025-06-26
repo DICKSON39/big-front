@@ -9,23 +9,23 @@ import { CommonModule } from '@angular/common';
   selector: 'app-teacher-stats',
   templateUrl: './teacher-stats.component.html',
   styleUrls: ['./teacher-stats.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule],
 })
 export class TeacherStatsComponent implements OnInit {
   stats: any = {};
 
-  constructor(private statsService:AdminStatsService) {}
+  constructor(private statsService: AdminStatsService) {}
 
   ngOnInit(): void {
     this.statsService.getTeacherStats().subscribe({
       next: (res) => {
-        console.log("Teacher Stats 🚀", res);
+        console.log('Teacher Stats 🚀', res);
 
         this.stats = res;
       },
       error: (err) => {
         console.error('❌ Failed to fetch teacher stats:', err);
-      }
+      },
     });
   }
 }

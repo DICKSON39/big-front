@@ -211,7 +211,7 @@ div[ngIf="!isLoading && classes.length > 0"] {
   border-radius: 6px;
   cursor: pointer;
 }
-.edit-actions button[type='submit'] {
+.edit-actions button[type="submit"] {
   background-color: #007bff;
   color: white;
 }

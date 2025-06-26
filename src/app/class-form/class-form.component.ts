@@ -1,5 +1,11 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CourseService } from '../../services/course.service';
 import { ClassService } from '../../services/class.service';
@@ -9,7 +15,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-class-form',
   templateUrl: './class-form.component.html',
   styleUrls: ['./class-form.component.css'],
-  imports: [FormsModule,ReactiveFormsModule,CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   standalone: true,
 })
 export class ClassFormComponent implements OnInit {
@@ -26,7 +32,7 @@ export class ClassFormComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private courseService: CourseService,
-    private classService: ClassService
+    private classService: ClassService,
   ) {}
 
   ngOnInit(): void {
@@ -49,7 +55,9 @@ export class ClassFormComponent implements OnInit {
         }
       },
       error: () => {
-        this.snackBar.open('Failed to load courses', 'Close', { duration: 3000 });
+        this.snackBar.open('Failed to load courses', 'Close', {
+          duration: 3000,
+        });
       },
     });
   }
@@ -65,7 +73,9 @@ export class ClassFormComponent implements OnInit {
     e.preventDefault();
 
     if (this.classForm.invalid || !this.selectedFile) {
-      this.snackBar.open('Please fill out the form correctly.', 'Close', { duration: 3000 });
+      this.snackBar.open('Please fill out the form correctly.', 'Close', {
+        duration: 3000,
+      });
       return;
     }
 
@@ -77,27 +87,32 @@ export class ClassFormComponent implements OnInit {
 
     this.isLoading = true;
     this.classService.createClass(formData).subscribe({
-  next: (res) => {
-    this.snackBar.open(res.message || 'Class created successfully!', 'Close', {
-      duration: 3000,
+      next: (res) => {
+        this.snackBar.open(
+          res.message || 'Class created successfully!',
+          'Close',
+          {
+            duration: 3000,
+          },
+        );
+        this.isLoading = false;
+        this.closeModal.emit();
+      },
+      error: (err) => {
+        this.snackBar.open(
+          err.error?.message || 'Failed to create class',
+          'Close',
+          {
+            duration: 3000,
+          },
+        );
+        this.isLoading = false;
+      },
     });
-    this.isLoading = false;
-    this.closeModal.emit();
-  },
-  error: (err) => {
-    this.snackBar.open(err.error?.message || 'Failed to create class', 'Close', {
-      duration: 3000,
-    });
-    this.isLoading = false;
-  },
-})
   }
 
   // RENAMED THIS METHOD: From 'closeModal()' to 'onClose()'
   onClose(): void {
     this.closeModal.emit(); // Emit the event
   }
-
- 
-
 }

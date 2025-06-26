@@ -8,29 +8,21 @@ I have these getStudents():Observable<any[]>{
 
   }
 
-
-
   getEnrolledStudents():Observable<any[]>{
 
     return this.http.get<any>(`${this.apiUrl}/enrolled/student`,{
 
       headers:this.getAuthHeaders()
 
-
-
     })
 
   }
-
-
 
   getStudentWithTheirCourses():Observable<any[]>{
 
     return this.http.get<any>(`${this.apiUrl}/enrolled/courses`,{
 
       headers:this.getAuthHeaders()
-
-
 
     })
 

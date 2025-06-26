@@ -14,7 +14,8 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>Name</th> <!-- Combined First + Last Name -->
+        <th>Name</th>
+        <!-- Combined First + Last Name -->
         <th>Email</th>
         <th>Role</th>
         <th>Actions</th>
@@ -23,7 +24,8 @@
     <tbody>
       <tr *ngFor="let user of users">
         <td>{{ user.id }}</td>
-        <td>{{ user.first_name }} {{ user.last_name }}</td> <!-- ✅ Full Name -->
+        <td>{{ user.first_name }} {{ user.last_name }}</td>
+        <!-- ✅ Full Name -->
         <td>{{ user.email }}</td>
         <td>
           <span
@@ -32,16 +34,22 @@
               'admin-role': user.role_name === 'Admin',
               'user-role': user.role_name === 'User',
               'dickson-role': user.role_name === 'Dickson',
-              'unknown-role': !['Admin', 'User', 'Dickson'].includes(user.role_name)
+              'unknown-role': !['Admin', 'User', 'Dickson'].includes(
+                user.role_name
+              ),
             }"
           >
-            {{ user.role_name || 'Unknown' }}
+            {{ user.role_name || "Unknown" }}
           </span>
         </td>
         <td>
-          <button class="action-btn delete-btn" (click)="deleteUser(user.id)">Delete</button>
+          <button class="action-btn delete-btn" (click)="deleteUser(user.id)">
+            Delete
+          </button>
           <a [routerLink]="['/users', user.id]" class="btn btn-info">View</a>
-          <a [routerLink]="['/users/update', user.id]" class="btn btn-info">Edit</a>
+          <a [routerLink]="['/users/update', user.id]" class="btn btn-info"
+            >Edit</a
+          >
         </td>
       </tr>
       <tr *ngIf="users.length === 0">
@@ -83,10 +91,15 @@
     </select>
 
     <div class="page-numbers">
-      <ng-container *ngFor="let i of [].constructor(totalPages); let pageNum = index">
+      <ng-container
+        *ngFor="let i of [].constructor(totalPages); let pageNum = index"
+      >
         <button
-          *ngIf="(pageNum + 1 >= currentPage - 2 &&
-                  pageNum + 1 <= currentPage + 2) || totalPages <= 5"
+          *ngIf="
+            (pageNum + 1 >= currentPage - 2 &&
+              pageNum + 1 <= currentPage + 2) ||
+            totalPages <= 5
+          "
           [class.active]="pageNum + 1 === currentPage"
           (click)="goToPage(pageNum + 1)"
           class="page-number-btn"
@@ -94,8 +107,14 @@
           {{ pageNum + 1 }}
         </button>
         <span
-          *ngIf="(pageNum + 1 === currentPage - 3 && totalPages > 5 && currentPage - 3 >= 1) ||
-                 (pageNum + 1 === currentPage + 3 && totalPages > 5 && currentPage + 3 <= totalPages)"
+          *ngIf="
+            (pageNum + 1 === currentPage - 3 &&
+              totalPages > 5 &&
+              currentPage - 3 >= 1) ||
+            (pageNum + 1 === currentPage + 3 &&
+              totalPages > 5 &&
+              currentPage + 3 <= totalPages)
+          "
         >
           ...
         </span>

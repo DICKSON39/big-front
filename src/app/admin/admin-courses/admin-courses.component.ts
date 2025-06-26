@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CourseService } from '../../../services/course.service';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import { CourseFormComponent } from '../../course-form/course-form.component';
 import { ModalComponent } from '../../modal/modal.component';
 import { Subject, debounceTime } from 'rxjs';
@@ -13,24 +13,16 @@ import { ClassFormComponent } from '../../class-form/class-form.component';
 @Component({
   selector: 'app-admin-courses',
   standalone: true,
-  imports: [
-    CommonModule,
-    
-    FormsModule,
-    CourseFormComponent,
-    ClassFormComponent,
-
-    
-  ],
+  imports: [CommonModule, FormsModule, CourseFormComponent, ClassFormComponent],
   templateUrl: './admin-courses.component.html',
-  styleUrls: ['./admin-courses.component.css']
+  styleUrls: ['./admin-courses.component.css'],
 })
 export class AdminCoursesComponent implements OnInit {
   courses: Course[] = [];
   errorMessage = '';
   isLoading = true;
   showClassForm = false;
-selectedCourseForClass: number | null = null;
+  selectedCourseForClass: number | null = null;
   showCourseForm = false;
   selectedCourseId: number | null = null;
 
@@ -41,12 +33,15 @@ selectedCourseForClass: number | null = null;
   currentPage = 1;
   coursesPerPage = 6;
 
-  constructor(private courseService: CourseService,private router:Router) {}
+  constructor(
+    private courseService: CourseService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.loadCourses();
 
-    this.searchSubject.pipe(debounceTime(300)).subscribe(value => {
+    this.searchSubject.pipe(debounceTime(300)).subscribe((value) => {
       this.searchText = value;
       this.currentPage = 1;
     });
@@ -62,12 +57,12 @@ selectedCourseForClass: number | null = null;
       error: () => {
         this.errorMessage = 'Error loading courses';
         this.isLoading = false;
-      }
+      },
     });
   }
 
   getUniqueCategories(): string[] {
-    const categories = this.courses.map(course => course.category);
+    const categories = this.courses.map((course) => course.category);
     return Array.from(new Set(categories));
   }
 
@@ -76,15 +71,18 @@ selectedCourseForClass: number | null = null;
 
     if (this.searchText) {
       const lower = this.searchText.toLowerCase();
-      filtered = filtered.filter(course =>
-        course.title.toLowerCase().includes(lower) ||
-        course.description.toLowerCase().includes(lower) ||
-        course.category.toLowerCase().includes(lower)
+      filtered = filtered.filter(
+        (course) =>
+          course.title.toLowerCase().includes(lower) ||
+          course.description.toLowerCase().includes(lower) ||
+          course.category.toLowerCase().includes(lower),
       );
     }
 
     if (this.selectedCategory !== 'all') {
-      filtered = filtered.filter(course => course.category === this.selectedCategory);
+      filtered = filtered.filter(
+        (course) => course.category === this.selectedCategory,
+      );
     }
 
     return filtered;
@@ -109,7 +107,7 @@ selectedCourseForClass: number | null = null;
     if (confirm('Are you sure you want to delete this course?')) {
       this.courseService.deleteCourse(id).subscribe({
         next: () => this.loadCourses(),
-        error: () => alert('Failed to delete course')
+        error: () => alert('Failed to delete course'),
       });
     }
   }
@@ -133,19 +131,16 @@ selectedCourseForClass: number | null = null;
     this.closeCourseForm();
   }
 
- goToClasses(courseId: number): void {
-  this.router.navigate([`/admin/courses/${courseId}/classes`]); 
-}
+  goToClasses(courseId: number): void {
+    this.router.navigate([`/admin/courses/${courseId}/classes`]);
+  }
 
-openClassForm(courseId?: number): void {
-  this.selectedCourseForClass = courseId || null;
-  this.showClassForm = true;
-}
-closeClassForm(): void {
-  this.showClassForm = false;
-  this.selectedCourseForClass = null;
-  
-}
-
-
+  openClassForm(courseId?: number): void {
+    this.selectedCourseForClass = courseId || null;
+    this.showClassForm = true;
+  }
+  closeClassForm(): void {
+    this.showClassForm = false;
+    this.selectedCourseForClass = null;
+  }
 }

@@ -12,12 +12,10 @@
 
     <select [(ngModel)]="selectedCategory" class="category-filter">
       <option value="all">All Categories</option>
-      <option *ngFor="let cat of getUniqueCategories()" [value]="cat">{{ cat }}</option>
+      <option *ngFor="let cat of getUniqueCategories()" [value]="cat">
+        {{ cat }}
+      </option>
     </select>
-
-  
-
-
   </div>
 
   <!-- Loading & Error Handling -->
@@ -26,23 +24,22 @@
 
   <!-- 📦 Course Cards -->
   <!-- 📦 Course Cards -->
-<div class="courses-grid" *ngIf="!isLoading && paginatedCourses.length > 0">
-  <div class="course-card" *ngFor="let course of paginatedCourses">
-    <img [src]="course.image_url" alt="{{ course.title }}" />
-    <h3>{{ course.title }}</h3>
-    <p>{{ course.description }}</p>
-    <p><strong>Category:</strong> {{ course.category }}</p>
-    <p><strong>Price:</strong> KES {{ course.price }}</p>
+  <div class="courses-grid" *ngIf="!isLoading && paginatedCourses.length > 0">
+    <div class="course-card" *ngFor="let course of paginatedCourses">
+      <img [src]="course.image_url" alt="{{ course.title }}" />
+      <h3>{{ course.title }}</h3>
+      <p>{{ course.description }}</p>
+      <p><strong>Category:</strong> {{ course.category }}</p>
+      <p><strong>Price:</strong> KES {{ course.price }}</p>
 
-    <button (click)="openEditForm(course)">✏️ Edit</button>
-    <button (click)="deleteCourse(course.id)">🗑️ Delete</button>
-    <button (click)="goToClasses(course.id)">📺 View Classes</button>
+      <button (click)="openEditForm(course)">✏️ Edit</button>
+      <button (click)="deleteCourse(course.id)">🗑️ Delete</button>
+      <button (click)="goToClasses(course.id)">📺 View Classes</button>
 
-    <!-- ✅ This is the right place for it -->
-    <button (click)="openClassForm(course.id)">📚 Add Class</button>
+      <!-- ✅ This is the right place for it -->
+      <button (click)="openClassForm(course.id)">📚 Add Class</button>
+    </div>
   </div>
-</div>
-
 
   <!-- 🛑 No Courses Found -->
   <div *ngIf="!isLoading && filteredCourses().length === 0">
@@ -52,7 +49,12 @@
 
   <!-- 🔢 Pagination -->
   <div class="pagination" *ngIf="totalPages > 1">
-    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+    >
+      Prev
+    </button>
 
     <button
       *ngFor="let page of [].constructor(totalPages); let i = index"
@@ -62,7 +64,12 @@
       {{ i + 1 }}
     </button>
 
-    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+    >
+      Next
+    </button>
   </div>
 
   <!-- 🧩 Course Form Modal -->
@@ -78,6 +85,3 @@
   [preselectedCourseId]="selectedCourseForClass"
   (close)="closeClassForm()"
 ></app-class-form>
-
-
-

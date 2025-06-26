@@ -24,9 +24,9 @@ export interface Course {
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink,NavbarComponent],
+  imports: [CommonModule, FormsModule, RouterLink, NavbarComponent],
   templateUrl: './courses.component.html',
-  styleUrl: './courses.component.css'
+  styleUrl: './courses.component.css',
 })
 export class CoursesComponent implements OnInit {
   courses: Course[] = [];
@@ -46,7 +46,12 @@ export class CoursesComponent implements OnInit {
 
   fetchCourses(): void {
     this.courseService
-      .getCourses(this.currentPage, this.limit, this.searchTerm, this.selectedCategory)
+      .getCourses(
+        this.currentPage,
+        this.limit,
+        this.searchTerm,
+        this.selectedCategory,
+      )
       .subscribe((res) => {
         this.courses = res.results;
         this.totalPages = res.totalPages;
@@ -72,7 +77,7 @@ export class CoursesComponent implements OnInit {
   }
 
   private extractCategories(courses: Course[]): void {
-    const unique = new Set(courses.map(course => course.category));
+    const unique = new Set(courses.map((course) => course.category));
     this.categories = Array.from(unique);
   }
 }

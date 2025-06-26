@@ -4,6 +4,6 @@ import { AppComponent } from './app/app.component';
 import './assets/spinners/ball-scale-multiple.css';
 import './assets/spinners/ball-beat.css';
 
-
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, appConfig).catch((err) =>
+  console.error(err),
+);

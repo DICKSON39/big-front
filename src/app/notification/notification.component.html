@@ -13,8 +13,10 @@
     <ul *ngIf="notifications.length > 0">
       <li *ngFor="let notif of notifications" [class.read]="notif.is_read">
         <span>{{ notif.message }}</span>
-        <small>{{ notif.created_at | date:'short' }}</small>
-        <button *ngIf="!notif.is_read" (click)="markAsRead(notif.id)">✅ Mark Read</button>
+        <small>{{ notif.created_at | date: "short" }}</small>
+        <button *ngIf="!notif.is_read" (click)="markAsRead(notif.id)">
+          ✅ Mark Read
+        </button>
       </li>
     </ul>
   </div>

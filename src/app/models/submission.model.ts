@@ -7,7 +7,7 @@ export interface Submission {
   submission_url: string;
   grade: string | null;
   feedback: string | null;
-  user_name: string
+  user_name: string;
 
   // For input binding
   gradeInput?: string;

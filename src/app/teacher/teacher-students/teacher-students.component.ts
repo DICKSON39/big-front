@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, AsyncPipe, DatePipe,Location } from '@angular/common';
+import { CommonModule, AsyncPipe, DatePipe, Location } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { UserService } from '../../../services/user.service';
@@ -36,7 +36,7 @@ interface StudentWithCourses {
   standalone: true,
   imports: [CommonModule, AsyncPipe, DatePipe, FormsModule],
   templateUrl: './teacher-students.component.html',
-  styleUrls: ['./teacher-students.component.css']
+  styleUrls: ['./teacher-students.component.css'],
 })
 export class TeacherStudentsComponent implements OnInit {
   searchTerm: string = '';
@@ -56,7 +56,10 @@ export class TeacherStudentsComponent implements OnInit {
   errorStudentsWithEnrollments: string | null = null;
   errorStudentsWithCourses: string | null = null;
 
-  constructor(private userService: UserService,private location:Location) {}
+  constructor(
+    private userService: UserService,
+    private location: Location,
+  ) {}
 
   ngOnInit(): void {
     this.refreshAllData();
@@ -77,7 +80,7 @@ export class TeacherStudentsComponent implements OnInit {
     this.loadingAllStudents = true;
     this.errorAllStudents = null;
     this.allStudents$ = this.userService.getAllStudents(this.searchTerm).pipe(
-      map(res => {
+      map((res) => {
         this.loadingAllStudents = false;
         return res.students;
       }),
@@ -85,40 +88,45 @@ export class TeacherStudentsComponent implements OnInit {
         this.errorAllStudents = 'Failed to load all students.';
         this.loadingAllStudents = false;
         return of([]);
-      })
+      }),
     );
   }
 
   private loadStudentsWithEnrollments(): void {
     this.loadingStudentsWithEnrollments = true;
     this.errorStudentsWithEnrollments = null;
-    this.studentsWithEnrollments$ = this.userService.getStudentsWithEnrollments(this.searchTerm).pipe(
-      map(res => {
-        this.loadingStudentsWithEnrollments = false;
-        return res.enrolledStudents;
-      }),
-      catchError(() => {
-        this.errorStudentsWithEnrollments = 'Failed to load enrolled students.';
-        this.loadingStudentsWithEnrollments = false;
-        return of([]);
-      })
-    );
+    this.studentsWithEnrollments$ = this.userService
+      .getStudentsWithEnrollments(this.searchTerm)
+      .pipe(
+        map((res) => {
+          this.loadingStudentsWithEnrollments = false;
+          return res.enrolledStudents;
+        }),
+        catchError(() => {
+          this.errorStudentsWithEnrollments =
+            'Failed to load enrolled students.';
+          this.loadingStudentsWithEnrollments = false;
+          return of([]);
+        }),
+      );
   }
 
   private loadStudentsWithCourses(): void {
     this.loadingStudentsWithCourses = true;
     this.errorStudentsWithCourses = null;
-    this.studentsWithCourses$ = this.userService.getStudentsWithCourses(this.searchTerm).pipe(
-      map(res => {
-        this.loadingStudentsWithCourses = false;
-        return res.students;
-      }),
-      catchError(() => {
-        this.errorStudentsWithCourses = 'Failed to load student-course data.';
-        this.loadingStudentsWithCourses = false;
-        return of([]);
-      })
-    );
+    this.studentsWithCourses$ = this.userService
+      .getStudentsWithCourses(this.searchTerm)
+      .pipe(
+        map((res) => {
+          this.loadingStudentsWithCourses = false;
+          return res.students;
+        }),
+        catchError(() => {
+          this.errorStudentsWithCourses = 'Failed to load student-course data.';
+          this.loadingStudentsWithCourses = false;
+          return of([]);
+        }),
+      );
   }
 
   setTab(tab: 'all' | 'enrolled' | 'courses') {
@@ -131,7 +139,7 @@ export class TeacherStudentsComponent implements OnInit {
     return items.slice(start, start + this.itemsPerPage);
   }
 
-  goBack():void{
+  goBack(): void {
     this.location.back();
   }
 }

@@ -8,7 +8,7 @@ import {
 import { Observable, of } from 'rxjs';
 
 import { map, catchError, switchMap } from 'rxjs/operators';
-import {AuthService, User} from '../services/auth.service';
+import { AuthService, User } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,9 @@ export class AuthGuard implements CanActivate {
     // 1. Check if user is not authenticated or token is expired
     if (!isAuth || (token && this.authService.isTokenExpired(token))) {
       console.warn('AuthGuard: Not authenticated or token expired.');
-      this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+      this.router.navigate(['/login'], {
+        queryParams: { returnUrl: state.url },
+      });
       return of(false);
     }
 
@@ -41,13 +43,17 @@ export class AuthGuard implements CanActivate {
       map((user: User | null) => {
         if (!user) {
           console.warn('AuthGuard: No user found.');
-          this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+          this.router.navigate(['/login'], {
+            queryParams: { returnUrl: state.url },
+          });
           return false;
         }
 
         if (expectedRoles && expectedRoles.length > 0) {
           if (!expectedRoles.includes(user.role_id)) {
-            console.warn(`AuthGuard: Role ID ${user.role_id} not authorized. Expected roles: ${expectedRoles}`);
+            console.warn(
+              `AuthGuard: Role ID ${user.role_id} not authorized. Expected roles: ${expectedRoles}`,
+            );
             this.router.navigate(['/']); // Redirect to home or unauthorized page
             return false;
           }
@@ -57,9 +63,11 @@ export class AuthGuard implements CanActivate {
       }),
       catchError((err) => {
         console.error('AuthGuard: Error fetching user.', err);
-        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+        this.router.navigate(['/login'], {
+          queryParams: { returnUrl: state.url },
+        });
         return of(false);
-      })
+      }),
     );
   }
 }

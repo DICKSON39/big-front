@@ -1,5 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../../services/user.service';
@@ -13,7 +19,7 @@ import { debounceTime } from 'rxjs/operators';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './admin-enroll-student.component.html',
-  styleUrls: ['./admin-enroll-student.component.css']
+  styleUrls: ['./admin-enroll-student.component.css'],
 })
 export class AdminEnrollStudentComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
@@ -29,7 +35,7 @@ export class AdminEnrollStudentComponent implements OnInit {
     private snackBar: MatSnackBar,
     private userService: UserService,
     private courseService: CourseService,
-    private enrollmentService: EnrollmentService
+    private enrollmentService: EnrollmentService,
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +47,7 @@ export class AdminEnrollStudentComponent implements OnInit {
     this.fetchCourses();
 
     // 🔁 Debounced student search
-    this.searchSubject.pipe(debounceTime(300)).subscribe(value => {
+    this.searchSubject.pipe(debounceTime(300)).subscribe((value) => {
       this.searchTerm = value;
       this.fetchStudents();
     });
@@ -55,8 +61,10 @@ export class AdminEnrollStudentComponent implements OnInit {
         this.students = res.students;
       },
       error: () => {
-        this.snackBar.open('Error loading students', 'Close', { duration: 3000 });
-      }
+        this.snackBar.open('Error loading students', 'Close', {
+          duration: 3000,
+        });
+      },
     });
   }
 
@@ -66,8 +74,10 @@ export class AdminEnrollStudentComponent implements OnInit {
         this.courses = res.data || res;
       },
       error: () => {
-        this.snackBar.open('Error loading courses', 'Close', { duration: 3000 });
-      }
+        this.snackBar.open('Error loading courses', 'Close', {
+          duration: 3000,
+        });
+      },
     });
   }
 
@@ -75,19 +85,25 @@ export class AdminEnrollStudentComponent implements OnInit {
     event.preventDefault();
 
     if (this.enrollForm.invalid) {
-      this.snackBar.open('Please select both student and course.', 'Close', { duration: 3000 });
+      this.snackBar.open('Please select both student and course.', 'Close', {
+        duration: 3000,
+      });
       return;
     }
 
     this.enrollmentService.enrollStudent(this.enrollForm.value).subscribe({
       next: (res) => {
-        this.snackBar.open('Student enrolled successfully!', 'Close', { duration: 3000 });
+        this.snackBar.open('Student enrolled successfully!', 'Close', {
+          duration: 3000,
+        });
         this.enrollForm.reset(); // ✅ Reset form
         this.close.emit();
       },
       error: (err) => {
-        this.snackBar.open(err.error?.message || 'Enrollment failed', 'Close', { duration: 3000 });
-      }
+        this.snackBar.open(err.error?.message || 'Enrollment failed', 'Close', {
+          duration: 3000,
+        });
+      },
     });
   }
 

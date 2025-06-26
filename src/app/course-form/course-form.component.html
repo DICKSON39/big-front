@@ -1,4 +1,5 @@
-<div class="modal-backdrop" (click)="closeModal.emit()"></div> <div class="modal-content">
+<div class="modal-backdrop" (click)="closeModal.emit()"></div>
+<div class="modal-content">
   <h2>Create New Course</h2>
 
   <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
@@ -9,12 +10,20 @@
 
     <div class="form-group">
       <label for="description">Description</label>
-      <textarea id="description" formControlName="description" placeholder="Course Description"></textarea>
+      <textarea
+        id="description"
+        formControlName="description"
+        placeholder="Course Description"
+      ></textarea>
     </div>
 
     <div class="form-group">
       <label for="duration">Duration</label>
-      <input id="duration" formControlName="duration" placeholder="e.g. 6 weeks" />
+      <input
+        id="duration"
+        formControlName="duration"
+        placeholder="e.g. 6 weeks"
+      />
     </div>
 
     <div class="form-group">
@@ -25,20 +34,32 @@
         (change)="onFileChange($event)"
         accept="image/*"
       />
-      </div>
+    </div>
 
     <div class="form-group">
       <label for="category">Category</label>
-      <input id="category" formControlName="category" placeholder="e.g. Web Dev" />
+      <input
+        id="category"
+        formControlName="category"
+        placeholder="e.g. Web Dev"
+      />
     </div>
 
     <div class="form-group">
       <label for="price">Price</label>
-      <input id="price" formControlName="price" type="number" placeholder="e.g. 500" />
+      <input
+        id="price"
+        formControlName="price"
+        type="number"
+        placeholder="e.g. 500"
+      />
     </div>
 
     <div class="btns">
       <button type="submit" [disabled]="courseForm.invalid">Create</button>
-      <button type="button" class="cancel" (click)="closeModal.emit()">Cancel</button> </div>
+      <button type="button" class="cancel" (click)="closeModal.emit()">
+        Cancel
+      </button>
+    </div>
   </form>
 </div>

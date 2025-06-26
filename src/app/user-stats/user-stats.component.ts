@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AdminStatsService } from '../../services/admin-stats.service';
 import { CommonModule } from '@angular/common';
 
-
 @Component({
   selector: 'app-user-stats',
   templateUrl: './user-stats.component.html',
   styleUrls: ['./user-stats.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule],
 })
 export class UserStatsComponent implements OnInit {
   stats: any = null;
@@ -26,7 +25,7 @@ export class UserStatsComponent implements OnInit {
         console.error('❌ Error loading user stats:', err);
         this.error = 'Failed to load stats';
         this.loading = false;
-      }
+      },
     });
   }
 }

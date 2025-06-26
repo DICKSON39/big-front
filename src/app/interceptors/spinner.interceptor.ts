@@ -8,7 +8,5 @@ export const spinnerInterceptor: HttpInterceptorFn = (req, next) => {
 
   spinner.show();
 
-  return next(req).pipe(
-    finalize(() => spinner.hide())
-  );
+  return next(req).pipe(finalize(() => spinner.hide()));
 };

@@ -32,9 +32,9 @@ export interface PaginatedCourseResponse {
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent,FormsModule],
+  imports: [CommonModule, RouterLink, NavbarComponent, FormsModule],
   templateUrl: './landing.component.html',
-  styleUrl: './landing.component.css'
+  styleUrl: './landing.component.css',
 })
 export class LandingComponent implements OnInit, OnDestroy {
   currentYear = new Date().getFullYear();
@@ -45,11 +45,11 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private courseService: CourseService
+    private courseService: CourseService,
   ) {}
 
   ngOnInit(): void {
-    this.authSubscription = this.authService.getUser().subscribe(user => {
+    this.authSubscription = this.authService.getUser().subscribe((user) => {
       this.isAuthenticated = !!user;
     });
 
@@ -63,28 +63,26 @@ export class LandingComponent implements OnInit, OnDestroy {
   }
 
   fetchFeaturedCourses(): void {
-  this.courseService.getCourses(1, 10).subscribe({
-    next: (response) => {
-      if (response && response.results) {
-        this.featuredCourses = response.results.slice(0, 3); // ✅ Now accessing the correct key
-      } else {
-        console.warn('Unexpected course response:', response);
+    this.courseService.getCourses(1, 10).subscribe({
+      next: (response) => {
+        if (response && response.results) {
+          this.featuredCourses = response.results.slice(0, 3); // ✅ Now accessing the correct key
+        } else {
+          console.warn('Unexpected course response:', response);
+          this.featuredCourses = [];
+        }
+      },
+      error: (err) => {
+        console.error('Failed to fetch courses:', err);
         this.featuredCourses = [];
-      }
-    },
-    error: (err) => {
-      console.error('Failed to fetch courses:', err);
-      this.featuredCourses = [];
-    }
-  });
-}
-
-subscribeNewsletter() {
-  if (this.newsletterEmail) {
-    alert(`Subscribed with: ${this.newsletterEmail} 🎉`);
-    this.newsletterEmail = '';
+      },
+    });
   }
-}
 
-
+  subscribeNewsletter() {
+    if (this.newsletterEmail) {
+      alert(`Subscribed with: ${this.newsletterEmail} 🎉`);
+      this.newsletterEmail = '';
+    }
+  }
 }

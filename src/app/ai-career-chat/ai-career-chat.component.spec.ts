@@ -8,9 +8,8 @@ describe('AiCareerChatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AiCareerChatComponent]
-    })
-    .compileComponents();
+      imports: [AiCareerChatComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AiCareerChatComponent);
     component = fixture.componentInstance;

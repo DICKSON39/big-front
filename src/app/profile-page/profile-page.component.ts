@@ -1,16 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule,Location } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule, Location } from '@angular/common';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 import { Router } from '@angular/router';
-import { AuthService, UpdateUserBackendResponse, UpdateUserRequest, User } from '../../services/auth.service';
+import {
+  AuthService,
+  UpdateUserBackendResponse,
+  UpdateUserRequest,
+  User,
+} from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  styleUrls: ['./profile-page.component.css']
+  styleUrls: ['./profile-page.component.css'],
 })
 export class ProfilePageComponent implements OnInit {
   currentUser: User | null = null;
@@ -23,13 +33,12 @@ export class ProfilePageComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private location: Location
+    private location: Location,
   ) {
     this.profileForm = this.fb.group({
       first_name: ['', [Validators.required, Validators.minLength(2)]],
       last_name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      
     });
   }
 
@@ -52,7 +61,6 @@ export class ProfilePageComponent implements OnInit {
           first_name: user.first_name,
           last_name: user.last_name,
           email: user.email,
-          
         });
 
         this.profileForm.disable(); // Start in view mode
@@ -60,7 +68,7 @@ export class ProfilePageComponent implements OnInit {
       error: (err) => {
         console.error('Failed to load user:', err);
         this.router.navigate(['/login']);
-      }
+      },
     });
   }
 
@@ -70,7 +78,7 @@ export class ProfilePageComponent implements OnInit {
       this.profileForm.enable();
     } else {
       this.profileForm.disable();
-      this.loadUserProfile(); 
+      this.loadUserProfile();
     }
     this.clearMessages();
   }
@@ -96,13 +104,14 @@ export class ProfilePageComponent implements OnInit {
         // The service already stores the updated user in localStorage
         this.loadUserProfile(); // Re-load to update UI with new data and disable form
         this.isEditing = false;
-        setTimeout(() => this.successMessage = null, 3000);
+        setTimeout(() => (this.successMessage = null), 3000);
       },
       error: (err) => {
         console.error('Profile update failed:', err);
-        this.errorMessage = err.error?.message || 'Failed to update profile. Please try again.';
-        setTimeout(() => this.errorMessage = null, 5000);
-      }
+        this.errorMessage =
+          err.error?.message || 'Failed to update profile. Please try again.';
+        setTimeout(() => (this.errorMessage = null), 5000);
+      },
     });
   }
 
@@ -117,7 +126,7 @@ export class ProfilePageComponent implements OnInit {
     return control?.touched && control?.hasError(errorType);
   }
 
-  goBack():void{
+  goBack(): void {
     this.location.back();
   }
 }

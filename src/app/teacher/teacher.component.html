@@ -39,9 +39,7 @@
         >My Courses</a
       >
 
-      <a routerLink="/ai-career" routerLinkActive="active-link"
-        >Ai Assistant</a
-      >
+      <a routerLink="/ai-career" routerLinkActive="active-link">Ai Assistant</a>
 
       <button class="nav-button" (click)="showModal = true">
         Create Class
@@ -56,15 +54,12 @@
         + Create Assignment
       </button>
 
-      
       <a routerLink="/students">Students</a>
       <a routerLink="/profile" routerLinkActive="active-link">Settings</a>
     </nav>
   </aside>
 
   <main class="main-content" [class.shifted]="sidebarOpen && screenWidth > 768">
-
-    
     <header class="header">
       <h2>📚 Teacher Dashboard</h2>
       <div class="user-info-section">
@@ -91,7 +86,7 @@
     <section class="teacher-courses-section">
       <h2>📘 Your Created Courses</h2>
       <div class="courses-grid">
-        <div *ngFor="let course of teacherCourses " class="teacher-course-card">
+        <div *ngFor="let course of teacherCourses" class="teacher-course-card">
           <img
             [src]="course.image_url || 'assets/default-course-image.png'"
             alt="Course Image"
@@ -143,7 +138,7 @@
             class="class-videos-container"
           >
             <ul class="class-videos-list">
-              <li *ngFor="let cls of course.classes " class="class-video-item">
+              <li *ngFor="let cls of course.classes" class="class-video-item">
                 <h5>{{ cls.title }}</h5>
                 <p>{{ cls.description }}</p>
                 <video width="100%" controls *ngIf="cls.video_url">
@@ -162,52 +157,67 @@
       </ng-template>
     </section>
 
-   <section class="assignments-section">
-  <h2>📝 Assignments by Course</h2>
-  <div *ngIf="teacherCourses.length > 0; else noCoursesYet">
-    <div *ngFor="let course of teacherCourses" class="course-with-assignments">
-      <h3>{{ course.title }}</h3>
+    <section class="assignments-section">
+      <h2>📝 Assignments by Course</h2>
+      <div *ngIf="teacherCourses.length > 0; else noCoursesYet">
+        <div
+          *ngFor="let course of teacherCourses"
+          class="course-with-assignments"
+        >
+          <h3>{{ course.title }}</h3>
 
-      <div *ngIf="hasAssignments(course.id); else noAssignmentsYet">
-        <div *ngFor="let assignment of assignmentsByCourse[course.id] | slice:0:3" class="assignment-card">
-          <h4>{{ assignment.title }}</h4>
-          <p>{{ assignment.description }}</p>
-          <p>
-            📅 Due: {{ assignment.due_date | date: 'mediumDate' }} <br />
-            ⏳ <span [ngClass]="{ 'overdue-text': isOverdue(assignment.due_date) }">
-              {{ getCountdown(assignment.due_date) }}
-            </span>
-          </p>
+          <div *ngIf="hasAssignments(course.id); else noAssignmentsYet">
+            <div
+              *ngFor="
+                let assignment of assignmentsByCourse[course.id] | slice: 0 : 3
+              "
+              class="assignment-card"
+            >
+              <h4>{{ assignment.title }}</h4>
+              <p>{{ assignment.description }}</p>
+              <p>
+                📅 Due: {{ assignment.due_date | date: "mediumDate" }} <br />
+                ⏳
+                <span
+                  [ngClass]="{ 'overdue-text': isOverdue(assignment.due_date) }"
+                >
+                  {{ getCountdown(assignment.due_date) }}
+                </span>
+              </p>
 
-          <button
-            class="grade-btn"
-            [routerLink]="['/teacher/grade', course.id]"
-          >
-            🎯 Grade Submissions
-          </button>
+              <button
+                class="grade-btn"
+                [routerLink]="['/teacher/grade', course.id]"
+              >
+                🎯 Grade Submissions
+              </button>
+            </div>
+
+            <!-- Optional: show "See All" link per course if > 3 -->
+            <a
+              *ngIf="
+                assignmentsByCourse[course.id] &&
+                assignmentsByCourse[course.id].length > 3
+              "
+              [routerLink]="['/teacher/grade', course.id]"
+              class="see-all-btn"
+            >
+              🔎 See All Assignments
+            </a>
+          </div>
+
+          <ng-template #noAssignmentsYet>
+            <p class="empty-state small-text">
+              📭 No assignments yet for this course.
+            </p>
+          </ng-template>
         </div>
-
-        <!-- Optional: show "See All" link per course if > 3 -->
-        <a
-  *ngIf="assignmentsByCourse[course.id] && assignmentsByCourse[course.id].length > 3"
-  [routerLink]="['/teacher/grade', course.id]"
-  class="see-all-btn"
->
-  🔎 See All Assignments
-</a>
-
       </div>
 
-      <ng-template #noAssignmentsYet>
-        <p class="empty-state small-text">📭 No assignments yet for this course.</p>
+      <ng-template #noCoursesYet>
+        <p class="empty-state">📭 You haven’t created any courses yet.</p>
       </ng-template>
-    </div>
-  </div>
-
-  <ng-template #noCoursesYet>
-    <p class="empty-state">📭 You haven’t created any courses yet.</p>
-  </ng-template>
-</section>
+    </section>
 
     <section class="certificate-list-section">
       <h2>📄 Uploaded Certificates by Course</h2>
@@ -232,8 +242,6 @@
     </section>
   </main>
 </div>
-
-
 
 <div class="student-progress-modal" *ngIf="showStudentProgressModal">
   <div class="modal-content">
@@ -260,7 +268,10 @@
     </div>
 
     <div
-      *ngIf="!isLoadingStudents && filteredStudentsInCourse.length > 0; else noStudentsInCourse"
+      *ngIf="
+        !isLoadingStudents && filteredStudentsInCourse.length > 0;
+        else noStudentsInCourse
+      "
       class="students-list-container"
     >
       <div
@@ -276,9 +287,15 @@
           <p>
             Progress: <strong>{{ student.progress }}%</strong><br />
             Grade:
-            <strong *ngIf="student.average_grade !== null && student.average_grade !== undefined; else notGraded">
-    {{ student.average_grade }}%
-  </strong>
+            <strong
+              *ngIf="
+                student.average_grade !== null &&
+                  student.average_grade !== undefined;
+                else notGraded
+              "
+            >
+              {{ student.average_grade }}%
+            </strong>
             <ng-template #notGraded>
               <em>Not graded</em>
             </ng-template>
@@ -312,7 +329,6 @@
     </div>
   </div>
 </div>
-
 
 <app-class-form
   *ngIf="showModal"

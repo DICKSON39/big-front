@@ -17,31 +17,33 @@ export class StudentCourseProgressComponent implements OnInit {
   isLoading = true;
   errorMessage = '';
   selectedClass: any = null;
-selectedCourse: any = null;
-
+  selectedCourse: any = null;
 
   constructor(
     private progressService: ProgressService,
     private authService: AuthService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
-    this.authService.getUserId().pipe(take(1)).subscribe({
-      next: (userId) => {
-        if (!userId) {
-          this.errorMessage = 'User not found';
-          this.isLoading = false;
-          return;
-        }
+    this.authService
+      .getUserId()
+      .pipe(take(1))
+      .subscribe({
+        next: (userId) => {
+          if (!userId) {
+            this.errorMessage = 'User not found';
+            this.isLoading = false;
+            return;
+          }
 
-        this.fetchProgress(userId);
-      },
-      error: () => {
-        this.errorMessage = 'Error fetching user ID';
-        this.isLoading = false;
-      },
-    });
+          this.fetchProgress(userId);
+        },
+        error: () => {
+          this.errorMessage = 'Error fetching user ID';
+          this.isLoading = false;
+        },
+      });
   }
 
   fetchProgress(userId: string): void {
@@ -61,64 +63,82 @@ selectedCourse: any = null;
   getProgressPercent(course: any): number {
     if (!course.classes || course.classes.length === 0) return 0;
 
-    const completed = course.classes.filter((cls: any) => cls.is_completed).length;
+    const completed = course.classes.filter(
+      (cls: any) => cls.is_completed,
+    ).length;
     return Math.round((completed / course.classes.length) * 100);
   }
 
   markAsComplete(classId: number, course: any): void {
-    this.authService.getUserId().pipe(take(1)).subscribe({
-      next: (userId) => {
-        if (!userId) {
-          this.snackBar.open('User not logged in', 'Close', { duration: 3000 });
-          return;
-        }
-
-        this.progressService.markClassComplete(userId, classId).subscribe({
-          next: (res) => {
-            this.snackBar.open(res.message || 'Marked as completed!', 'Close', { duration: 3000 });
-
-            const cls = course.classes.find((c: any) => c.id === classId);
-            if (cls) {
-              cls.is_completed = true;
-            }
-          },
-          error: (err) => {
-            this.snackBar.open(err.error?.message || 'Failed to mark as complete', 'Close', {
+    this.authService
+      .getUserId()
+      .pipe(take(1))
+      .subscribe({
+        next: (userId) => {
+          if (!userId) {
+            this.snackBar.open('User not logged in', 'Close', {
               duration: 3000,
             });
-          },
-        });
-      },
-      error: () => {
-        this.snackBar.open('Error fetching user ID', 'Close', { duration: 3000 });
-      },
-    });
+            return;
+          }
+
+          this.progressService.markClassComplete(userId, classId).subscribe({
+            next: (res) => {
+              this.snackBar.open(
+                res.message || 'Marked as completed!',
+                'Close',
+                { duration: 3000 },
+              );
+
+              const cls = course.classes.find((c: any) => c.id === classId);
+              if (cls) {
+                cls.is_completed = true;
+              }
+            },
+            error: (err) => {
+              this.snackBar.open(
+                err.error?.message || 'Failed to mark as complete',
+                'Close',
+                {
+                  duration: 3000,
+                },
+              );
+            },
+          });
+        },
+        error: () => {
+          this.snackBar.open('Error fetching user ID', 'Close', {
+            duration: 3000,
+          });
+        },
+      });
   }
 
   watchClass(cls: any): void {
-  this.selectedClass = cls;
-  this.selectedCourse = this.courses.find(course =>
-    course.classes.some((c: any) => c.id === cls.id)
-  );
-}
+    this.selectedClass = cls;
+    this.selectedCourse = this.courses.find((course) =>
+      course.classes.some((c: any) => c.id === cls.id),
+    );
+  }
 
-closeVideo(): void {
-  this.selectedClass = null;
-  this.selectedCourse = null;
-}
+  closeVideo(): void {
+    this.selectedClass = null;
+    this.selectedCourse = null;
+  }
 
-toggleCourse(course: any): void {
-  course.showClasses = !course.showClasses;
-}
+  toggleCourse(course: any): void {
+    course.showClasses = !course.showClasses;
+  }
 
-onVideoEnded(classId: number, course: any): void {
-  this.markAsComplete(classId, course);
-}
+  onVideoEnded(classId: number, course: any): void {
+    this.markAsComplete(classId, course);
+  }
 
-shouldShowCertificate(course: any): boolean {
-  return course.progress === 100 && course.has_passed_assignment && !!course.certificate_url;
-}
-
-
-
+  shouldShowCertificate(course: any): boolean {
+    return (
+      course.progress === 100 &&
+      course.has_passed_assignment &&
+      !!course.certificate_url
+    );
+  }
 }

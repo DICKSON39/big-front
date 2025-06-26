@@ -7,9 +7,18 @@
 />
 
 <div class="tabs">
-  <button (click)="setTab('all')" [class.active]="activeTab === 'all'">All Students</button>
-  <button (click)="setTab('enrolled')" [class.active]="activeTab === 'enrolled'">Enrolled Students</button>
-  <button (click)="setTab('courses')" [class.active]="activeTab === 'courses'">With Courses</button>
+  <button (click)="setTab('all')" [class.active]="activeTab === 'all'">
+    All Students
+  </button>
+  <button
+    (click)="setTab('enrolled')"
+    [class.active]="activeTab === 'enrolled'"
+  >
+    Enrolled Students
+  </button>
+  <button (click)="setTab('courses')" [class.active]="activeTab === 'courses'">
+    With Courses
+  </button>
 </div>
 
 <!-- All Students -->
@@ -21,7 +30,12 @@
     <div class="pagination">
       <button (click)="page = page - 1" [disabled]="page === 1">Prev</button>
       <span>Page {{ page }}</span>
-      <button (click)="page = page + 1" [disabled]="(page * itemsPerPage) >= students.length">Next</button>
+      <button
+        (click)="page = page + 1"
+        [disabled]="page * itemsPerPage >= students.length"
+      >
+        Next
+      </button>
       <button class="btn-back-profile" (click)="goBack()">← Back</button>
     </div>
   </ng-container>
@@ -31,12 +45,20 @@
 <div *ngIf="activeTab === 'enrolled'">
   <ng-container *ngIf="studentsWithEnrollments$ | async as students">
     <div *ngFor="let s of paginate(students)">
-      <p>{{ s.first_name }} {{ s.last_name }} — {{ s.email }} | Enrolled At: {{ s.enrolled_at | date }}</p>
+      <p>
+        {{ s.first_name }} {{ s.last_name }} — {{ s.email }} | Enrolled At:
+        {{ s.enrolled_at | date }}
+      </p>
     </div>
     <div class="pagination">
       <button (click)="page = page - 1" [disabled]="page === 1">Prev</button>
       <span>Page {{ page }}</span>
-      <button (click)="page = page + 1" [disabled]="(page * itemsPerPage) >= students.length">Next</button>
+      <button
+        (click)="page = page + 1"
+        [disabled]="page * itemsPerPage >= students.length"
+      >
+        Next
+      </button>
       <button class="btn-back-profile" (click)="goBack()">← Back</button>
     </div>
   </ng-container>
@@ -46,7 +68,9 @@
 <div *ngIf="activeTab === 'courses'">
   <ng-container *ngIf="studentsWithCourses$ | async as students">
     <div *ngFor="let s of paginate(students)" class="student-card">
-      <p><strong>{{ s.firstName }} {{ s.lastName }}</strong> — {{ s.email }}</p>
+      <p>
+        <strong>{{ s.firstName }} {{ s.lastName }}</strong> — {{ s.email }}
+      </p>
       <ul>
         <li *ngFor="let c of s.courses">
           {{ c.name }} - {{ c.enrolledAt | date }}
@@ -56,7 +80,12 @@
     <div class="pagination">
       <button (click)="page = page - 1" [disabled]="page === 1">Prev</button>
       <span>Page {{ page }}</span>
-      <button (click)="page = page + 1" [disabled]="(page * itemsPerPage) >= students.length">Next</button>
+      <button
+        (click)="page = page + 1"
+        [disabled]="page * itemsPerPage >= students.length"
+      >
+        Next
+      </button>
       <button class="btn-back-profile" (click)="goBack()">← Back</button>
     </div>
   </ng-container>

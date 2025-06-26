@@ -8,6 +8,8 @@
 <div *ngIf="certificates.length > 0" class="cert-grid">
   <div *ngFor="let cert of certificates" class="cert-card">
     <h3>{{ cert.course_title }}</h3>
-    <a [href]="cert.certificate_url" download target="_blank">🎓 Download Certificate</a>
+    <a [href]="cert.certificate_url" download target="_blank"
+      >🎓 Download Certificate</a
+    >
   </div>
 </div>

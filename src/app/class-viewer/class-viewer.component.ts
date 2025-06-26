@@ -2,7 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from '../../services/course.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ClassService } from '../../services/class.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -29,7 +35,7 @@ export class ClassViewerComponent implements OnInit {
     private courseService: CourseService,
     private classService: ClassService,
     private snackBar: MatSnackBar,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +49,7 @@ export class ClassViewerComponent implements OnInit {
 
     this.editForm = this.fb.group({
       title: ['', Validators.required],
-      description: ['', Validators.required]
+      description: ['', Validators.required],
     });
   }
 
@@ -58,7 +64,9 @@ export class ClassViewerComponent implements OnInit {
       },
       error: () => {
         this.isLoading = false;
-        this.snackBar.open('Failed to load class info', 'Close', { duration: 3000 });
+        this.snackBar.open('Failed to load class info', 'Close', {
+          duration: 3000,
+        });
       },
     });
   }
@@ -75,8 +83,10 @@ export class ClassViewerComponent implements OnInit {
           this.loadClasses();
         },
         error: () => {
-          this.snackBar.open('Failed to delete class', 'Close', { duration: 3000 });
-        }
+          this.snackBar.open('Failed to delete class', 'Close', {
+            duration: 3000,
+          });
+        },
       });
     }
   }
@@ -85,7 +95,7 @@ export class ClassViewerComponent implements OnInit {
     this.editingClass = cls;
     this.editForm.patchValue({
       title: cls.title,
-      description: cls.description
+      description: cls.description,
     });
   }
 
@@ -110,13 +120,17 @@ export class ClassViewerComponent implements OnInit {
 
     this.classService.updateClass(this.editingClass.id, formData).subscribe({
       next: () => {
-        this.snackBar.open('Class updated successfully', 'Close', { duration: 3000 });
+        this.snackBar.open('Class updated successfully', 'Close', {
+          duration: 3000,
+        });
         this.loadClasses();
         this.cancelEdit();
       },
       error: () => {
-        this.snackBar.open('Failed to update class', 'Close', { duration: 3000 });
-      }
+        this.snackBar.open('Failed to update class', 'Close', {
+          duration: 3000,
+        });
+      },
     });
   }
 

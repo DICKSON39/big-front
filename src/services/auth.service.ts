@@ -1,6 +1,11 @@
 // src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse,
+  HttpResponse,
+} from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, of, tap, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -42,25 +47,28 @@ export interface UpdateUserBackendResponse {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = "https://school-online-backend.onrender.com/api/v1/auth";
+  private apiUrl = 'https://school-online-backend.onrender.com/api/v1/auth';
   private jwtHelper = new JwtHelperService();
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
   }
 
   getUser(): Observable<User | null> {
     const userString = localStorage.getItem('user');
-    const user = userString ? JSON.parse(userString) as User : null;
+    const user = userString ? (JSON.parse(userString) as User) : null;
     return of(user);
   }
 
@@ -69,7 +77,7 @@ export class AuthService {
   }
 
   getUserId(): Observable<string | null> {
-    return this.getUser().pipe(map(user => user ? user.id : null));
+    return this.getUser().pipe(map((user) => (user ? user.id : null)));
   }
 
   isAuthenticated(): boolean {
@@ -94,46 +102,58 @@ export class AuthService {
   }
 
   register(userData: any): Observable<RegistrationResponse> {
-    return this.http.post<RegistrationResponse>(`${this.apiUrl}/register`, userData).pipe(
-      tap((response) => {
-        if (response?.accessToken) {
-          this.storeToken(response.accessToken);
-          this.storeUser(response.user);
-          if (response.user?.id) {
-            localStorage.setItem('userId', response.user.id);
+    return this.http
+      .post<RegistrationResponse>(`${this.apiUrl}/register`, userData)
+      .pipe(
+        tap((response) => {
+          if (response?.accessToken) {
+            this.storeToken(response.accessToken);
+            this.storeUser(response.user);
+            if (response.user?.id) {
+              localStorage.setItem('userId', response.user.id);
+            }
           }
-        }
-      })
-    );
+        }),
+      );
   }
 
-  login(credentials: { email: string; password: string }): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials, { observe: 'response' }).pipe(
-      tap((httpResponse: HttpResponse<LoginResponse>) => {
-        const responseBody = httpResponse.body;
-        if (responseBody?.accessToken) {
-          this.storeToken(responseBody.accessToken);
-          this.storeUser(responseBody.user);
-        } else {
-          this.storeToken('');
-        }
-      }),
-      map(httpResponse => {
-        if (!httpResponse.body) throw new Error('No response body received from login.');
-        return httpResponse.body;
+  login(credentials: {
+    email: string;
+    password: string;
+  }): Observable<LoginResponse> {
+    return this.http
+      .post<LoginResponse>(`${this.apiUrl}/login`, credentials, {
+        observe: 'response',
       })
-    );
+      .pipe(
+        tap((httpResponse: HttpResponse<LoginResponse>) => {
+          const responseBody = httpResponse.body;
+          if (responseBody?.accessToken) {
+            this.storeToken(responseBody.accessToken);
+            this.storeUser(responseBody.user);
+          } else {
+            this.storeToken('');
+          }
+        }),
+        map((httpResponse) => {
+          if (!httpResponse.body)
+            throw new Error('No response body received from login.');
+          return httpResponse.body;
+        }),
+      );
   }
 
   logout(): void {
-    this.http.post(`${this.apiUrl}/logout`, {}, { headers: this.getAuthHeaders() }).subscribe({
-      complete: () => {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('user');
-        localStorage.removeItem('userId');
-        this.router.navigate(['/']);
-      }
-    });
+    this.http
+      .post(`${this.apiUrl}/logout`, {}, { headers: this.getAuthHeaders() })
+      .subscribe({
+        complete: () => {
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('user');
+          localStorage.removeItem('userId');
+          this.router.navigate(['/']);
+        },
+      });
   }
 
   verifyOtp(userId: string, otp: string): Observable<any> {
@@ -145,23 +165,29 @@ export class AuthService {
   }
 
   requestPasswordReset(email: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/request-reset-password`, { email }).pipe(
-      catchError((error: HttpErrorResponse) => throwError(() => error))
-    );
+    return this.http
+      .post(`${this.apiUrl}/request-reset-password`, { email })
+      .pipe(catchError((error: HttpErrorResponse) => throwError(() => error)));
   }
 
   verifyPasswordResetOtp(email: string, otp: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/verify-password-reset-otp`, { email, otp }).pipe(
-      catchError((error: HttpErrorResponse) => throwError(() => error))
-    );
+    return this.http
+      .post(`${this.apiUrl}/verify-password-reset-otp`, { email, otp })
+      .pipe(catchError((error: HttpErrorResponse) => throwError(() => error)));
   }
 
-  resetPassword(email: string, newPassword: string, passwordResetToken: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/reset/password`, {
-      email, newPassword, passwordResetToken
-    }).pipe(
-      catchError((error: HttpErrorResponse) => throwError(() => error))
-    );
+  resetPassword(
+    email: string,
+    newPassword: string,
+    passwordResetToken: string,
+  ): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/reset/password`, {
+        email,
+        newPassword,
+        passwordResetToken,
+      })
+      .pipe(catchError((error: HttpErrorResponse) => throwError(() => error)));
   }
 
   addUser(userData: {
@@ -171,24 +197,29 @@ export class AuthService {
     password: string;
     role_name: string;
   }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/admin/users`, userData, {
-      headers: this.getAuthHeaders()
-    }).pipe(
-      catchError((error: HttpErrorResponse) => throwError(() => error))
-    );
+    return this.http
+      .post(`${this.apiUrl}/admin/users`, userData, {
+        headers: this.getAuthHeaders(),
+      })
+      .pipe(catchError((error: HttpErrorResponse) => throwError(() => error)));
   }
 
-  updateProfile(userId: string, userData: UpdateUserRequest): Observable<UpdateUserBackendResponse> {
-    return this.http.put<UpdateUserBackendResponse>(
-      `https://school-online-backend.onrender.com/api/v1/users/users/${userId}`,
-      userData,
-      { headers: this.getAuthHeaders() }
-    ).pipe(
-      tap(response => {
-        if (response.user) {
-          this.storeUser(response.user);
-        }
-      })
-    );
+  updateProfile(
+    userId: string,
+    userData: UpdateUserRequest,
+  ): Observable<UpdateUserBackendResponse> {
+    return this.http
+      .put<UpdateUserBackendResponse>(
+        `https://school-online-backend.onrender.com/api/v1/users/users/${userId}`,
+        userData,
+        { headers: this.getAuthHeaders() },
+      )
+      .pipe(
+        tap((response) => {
+          if (response.user) {
+            this.storeUser(response.user);
+          }
+        }),
+      );
   }
 }

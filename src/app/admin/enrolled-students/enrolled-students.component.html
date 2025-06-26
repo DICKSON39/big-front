@@ -17,8 +17,11 @@
     <h4>📚 Enrolled Courses:</h4>
     <ul>
       <li *ngFor="let course of student.courses">
-        {{ course.name }} (Enrolled: {{ course.enrolledAt | date:'mediumDate' }})
-        <button (click)="unenrollStudent(student.id, course.id)">❌ Unenroll</button>
+        {{ course.name }} (Enrolled:
+        {{ course.enrolledAt | date: "mediumDate" }})
+        <button (click)="unenrollStudent(student.id, course.id)">
+          ❌ Unenroll
+        </button>
       </li>
     </ul>
   </div>

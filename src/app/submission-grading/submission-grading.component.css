@@ -1,5 +1,5 @@
 .grading-wrapper {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   padding: 20px;
   max-width: 900px;
   margin: 20px auto;
@@ -84,7 +84,6 @@ input[type="text"][placeholder="Enter feedback"] {
 input[type="text"][placeholder="Enter feedback"] {
   width: calc(100% - 10px); /* Full width for feedback */
 }
-
 
 button {
   background-color: #2ecc71;

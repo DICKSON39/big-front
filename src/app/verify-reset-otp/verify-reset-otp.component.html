@@ -7,8 +7,12 @@
     <div class="form-group">
       <label for="otp">OTP Code</label>
       <input type="text" id="otp" maxlength="6" formControlName="otp" />
-      <small *ngIf="f['otp'].touched && f['otp'].errors?.['required']">OTP is required</small>
-      <small *ngIf="f['otp'].touched && f['otp'].errors?.['pattern']">Enter a 6-digit number</small>
+      <small *ngIf="f['otp'].touched && f['otp'].errors?.['required']"
+        >OTP is required</small
+      >
+      <small *ngIf="f['otp'].touched && f['otp'].errors?.['pattern']"
+        >Enter a 6-digit number</small
+      >
     </div>
 
     <div *ngIf="errorMessage" class="error-message">
@@ -18,13 +22,18 @@
       {{ successMessage }}
     </div>
 
-    <button type="submit" class="btn" [disabled]="verifyOtpForm.invalid || isLoading || !email">
+    <button
+      type="submit"
+      class="btn"
+      [disabled]="verifyOtpForm.invalid || isLoading || !email"
+    >
       <span *ngIf="isLoading">Verifying...</span>
       <span *ngIf="!isLoading">Verify OTP</span>
     </button>
 
     <p class="resend-text">
-      Didn't get the code? <a (click)="onResendOtp()" class="resend-link">Resend OTP</a>
+      Didn't get the code?
+      <a (click)="onResendOtp()" class="resend-link">Resend OTP</a>
     </p>
   </form>
 </div>

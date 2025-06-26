@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PaymentService } from '../../services/payment.service';
 
 @Component({
@@ -7,22 +7,19 @@ import { PaymentService } from '../../services/payment.service';
 
   imports: [CommonModule],
   templateUrl: './admin-payments.component.html',
-  styleUrl: './admin-payments.component.css'
+  styleUrl: './admin-payments.component.css',
 })
 export class AdminPaymentsComponent implements OnInit {
-
   paymentDetails: any[] = [];
   isLoading = true;
 
-  constructor(private paymentService:PaymentService){}
+  constructor(private paymentService: PaymentService) {}
 
   ngOnInit(): void {
     this.fetchPayments();
-      
   }
 
-
-   fetchPayments(): void {
+  fetchPayments(): void {
     this.paymentService.getAllPayments().subscribe({
       next: (res) => {
         this.paymentDetails = res;
@@ -31,9 +28,7 @@ export class AdminPaymentsComponent implements OnInit {
       error: (err) => {
         console.error('Failed to load payments', err);
         this.isLoading = false;
-      }
+      },
     });
   }
-
-
 }

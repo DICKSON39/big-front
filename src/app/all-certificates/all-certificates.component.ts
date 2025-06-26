@@ -15,32 +15,34 @@ export class AllCertificatesComponent implements OnInit {
   certificates: any[] = [];
   isLoading = true;
   errorMessage = '';
-error: any;
-certs: any;
+  error: any;
+  certs: any;
 
   constructor(
     private authService: AuthService,
-    private certificateService: CertificateService
+    private certificateService: CertificateService,
   ) {}
 
   ngOnInit(): void {
-  this.authService.getUserId().pipe(take(1)).subscribe({
-    next: (userId) => {
-      if (!userId) {
-        this.errorMessage = 'Unable to fetch user info';
-        this.isLoading = false;
-        return;
-      }
+    this.authService
+      .getUserId()
+      .pipe(take(1))
+      .subscribe({
+        next: (userId) => {
+          if (!userId) {
+            this.errorMessage = 'Unable to fetch user info';
+            this.isLoading = false;
+            return;
+          }
 
-      this.fetchCerts(userId); // now safe ✅
-    },
-    error: () => {
-      this.errorMessage = 'Unable to fetch user info';
-      this.isLoading = false;
-    }
-  });
-}
-
+          this.fetchCerts(userId); // now safe ✅
+        },
+        error: () => {
+          this.errorMessage = 'Unable to fetch user info';
+          this.isLoading = false;
+        },
+      });
+  }
 
   fetchCerts(userId: string): void {
     this.certificateService.getUserCertificates(userId).subscribe({
@@ -51,7 +53,7 @@ certs: any;
       error: () => {
         this.errorMessage = 'Failed to load certificates';
         this.isLoading = false;
-      }
+      },
     });
   }
 }

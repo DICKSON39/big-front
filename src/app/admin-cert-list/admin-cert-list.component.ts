@@ -7,7 +7,7 @@ import { CertificateService } from '../../services/certificate.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './admin-cert-list.component.html',
-  styleUrls: ['./admin-cert-list.component.css']
+  styleUrls: ['./admin-cert-list.component.css'],
 })
 export class AdminCertListComponent implements OnInit {
   certs: any[] = [];
@@ -25,8 +25,7 @@ export class AdminCertListComponent implements OnInit {
       error: (err) => {
         this.error = 'Failed to load certificates';
         this.isLoading = false;
-      }
+      },
     });
   }
 }
-

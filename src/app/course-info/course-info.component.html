@@ -1,4 +1,7 @@
-<div class="course-details-container" *ngIf="!isLoading && course; else loadingOrError">
+<div
+  class="course-details-container"
+  *ngIf="!isLoading && course; else loadingOrError"
+>
   <div class="course-image">
     <img [src]="course.image_url" alt="{{ course.title }}" />
   </div>
@@ -11,26 +14,28 @@
     <p><strong>Price:</strong> KES {{ course.price }}</p>
     <p><strong>Number of Classes:</strong> {{ course.classes?.length || 0 }}</p>
 
-
     <div class="instructor" *ngIf="course.instructor">
-      <p><strong>Instructor:</strong> {{ course.instructor.first_name }} {{ course.instructor.last_name }}</p>
+      <p>
+        <strong>Instructor:</strong> {{ course.instructor.first_name }}
+        {{ course.instructor.last_name }}
+      </p>
       <p><strong>Email:</strong> {{ course.instructor.email }}</p>
     </div>
 
     <hr />
 
     <!-- Enroll Button -->
-   <button class="enroll-btn" 
-  (click)="showPaymentModal = true" 
-  [disabled]="alreadyEnrolled">
-  {{ alreadyEnrolled ? 'Already Enrolled' : 'Enroll' }}
-</button>
+    <button
+      class="enroll-btn"
+      (click)="showPaymentModal = true"
+      [disabled]="alreadyEnrolled"
+    >
+      {{ alreadyEnrolled ? "Already Enrolled" : "Enroll" }}
+    </button>
 
-<div *ngIf="alreadyEnrolled" class="alert alert-info">
-  You are already enrolled in this course ✅
-</div>
-
-
+    <div *ngIf="alreadyEnrolled" class="alert alert-info">
+      You are already enrolled in this course ✅
+    </div>
   </div>
 </div>
 
@@ -39,10 +44,6 @@
   <div class="modal-content">
     <span class="close" (click)="showPaymentModal = false">&times;</span>
     <h2>Select Payment Method</h2>
-
-   
-
-    
 
     <!-- M-Pesa -->
     <div class="payment-option">
@@ -56,9 +57,11 @@
         [disabled]="paymentInProgress"
       />
       <button (click)="handleMpesaPayment()" [disabled]="paymentInProgress">
-        {{ paymentInProgress ? 'Processing...' : 'Pay with M-Pesa' }}
+        {{ paymentInProgress ? "Processing..." : "Pay with M-Pesa" }}
       </button>
-      <div *ngIf="mpesaSuccess" class="success-message">✅ M-Pesa payment initiated!</div>
+      <div *ngIf="mpesaSuccess" class="success-message">
+        ✅ M-Pesa payment initiated!
+      </div>
     </div>
   </div>
 </div>

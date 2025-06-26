@@ -14,10 +14,17 @@ import { AdminStatsComponent } from '../admin-stats/admin-stats.component';
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [RouterLink, CommonModule, AdminEnrollStudentComponent, CertificateComponent, CertificateListComponent,AdminStatsComponent],
+  imports: [
+    RouterLink,
+    CommonModule,
+    AdminEnrollStudentComponent,
+    CertificateComponent,
+    CertificateListComponent,
+    AdminStatsComponent,
+  ],
   templateUrl: './admin.component.html',
-  
-  styleUrl: './admin.component.css'
+
+  styleUrl: './admin.component.css',
 })
 export class AdminComponent implements OnInit, OnDestroy {
   userName: string | null = null;
@@ -32,12 +39,11 @@ export class AdminComponent implements OnInit, OnDestroy {
   showEnrollModal = false;
   showCertificateModal = false;
 
-  
   constructor(
     private authService: AuthService,
     private router: Router,
     private certificateService: CertificateService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +62,7 @@ export class AdminComponent implements OnInit, OnDestroy {
       (error) => {
         console.error('Error fetching user data for AdminComponent:', error);
         this.userName = this.userEmail = this.userRole = null;
-      }
+      },
     );
   }
 
@@ -91,32 +97,41 @@ export class AdminComponent implements OnInit, OnDestroy {
     if (confirm('Are you sure you want to delete this certificate?')) {
       this.certificateService.deleteCertificate(certId).subscribe({
         next: () => {
-          this.adminCertificates = this.adminCertificates.filter(c => c.id !== certId);
+          this.adminCertificates = this.adminCertificates.filter(
+            (c) => c.id !== certId,
+          );
           this.groupCertificates();
-          this.snackBar.open('✅ Certificate deleted!', 'Close', { duration: 3000 });
+          this.snackBar.open('✅ Certificate deleted!', 'Close', {
+            duration: 3000,
+          });
         },
         error: (err) => {
           console.error('Failed to delete certificate:', err);
-          this.snackBar.open('❌ Failed to delete certificate', 'Close', { duration: 3000 });
-        }
+          this.snackBar.open('❌ Failed to delete certificate', 'Close', {
+            duration: 3000,
+          });
+        },
       });
     }
   }
 
   loadCertificates(): void {
-    this.certificateService.getCertificateForAdmin().subscribe(res => {
+    this.certificateService.getCertificateForAdmin().subscribe((res) => {
       this.adminCertificates = res.certificate || res.data || res;
       this.groupCertificates();
     });
   }
 
   groupCertificates(): void {
-    this.groupedCertificates = this.adminCertificates.reduce((acc: any, cert: any) => {
-      const courseName = cert.course_title || 'Unassigned';
-      if (!acc[courseName]) acc[courseName] = [];
-      acc[courseName].push(cert);
-      return acc;
-    }, {});
+    this.groupedCertificates = this.adminCertificates.reduce(
+      (acc: any, cert: any) => {
+        const courseName = cert.course_title || 'Unassigned';
+        if (!acc[courseName]) acc[courseName] = [];
+        acc[courseName].push(cert);
+        return acc;
+      },
+      {},
+    );
   }
 
   get certificateCourseTitles(): string[] {

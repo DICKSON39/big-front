@@ -8,9 +8,11 @@
     <div *ngIf="assignment.submissions.length > 0; else noSubs">
       <div *ngFor="let sub of assignment.submissions" class="submission-item">
         <p>👤 Student ID: {{ sub.user_id }}</p>
-        <p>{{sub.first_name}} {{ sub.last_name }}</p>
-        <p>{{sub.email}}</p>
-        <p>🔗 <a [href]="sub.submission_url" target="_blank">Submission Link</a></p>
+        <p>{{ sub.first_name }} {{ sub.last_name }}</p>
+        <p>{{ sub.email }}</p>
+        <p>
+          🔗 <a [href]="sub.submission_url" target="_blank">Submission Link</a>
+        </p>
 
         <div *ngIf="sub.grade; else gradingForm">
           <p>✅ Grade: {{ sub.grade }}</p>

@@ -1,6 +1,6 @@
 /* General Body and Container Styles */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f7f6;
   color: #333;
   margin: 0;
@@ -79,7 +79,9 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1em;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
   text-decoration: none; /* For routerLink usage */
   display: inline-block; /* Ensure padding applies correctly for routerLink */
 }
@@ -104,7 +106,6 @@ body {
   background-color: #0056b3;
 }
 
-
 /* New: Main content area styles */
 .main-content-area {
   flex-grow: 1; /* Allows this area to take up available vertical space */
@@ -114,11 +115,13 @@ body {
   gap: 30px; /* Space between main sections */
 }
 
-
 /* Stats Grid Section */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(200px, 1fr)
+  ); /* Responsive grid */
   gap: 25px;
   padding: 30px 0; /* Only vertical padding here, horizontal from .main-content-area */
   background-color: #eef3f7; /* Slightly different background for stats */
@@ -132,7 +135,9 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .stat-card:hover {
@@ -166,7 +171,9 @@ body {
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
   align-items: flex-start; /* Align text to the left */
@@ -200,7 +207,9 @@ body {
   border-radius: 5px;
   text-decoration: none;
   font-weight: 500;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
   display: inline-block; /* Essential for padding and transforming */
   margin-top: auto; /* Pushes link to the bottom of the card */
   border: none; /* For buttons styled as section-link */
@@ -247,7 +256,7 @@ body {
 }
 
 .certificate-list-section h2::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 50%;
   bottom: 0;
@@ -302,7 +311,9 @@ app-certificate-list {
   border-radius: 8px;
   overflow: hidden; /* Ensures any internal elements respect border-radius */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
   padding: 20px; /* Internal padding for content */
@@ -330,7 +341,9 @@ app-certificate-list {
   padding: 10px 20px;
   border-radius: 5px;
   font-size: 1em;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
   margin-top: auto; /* Pushes the button to the bottom if content varies */
 }
 
@@ -350,7 +363,6 @@ app-certificate-list {
   border-radius: 8px;
   margin-top: 15px; /* Space from the top of the container */
 }
-
 
 /* Footer Styles */
 .dashboard-footer {

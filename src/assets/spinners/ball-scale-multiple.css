@@ -14,7 +14,7 @@
   border-radius: 100%;
   position: absolute;
   animation: ball-scale-multiple 1.2s 0s linear infinite; /* Slightly slower animation */
-  width: 15px;  /* Initial size of the balls */
+  width: 15px; /* Initial size of the balls */
   height: 15px; /* Initial size of the balls */
   opacity: 0.8; /* Start with slight transparency */
 }

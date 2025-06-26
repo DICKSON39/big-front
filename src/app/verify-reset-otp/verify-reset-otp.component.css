@@ -55,7 +55,9 @@ input[type="text"] {
   border-radius: 8px;
   font-size: 18px;
   box-sizing: border-box;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
   text-align: center; /* Center the OTP digits */
   letter-spacing: 2px; /* Space out OTP digits slightly */
 }
@@ -105,7 +107,9 @@ small {
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   margin-top: 10px;
 }
 

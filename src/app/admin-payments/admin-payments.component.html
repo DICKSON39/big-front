@@ -2,7 +2,9 @@
   <h2>📑 Payment Details</h2>
 
   <div *ngIf="isLoading">Loading payment records...</div>
-  <div *ngIf="!isLoading && paymentDetails.length === 0">No payments found.</div>
+  <div *ngIf="!isLoading && paymentDetails.length === 0">
+    No payments found.
+  </div>
 
   <table *ngIf="paymentDetails.length > 0" class="payment-table">
     <thead>
@@ -21,12 +23,17 @@
         <td>{{ payment.courseTitle }}</td>
         <td>{{ payment.userName }} {{ payment.userLastName }}</td>
         <td>{{ payment.userEmail }}</td>
-        <td>{{ payment.amount | currency:'KES' }}</td>
+        <td>{{ payment.amount | currency: "KES" }}</td>
         <td>{{ payment.paymentMethod }}</td>
-        <td [ngClass]="{'success': payment.status === 'success', 'fail': payment.status !== 'success'}">
+        <td
+          [ngClass]="{
+            success: payment.status === 'success',
+            fail: payment.status !== 'success',
+          }"
+        >
           {{ payment.status }}
         </td>
-        <td>{{ payment.paymentDate | date: 'mediumDate' }}</td>
+        <td>{{ payment.paymentDate | date: "mediumDate" }}</td>
       </tr>
     </tbody>
   </table>

@@ -21,4 +21,3 @@ export interface AiSuggestionResponse {
   fallback?: boolean;
   suggested_courses?: Course[];
 }
-

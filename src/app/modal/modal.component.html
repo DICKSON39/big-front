@@ -2,7 +2,7 @@
 <div class="modal-backdrop" *ngIf="visible">
   <div class="modal-content">
     <p>{{ message }}</p>
-    
+
     <div class="modal-actions" *ngIf="showButtons">
       <button class="btn-confirm" (click)="confirm.emit()">Yes</button>
       <button class="btn-cancel" (click)="cancel.emit()">Cancel</button>

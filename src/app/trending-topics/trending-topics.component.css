@@ -68,16 +68,21 @@
 
 /* Adding a simple loading animation dot */
 .loading-message::after {
-  content: '...';
+  content: "...";
   animation: dot-loading 1s infinite steps(1, end);
 }
 
 @keyframes dot-loading {
-  0% { content: '.'; }
-  33% { content: '..'; }
-  66% { content: '...'; }
+  0% {
+    content: ".";
+  }
+  33% {
+    content: "..";
+  }
+  66% {
+    content: "...";
+  }
 }
-
 
 /* --- Error Message Styles --- */
 .error-message {

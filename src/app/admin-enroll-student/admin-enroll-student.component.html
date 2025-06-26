@@ -18,13 +18,17 @@
       <label>Course</label>
       <select formControlName="course_id">
         <option value="">Select course</option>
-        <option *ngFor="let course of courses" [value]="course.id">{{ course.title }}</option>
+        <option *ngFor="let course of courses" [value]="course.id">
+          {{ course.title }}
+        </option>
       </select>
     </div>
 
     <div class="btns">
       <button type="submit" [disabled]="enrollForm.invalid">✅ Enroll</button>
-      <button type="button" class="cancel" (click)="closeModal()">❌ Cancel</button>
+      <button type="button" class="cancel" (click)="closeModal()">
+        ❌ Cancel
+      </button>
     </div>
   </form>
 </div>

@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './courses-with-classes.component.html',
   styleUrls: ['./courses-with-classes.component.css'],
   standalone: true,
-  imports: [CommonModule, RouterLink]
+  imports: [CommonModule, RouterLink],
 })
 export class CoursesWithClassesComponent implements OnInit {
   courses: any[] = [];
@@ -25,7 +25,7 @@ export class CoursesWithClassesComponent implements OnInit {
       error: () => {
         alert('Failed to load courses with classes');
         this.isLoading = false;
-      }
+      },
     });
   }
 }

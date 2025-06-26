@@ -3,7 +3,7 @@ import {
   OnInit,
   OnDestroy,
   HostListener,
-  Input
+  Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router, RouterLinkActive } from '@angular/router';
@@ -29,9 +29,6 @@ interface TeacherStat {
   count: number;
 }
 
-
-
-
 interface UpcomingAssignment {
   id: number;
   title: string;
@@ -43,7 +40,17 @@ interface UpcomingAssignment {
 @Component({
   selector: 'app-teacher',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, ClassFormComponent, CourseFormComponent, FormsModule, CertificateComponent, CertificateListComponent,TeacherStatsComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterLinkActive,
+    ClassFormComponent,
+    CourseFormComponent,
+    FormsModule,
+    CertificateComponent,
+    CertificateListComponent,
+    TeacherStatsComponent,
+  ],
   templateUrl: './teacher.component.html',
 
   styleUrls: ['./teacher.component.css'],
@@ -69,10 +76,9 @@ export class TeacherComponent implements OnInit, OnDestroy {
   userRole: string | null = null;
   private userSubscription!: Subscription;
   private studentsProgressSubscription!: Subscription;
-  assignmentsByCourse: { [courseId: number]: Assignment[] } = {}
+  assignmentsByCourse: { [courseId: number]: Assignment[] } = {};
 
   showAssignmentModal = false;
-  
 
   userAvatar = 'https://i.pravatar.cc/100';
 
@@ -80,10 +86,8 @@ export class TeacherComponent implements OnInit, OnDestroy {
     { title: 'Total Classes', count: 12 },
     { title: 'Active Students', count: 150 },
     { title: 'Courses Created', count: 5 },
-    { title: 'Pending Assignments', count: 8 }
+    { title: 'Pending Assignments', count: 8 },
   ];
-
-  
 
   showStudentProgressModal: boolean = false;
   selectedCourseForStudents: any | null = null;
@@ -102,7 +106,7 @@ export class TeacherComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private certificateService: CertificateService,
     private dialog: MatDialog,
-    private assignmentService: AssignmentService
+    private assignmentService: AssignmentService,
   ) {
     this.screenWidth = window.innerWidth;
   }
@@ -124,7 +128,7 @@ export class TeacherComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Failed to load user data:', err);
-      }
+      },
     });
 
     this.loadCourses();
@@ -135,33 +139,32 @@ export class TeacherComponent implements OnInit, OnDestroy {
         this.coursesWithClasses = res.data || [];
       },
       error: () => {
-        this.snackBar.open('Failed to load courses with classes', 'Close', { duration: 3000 });
-      }
+        this.snackBar.open('Failed to load courses with classes', 'Close', {
+          duration: 3000,
+        });
+      },
     });
 
-    this.studentsProgressSubscription = this.studentSearchSubject.pipe(
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe(() => {
-      this.filterStudentsInCourse();
-    });
+    this.studentsProgressSubscription = this.studentSearchSubject
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(() => {
+        this.filterStudentsInCourse();
+      });
 
-    this.certificateService.getCertificate().subscribe(res => {
+    this.certificateService.getCertificate().subscribe((res) => {
       this.teacherCertificates = res.certificate;
       this.groupCertificatesByCourse();
     });
-
-   
   }
 
- 
-closeAssignmentModal(): void {
-  this.showAssignmentModal = false;
-}
+  closeAssignmentModal(): void {
+    this.showAssignmentModal = false;
+  }
 
   ngOnDestroy(): void {
     if (this.userSubscription) this.userSubscription.unsubscribe();
-    if (this.studentsProgressSubscription) this.studentsProgressSubscription.unsubscribe();
+    if (this.studentsProgressSubscription)
+      this.studentsProgressSubscription.unsubscribe();
   }
 
   toggleSidebar(): void {
@@ -174,20 +177,21 @@ closeAssignmentModal(): void {
   }
 
   loadCourses(): void {
-  this.courseService.getCoursesByTeacher().subscribe({
-    next: (res) => {
-      this.teacherCourses = res.results;
-      
+    this.courseService.getCoursesByTeacher().subscribe({
+      next: (res) => {
+        this.teacherCourses = res.results;
 
-      // ⬇️ Make sure assignments are loaded immediately after courses
-      this.loadAllAssignments(); 
-    },
-    error: (err) => {
-      console.error('Error loading teacher courses:', err);
-      this.snackBar.open('❌ Failed to load your courses', 'Close', { duration: 3000 });
-    }
-  });
-}
+        // ⬇️ Make sure assignments are loaded immediately after courses
+        this.loadAllAssignments();
+      },
+      error: (err) => {
+        console.error('Error loading teacher courses:', err);
+        this.snackBar.open('❌ Failed to load your courses', 'Close', {
+          duration: 3000,
+        });
+      },
+    });
+  }
 
   editCourse(course: any): void {
     this.selectedCourseId = course.id;
@@ -195,22 +199,32 @@ closeAssignmentModal(): void {
   }
 
   deleteCourse(courseId: number): void {
-    if (confirm('Are you sure you want to delete this course? This action cannot be undone.')) {
+    if (
+      confirm(
+        'Are you sure you want to delete this course? This action cannot be undone.',
+      )
+    ) {
       this.courseService.deleteCourse(courseId).subscribe({
         next: () => {
-          this.snackBar.open('✅ Course deleted successfully!', 'Close', { duration: 3000 });
-          this.teacherCourses = this.teacherCourses.filter(c => c.id !== courseId);
-          this.coursesWithClasses = this.coursesWithClasses.filter(c => c.id !== courseId);
+          this.snackBar.open('✅ Course deleted successfully!', 'Close', {
+            duration: 3000,
+          });
+          this.teacherCourses = this.teacherCourses.filter(
+            (c) => c.id !== courseId,
+          );
+          this.coursesWithClasses = this.coursesWithClasses.filter(
+            (c) => c.id !== courseId,
+          );
         },
         error: (err) => {
           console.error('Error deleting course:', err);
-          this.snackBar.open('❌ Failed to delete course', 'Close', { duration: 3000 });
-        }
+          this.snackBar.open('❌ Failed to delete course', 'Close', {
+            duration: 3000,
+          });
+        },
       });
     }
   }
-
- 
 
   closeCourseModal(): void {
     this.showCourseModal = false;
@@ -219,20 +233,19 @@ closeAssignmentModal(): void {
   }
 
   toggleCourse(courseId: number): void {
-  if (this.isCourseOpen(courseId)) {
-    this.openCourseIds = this.openCourseIds.filter(id => id !== courseId);
-  } else {
-    this.openCourseIds.push(courseId);
+    if (this.isCourseOpen(courseId)) {
+      this.openCourseIds = this.openCourseIds.filter((id) => id !== courseId);
+    } else {
+      this.openCourseIds.push(courseId);
+    }
   }
-}
-loadAllAssignments(): void {
-  if (!this.teacherCourses || this.teacherCourses.length === 0) return;
+  loadAllAssignments(): void {
+    if (!this.teacherCourses || this.teacherCourses.length === 0) return;
 
-  this.teacherCourses.forEach(course => {
-    this.fetchAssignmentsForCourse(course.id);
-  });
-}
-
+    this.teacherCourses.forEach((course) => {
+      this.fetchAssignmentsForCourse(course.id);
+    });
+  }
 
   isCourseOpen(courseId: number): boolean {
     return this.openCourseIds.includes(courseId);
@@ -245,7 +258,8 @@ loadAllAssignments(): void {
     if (course.id) {
       this.fetchStudentsInCourse(course.id);
     } else {
-      this.studentsErrorMessage = "Course ID is missing for student progress view.";
+      this.studentsErrorMessage =
+        'Course ID is missing for student progress view.';
       console.error(this.studentsErrorMessage);
     }
   }
@@ -257,19 +271,21 @@ loadAllAssignments(): void {
     this.filteredStudentsInCourse = [];
     this.studentSearchTerm = '';
 
-    this.courseService.getStudentsInCourseWithProgress(String(courseId)).subscribe({
-      next: (data: StudentProgress[]) => {
-        
-        this.studentsInSelectedCourse = data;
-        this.filterStudentsInCourse();
-        this.isLoadingStudents = false;
-      },
-      error: (err) => {
-        console.error(`Error fetching students for course ${courseId}:`, err);
-        this.studentsErrorMessage = 'Failed to load students for this course. Please try again.';
-        this.isLoadingStudents = false;
-      }
-    });
+    this.courseService
+      .getStudentsInCourseWithProgress(String(courseId))
+      .subscribe({
+        next: (data: StudentProgress[]) => {
+          this.studentsInSelectedCourse = data;
+          this.filterStudentsInCourse();
+          this.isLoadingStudents = false;
+        },
+        error: (err) => {
+          console.error(`Error fetching students for course ${courseId}:`, err);
+          this.studentsErrorMessage =
+            'Failed to load students for this course. Please try again.';
+          this.isLoadingStudents = false;
+        },
+      });
   }
 
   filterStudentsInCourse(): void {
@@ -278,10 +294,11 @@ loadAllAssignments(): void {
       return;
     }
     const term = this.studentSearchTerm.toLowerCase();
-    this.filteredStudentsInCourse = this.studentsInSelectedCourse.filter(s =>
-      s.first_name.toLowerCase().includes(term) ||
-      s.last_name.toLowerCase().includes(term) ||
-      s.email.toLowerCase().includes(term)
+    this.filteredStudentsInCourse = this.studentsInSelectedCourse.filter(
+      (s) =>
+        s.first_name.toLowerCase().includes(term) ||
+        s.last_name.toLowerCase().includes(term) ||
+        s.email.toLowerCase().includes(term),
     );
   }
 
@@ -304,29 +321,37 @@ loadAllAssignments(): void {
   }
 
   deleteCertificate(certificateId: number): void {
-    
     if (confirm('Are you sure you want to delete this certificate?')) {
       this.certificateService.deleteCertificate(certificateId).subscribe({
         next: () => {
-          this.snackBar.open('✅ Certificate deleted!', 'Close', { duration: 3000 });
-          this.teacherCertificates = this.teacherCertificates.filter(c => c.id !== certificateId);
+          this.snackBar.open('✅ Certificate deleted!', 'Close', {
+            duration: 3000,
+          });
+          this.teacherCertificates = this.teacherCertificates.filter(
+            (c) => c.id !== certificateId,
+          );
           this.groupCertificatesByCourse();
         },
         error: (err) => {
           console.error('Failed to delete certificate:', err);
-          this.snackBar.open('❌ Failed to delete certificate', 'Close', { duration: 3000 });
-        }
+          this.snackBar.open('❌ Failed to delete certificate', 'Close', {
+            duration: 3000,
+          });
+        },
       });
     }
   }
 
   groupCertificatesByCourse(): void {
-    this.groupedCertificates = this.teacherCertificates.reduce((acc: any, cert: any) => {
-      const courseName = cert.course_title || 'Unassigned';
-      if (!acc[courseName]) acc[courseName] = [];
-      acc[courseName].push(cert);
-      return acc;
-    }, {});
+    this.groupedCertificates = this.teacherCertificates.reduce(
+      (acc: any, cert: any) => {
+        const courseName = cert.course_title || 'Unassigned';
+        if (!acc[courseName]) acc[courseName] = [];
+        acc[courseName].push(cert);
+        return acc;
+      },
+      {},
+    );
   }
 
   objectKeys(obj: any): string[] {
@@ -334,134 +359,158 @@ loadAllAssignments(): void {
   }
 
   get certificateCourseTitles(): string[] {
-  return Object.keys(this.groupedCertificates || {});
-}
+    return Object.keys(this.groupedCertificates || {});
+  }
 
-closeCertModal() {
+  closeCertModal() {
     this.showCertificateModal = false;
-   
   }
 
   openAssignmentModal(): void {
-  const dialogRef = this.dialog.open(AssignmentFormComponent, {
-    width: '600px',
-    data: {
-      preselectedCourseId: this.selectedCourseId || null
-    }
-  });
+    const dialogRef = this.dialog.open(AssignmentFormComponent, {
+      width: '600px',
+      data: {
+        preselectedCourseId: this.selectedCourseId || null,
+      },
+    });
 
-  dialogRef.afterClosed().subscribe(success => {
-    if (success) {
-      this.snackBar.open('✅ Assignment created!', 'Close', { duration: 3000 });
-      // optionally reload assignments list here
-    }
-  });
-}
-
-fetchAssignmentsForCourse(courseId: number): void {
-  this.assignmentService.getAssignmentsByCourse(courseId).subscribe({
-    next: (res) => {
-      const assignments = res.assignments;
-
-      // 👇 Fetch submissions for each assignment and attach to assignment object
-      assignments.forEach((assignment: Assignment) => {
-  this.assignmentService.getSubmissionsByAssignment(assignment.id).subscribe({
-    next: (subRes) => {
-      assignment.submissions = subRes.submissions.map((sub: Submission) => ({
-        ...sub,
-        gradeInput: '',
-        feedbackInput: ''
-      }));
-    },
-    error: (err) => {
-      console.error(`❌ Failed to load submissions for assignment ${assignment.id}`, err);
-      assignment.submissions = [];
-    }
-  });
-});
-
-
-      this.assignmentsByCourse[courseId] = assignments;
-    },
-    error: (err) => {
-      console.error(`❌ Failed to load assignments for course ${courseId}`, err);
-      this.snackBar.open('❌ Failed to load assignments', 'Close', { duration: 3000 });
-    }
-  });
-}
-
-isOverdue(dueDate: string): boolean {
-  return new Date(dueDate) < new Date();
-}
-
-hasAssignments(courseId: number): boolean {
-  return !!this.assignmentsByCourse?.[courseId]?.length;
-}
-
-getCountdown(dueDate: string): string {
-  const now = new Date().getTime();
-  const due = new Date(dueDate).getTime();
-  const diff = due - now;
-
-  if (diff <= 0) return '⏰ Time’s up!';
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hrs = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-  return `${days}d ${hrs}h ${mins}m left`;
-}
-
-
-loadSubmissions(courseId: number): void {
-  this.assignmentService.getSubmissionsByCourse(courseId).subscribe({
-    next: (submissions) => {
-      this.courseSubmissions[courseId] = submissions;
-    },
-    error: (err) => {
-      console.error(`❌ Failed to load submissions for course ${courseId}`, err);
-    }
-  });
-}
-
-gradeSubmission(submissionId: number, grade: string, feedback: string, courseId: number) {
-  this.assignmentService.gradeSubmission(submissionId, { grade, feedback }).subscribe({
-    next: () => {
-      alert('✅ Graded successfully');
-      this.loadSubmissions(courseId); // Refresh after grading
-    },
-    error: (err) => {
-      console.error('❌ Failed to grade submission:', err);
-    }
-  });
-}
-
-
-gradeAssignment(submission: any, courseId: number): void {
-  const grade = submission.gradeInput;
-  const feedback = submission.feedbackInput;
-
-  if (!grade) {
-    this.snackBar.open('Please enter a grade before submitting.', 'Close', { duration: 3000 });
-    return;
+    dialogRef.afterClosed().subscribe((success) => {
+      if (success) {
+        this.snackBar.open('✅ Assignment created!', 'Close', {
+          duration: 3000,
+        });
+        // optionally reload assignments list here
+      }
+    });
   }
 
-  this.assignmentService.gradeSubmission(submission.id, { grade, feedback }).subscribe({
-    next: () => {
-      this.snackBar.open('✅ Graded successfully!', 'Close', { duration: 3000 });
-      submission.grade = grade;
-      submission.feedback = feedback;
-      submission.gradeInput = '';
-      submission.feedbackInput = '';
-    },
-    error: (err) => {
-      console.error('❌ Failed to grade submission:', err);
-      this.snackBar.open('Failed to grade submission', 'Close', { duration: 3000 });
+  fetchAssignmentsForCourse(courseId: number): void {
+    this.assignmentService.getAssignmentsByCourse(courseId).subscribe({
+      next: (res) => {
+        const assignments = res.assignments;
+
+        // 👇 Fetch submissions for each assignment and attach to assignment object
+        assignments.forEach((assignment: Assignment) => {
+          this.assignmentService
+            .getSubmissionsByAssignment(assignment.id)
+            .subscribe({
+              next: (subRes) => {
+                assignment.submissions = subRes.submissions.map(
+                  (sub: Submission) => ({
+                    ...sub,
+                    gradeInput: '',
+                    feedbackInput: '',
+                  }),
+                );
+              },
+              error: (err) => {
+                console.error(
+                  `❌ Failed to load submissions for assignment ${assignment.id}`,
+                  err,
+                );
+                assignment.submissions = [];
+              },
+            });
+        });
+
+        this.assignmentsByCourse[courseId] = assignments;
+      },
+      error: (err) => {
+        console.error(
+          `❌ Failed to load assignments for course ${courseId}`,
+          err,
+        );
+        this.snackBar.open('❌ Failed to load assignments', 'Close', {
+          duration: 3000,
+        });
+      },
+    });
+  }
+
+  isOverdue(dueDate: string): boolean {
+    return new Date(dueDate) < new Date();
+  }
+
+  hasAssignments(courseId: number): boolean {
+    return !!this.assignmentsByCourse?.[courseId]?.length;
+  }
+
+  getCountdown(dueDate: string): string {
+    const now = new Date().getTime();
+    const due = new Date(dueDate).getTime();
+    const diff = due - now;
+
+    if (diff <= 0) return '⏰ Time’s up!';
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hrs = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    return `${days}d ${hrs}h ${mins}m left`;
+  }
+
+  loadSubmissions(courseId: number): void {
+    this.assignmentService.getSubmissionsByCourse(courseId).subscribe({
+      next: (submissions) => {
+        this.courseSubmissions[courseId] = submissions;
+      },
+      error: (err) => {
+        console.error(
+          `❌ Failed to load submissions for course ${courseId}`,
+          err,
+        );
+      },
+    });
+  }
+
+  gradeSubmission(
+    submissionId: number,
+    grade: string,
+    feedback: string,
+    courseId: number,
+  ) {
+    this.assignmentService
+      .gradeSubmission(submissionId, { grade, feedback })
+      .subscribe({
+        next: () => {
+          alert('✅ Graded successfully');
+          this.loadSubmissions(courseId); // Refresh after grading
+        },
+        error: (err) => {
+          console.error('❌ Failed to grade submission:', err);
+        },
+      });
+  }
+
+  gradeAssignment(submission: any, courseId: number): void {
+    const grade = submission.gradeInput;
+    const feedback = submission.feedbackInput;
+
+    if (!grade) {
+      this.snackBar.open('Please enter a grade before submitting.', 'Close', {
+        duration: 3000,
+      });
+      return;
     }
-  });
-}
 
-
-
-
+    this.assignmentService
+      .gradeSubmission(submission.id, { grade, feedback })
+      .subscribe({
+        next: () => {
+          this.snackBar.open('✅ Graded successfully!', 'Close', {
+            duration: 3000,
+          });
+          submission.grade = grade;
+          submission.feedback = feedback;
+          submission.gradeInput = '';
+          submission.feedbackInput = '';
+        },
+        error: (err) => {
+          console.error('❌ Failed to grade submission:', err);
+          this.snackBar.open('Failed to grade submission', 'Close', {
+            duration: 3000,
+          });
+        },
+      });
+  }
 }

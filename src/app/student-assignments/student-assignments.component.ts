@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-student-assignments',
   templateUrl: './student-assignments.component.html',
   imports: [CommonModule, FormsModule],
-  styleUrls: ['./student-assignments.component.css']
+  styleUrls: ['./student-assignments.component.css'],
 })
 export class StudentAssignmentsComponent implements OnInit {
   assignments: any[] = [];
@@ -19,7 +19,7 @@ export class StudentAssignmentsComponent implements OnInit {
   constructor(
     private assignmentService: AssignmentService,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -37,30 +37,30 @@ export class StudentAssignmentsComponent implements OnInit {
   }
 
   loadAssignments(courseId: number, userId: string): void {
-    this.assignmentService.getAssignmentsWithStatus(courseId, +userId).subscribe({
-      next: (res) => {
-        this.assignments = (res.assignments || []).map((a: any) => ({
-          id: +a.assignment_id, // 🔧 ensure numeric + remap
-          title: a.title,
-          description: a.description,
-          due_date: a.due_date,
-          submission: a.submitted
-            ? {
-                grade: a.grade,
-                feedback: a.feedback,
-                url: a.submission_url,
-              }
-            : null,
-          submissionUrl: '', // for ngModel
-        }));
-      },
-      error: (err) => console.error('❌ Failed to fetch assignments:', err),
-    });
+    this.assignmentService
+      .getAssignmentsWithStatus(courseId, +userId)
+      .subscribe({
+        next: (res) => {
+          this.assignments = (res.assignments || []).map((a: any) => ({
+            id: +a.assignment_id, // 🔧 ensure numeric + remap
+            title: a.title,
+            description: a.description,
+            due_date: a.due_date,
+            submission: a.submitted
+              ? {
+                  grade: a.grade,
+                  feedback: a.feedback,
+                  url: a.submission_url,
+                }
+              : null,
+            submissionUrl: '', // for ngModel
+          }));
+        },
+        error: (err) => console.error('❌ Failed to fetch assignments:', err),
+      });
   }
 
   submitAssignment(assignmentId: number, url: string): void {
-    
-
     this.assignmentService
       .submitAssignment({
         assignment_id: assignmentId,
@@ -80,39 +80,38 @@ export class StudentAssignmentsComponent implements OnInit {
   }
 
   resubmitAssignment(assignmentId: number, newUrl: string): void {
-  this.assignmentService
-    .resubmitAssignment({
-      assignment_id: assignmentId,
-      user_id: +this.userId,
-      submission_url: newUrl,
-    })
-    .subscribe({
-      next: () => {
-        alert('🔁 Assignment resubmitted!');
-        this.loadAssignments(this.courseId, this.userId);
-      },
-      error: (err) => {
-        console.error('❌ Resubmission failed:', err);
-        alert('❌ Failed to resubmit assignment.');
-      },
-    });
-}
+    this.assignmentService
+      .resubmitAssignment({
+        assignment_id: assignmentId,
+        user_id: +this.userId,
+        submission_url: newUrl,
+      })
+      .subscribe({
+        next: () => {
+          alert('🔁 Assignment resubmitted!');
+          this.loadAssignments(this.courseId, this.userId);
+        },
+        error: (err) => {
+          console.error('❌ Resubmission failed:', err);
+          alert('❌ Failed to resubmit assignment.');
+        },
+      });
+  }
 
+  deleteSubmission(assignmentId: number): void {
+    if (!confirm('Are you sure you want to delete this submission?')) return;
 
-
-deleteSubmission(assignmentId: number): void {
-  if (!confirm('Are you sure you want to delete this submission?')) return;
-
-  this.assignmentService.deleteSubmission(+this.userId, assignmentId).subscribe({
-    next: () => {
-      alert('❌ Submission deleted.');
-      this.loadAssignments(this.courseId, this.userId);
-    },
-    error: (err) => {
-      console.error('❌ Deletion failed:', err);
-      alert('❌ Failed to delete submission.');
-    },
-  });
-}
-
+    this.assignmentService
+      .deleteSubmission(+this.userId, assignmentId)
+      .subscribe({
+        next: () => {
+          alert('❌ Submission deleted.');
+          this.loadAssignments(this.courseId, this.userId);
+        },
+        error: (err) => {
+          console.error('❌ Deletion failed:', err);
+          alert('❌ Failed to delete submission.');
+        },
+      });
+  }
 }

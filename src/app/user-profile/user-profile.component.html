@@ -10,8 +10,12 @@
       <button class="btn-back-profile" (click)="goBack()">← Back</button>
     </div>
     <ng-template #loadingOrError>
-      <p *ngIf="loading" class="loading-or-error-message">Loading user profile...</p>
-      <p *ngIf="!loading" class="loading-or-error-message">User not found or error loading user.</p>
+      <p *ngIf="loading" class="loading-or-error-message">
+        Loading user profile...
+      </p>
+      <p *ngIf="!loading" class="loading-or-error-message">
+        User not found or error loading user.
+      </p>
     </ng-template>
   </div>
 </div>

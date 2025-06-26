@@ -1,5 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,7 +16,7 @@ import { Input } from '@angular/core';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './course-form.component.html',
-  styleUrls: ['./course-form.component.css']
+  styleUrls: ['./course-form.component.css'],
 })
 export class CourseFormComponent implements OnInit {
   @Input() courseId: number | null = null;
@@ -21,12 +26,11 @@ export class CourseFormComponent implements OnInit {
 
   existingImage: string | null = null;
 
-
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private snackBar: MatSnackBar,
-    private courseService: CourseService
+    private courseService: CourseService,
   ) {}
 
   ngOnInit(): void {
@@ -37,18 +41,18 @@ export class CourseFormComponent implements OnInit {
       image_url: [null], // allow null here
       category: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(0)]],
-      teacherId: ['']
+      teacherId: [''],
     });
 
     if (this.courseId) {
-      this.courseService.getCourseById(this.courseId).subscribe(course => {
+      this.courseService.getCourseById(this.courseId).subscribe((course) => {
         this.courseForm.patchValue({
           title: course.title,
           description: course.description,
           duration: course.duration,
           category: course.category,
           price: course.price,
-          teacherId: course.teacherId
+          teacherId: course.teacherId,
         });
 
         // Optional: preview old image
@@ -69,7 +73,10 @@ export class CourseFormComponent implements OnInit {
     formData.append('title', this.courseForm.get('title')?.value);
     formData.append('description', this.courseForm.get('description')?.value);
     formData.append('price', this.courseForm.get('price')?.value);
-    formData.append('teacher_id', this.courseForm.get('teacherId')?.value || '');
+    formData.append(
+      'teacher_id',
+      this.courseForm.get('teacherId')?.value || '',
+    );
     formData.append('duration', this.courseForm.get('duration')?.value);
     formData.append('category', this.courseForm.get('category')?.value);
 
@@ -87,7 +94,7 @@ export class CourseFormComponent implements OnInit {
         this.snackBar.open(
           this.courseId ? '✅ Course updated!' : '✅ Course created!',
           'Close',
-          { duration: 3000 }
+          { duration: 3000 },
         );
         this.closeModal.emit(); // CHANGED THIS LINE: Emitting 'closeModal'
       },

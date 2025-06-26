@@ -4,12 +4,11 @@ import { ClassService } from '../../services/class.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-
 @Component({
   selector: 'app-admin-courses-classes',
   templateUrl: './admin-courses-classes.component.html',
   styleUrls: ['./admin-courses-classes.component.css'],
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
 })
 export class AdminCourseClassesComponent implements OnInit {
   courseId!: number;
@@ -18,11 +17,11 @@ export class AdminCourseClassesComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private classService: ClassService
+    private classService: ClassService,
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.courseId = Number(params.get('courseId'));
       if (this.courseId) {
         this.loadClasses();
@@ -40,7 +39,7 @@ export class AdminCourseClassesComponent implements OnInit {
       error: () => {
         this.isLoading = false;
         // optionally show a toast/snackbar
-      }
+      },
     });
   }
 }

@@ -16,7 +16,7 @@
       <a routerLink="/classes/students" routerLinkActive="active-link"
         >My Paid Courses</a
       >
-      
+
       <a routerLink="/certificate" routerLinkActive="active-link"
         >Certificates</a
       >
@@ -67,9 +67,7 @@
           </p>
 
           <p class="course-price">
-            {{
-              course.price === 0 ? "Free" : (course.price | currency : "KES")
-            }}
+            {{ course.price === 0 ? "Free" : (course.price | currency: "KES") }}
           </p>
 
           <div class="progress-container">

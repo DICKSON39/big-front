@@ -2,7 +2,10 @@
 /* Styles for the main container holding all courses */
 div[ngIf="!isLoading && courses.length > 0"] {
   display: grid; /* Use CSS Grid for a responsive layout */
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Adjust column width as needed */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(280px, 1fr)
+  ); /* Adjust column width as needed */
   gap: 20px; /* Space between course cards */
   padding: 20px; /* Padding around the entire grid */
   background-color: #f8f8f8; /* Light background for the section */
@@ -17,7 +20,9 @@ div[ngIf="!isLoading && courses.length > 0"] {
   border-radius: 8px; /* Rounded corners for cards */
   padding: 20px; /* Inner padding */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* More prominent shadow on cards */
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transitions for hover effects */
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out; /* Smooth transitions for hover effects */
   display: flex; /* Use flexbox for content within the card */
   flex-direction: column; /* Stack content vertically */
   justify-content: space-between; /* Distribute space */
@@ -46,7 +51,7 @@ div[ngIf="!isLoading && courses.length > 0"] {
 }
 
 .course-card p::before {
-  content: '📼'; /* Emoticon for classes */
+  content: "📼"; /* Emoticon for classes */
   margin-right: 8px; /* Space between emoticon and text */
   font-size: 1.2em; /* Slightly larger emoticon */
 }
@@ -73,7 +78,7 @@ div[ngIf="!isLoading && courses.length > 0"] {
 }
 
 .course-card button::before {
-  content: '▶️'; /* Play icon for the button */
+  content: "▶️"; /* Play icon for the button */
   margin-right: 8px; /* Space between icon and text */
 }
 
@@ -101,7 +106,7 @@ h3 {
 }
 
 h3::before {
-  content: '📚'; /* Book icon */
+  content: "📚"; /* Book icon */
   margin-right: 10px; /* Space between icon and text */
   font-size: 1.2em; /* Slightly larger icon */
 }
@@ -109,7 +114,10 @@ h3::before {
 /* --- Responsive Adjustments (Optional but Recommended) --- */
 @media (max-width: 768px) {
   div[ngIf="!isLoading && courses.length > 0"] {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust columns for smaller screens */
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(250px, 1fr)
+    ); /* Adjust columns for smaller screens */
     padding: 15px;
   }
 

@@ -7,26 +7,32 @@ import { CourseService } from '../../services/course.service';
 import { NotificationComponent } from '../notification/notification.component';
 import { UserStatsComponent } from '../user-stats/user-stats.component';
 
-
 interface Course {
   id: number;
   title: string;
   instructor: { first_name: string; last_name: string };
   price: number;
   image_url?: string;
-  progress: number;                // Add this
-  certificate_url?: string | null; 
-  average_grade?: number | null; 
-  submissions_made?: number | null; 
+  progress: number; // Add this
+  certificate_url?: string | null;
+  average_grade?: number | null;
+  submissions_made?: number | null;
 }
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, CurrencyPipe,NotificationComponent,UserStatsComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterLinkActive,
+    CurrencyPipe,
+    NotificationComponent,
+    UserStatsComponent,
+  ],
   templateUrl: './user.component.html',
 
-  styleUrl: './user.component.css'
+  styleUrl: './user.component.css',
 })
 export class UserComponent implements OnInit, OnDestroy {
   userName: string | null = null;
@@ -39,11 +45,10 @@ export class UserComponent implements OnInit, OnDestroy {
   allCourses: Course[] = [];
   private userSub!: Subscription;
 
-
   constructor(
     private authService: AuthService,
     private router: Router,
-    private courseService: CourseService
+    private courseService: CourseService,
   ) {
     this.screenWidth = window.innerWidth;
   }
@@ -67,32 +72,29 @@ export class UserComponent implements OnInit, OnDestroy {
           this.redirectToLogin();
         }
       },
-      () => this.redirectToLogin()
+      () => this.redirectToLogin(),
     );
 
-    
     // Fetch real courses
-// Fetch only enrolled courses for current user
-this.courseService.getEnrolledCourses().subscribe({
-  next: (res: any) => {
-    this.allCourses = res?.data?.map((c: any) => ({
-      id: +c.id,
-      title: c.title,
-      instructor: c.instructor,
-      price: c.price,
-      image_url: c.image_url,
-      progress: c.progress,
-      average_grade: c.average_grade,
-      submissions_made: c.submissions_made // 👈🔥 add this
-    })) || [];
-  },
-  error: () => {
-    console.error('Failed to load enrolled courses');
-  }
-});
-
-
-
+    // Fetch only enrolled courses for current user
+    this.courseService.getEnrolledCourses().subscribe({
+      next: (res: any) => {
+        this.allCourses =
+          res?.data?.map((c: any) => ({
+            id: +c.id,
+            title: c.title,
+            instructor: c.instructor,
+            price: c.price,
+            image_url: c.image_url,
+            progress: c.progress,
+            average_grade: c.average_grade,
+            submissions_made: c.submissions_made, // 👈🔥 add this
+          })) || [];
+      },
+      error: () => {
+        console.error('Failed to load enrolled courses');
+      },
+    });
   }
 
   ngOnDestroy(): void {
@@ -112,7 +114,4 @@ this.courseService.getEnrolledCourses().subscribe({
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
   }
-
-
-  
 }

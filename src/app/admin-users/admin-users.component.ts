@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Router, RouterLink} from '@angular/router';
-import {debounceTime, distinctUntilChanged, Subject} from 'rxjs';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Router, RouterLink } from '@angular/router';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../modal/modal.component';
 import { PaginatedUsers, User, UserService } from '../../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-users',
-  imports: [CommonModule, RouterLink, FormsModule,ModalComponent],
+  imports: [CommonModule, RouterLink, FormsModule, ModalComponent],
   templateUrl: './admin-users.component.html',
-  styleUrl: './admin-users.component.css'
+  styleUrl: './admin-users.component.css',
 })
 export class AdminUsersComponent {
- users:User[]=[];
+  users: User[] = [];
   showModal: boolean = false;
   selectedUserId!: number;
 
@@ -28,12 +28,15 @@ export class AdminUsersComponent {
   userSearchTerm: string = '';
   private searchSubject = new Subject<string>();
 
-  constructor(private http: HttpClient,private router: Router,private userService:UserService,private snackBar:MatSnackBar) { 
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private userService: UserService,
+    private snackBar: MatSnackBar,
+  ) {
     // Initialize the search subject
     this.searchSubject = new Subject<string>();
   }
-
-
 
   ngOnInit(): void {
     this.fetchUsers();
@@ -50,7 +53,6 @@ export class AdminUsersComponent {
       });
   }
 
-
   fetchUsers(): void {
     this.userService
       .getUsers(this.currentPage, this.pageSize, this.userSearchTerm)
@@ -60,8 +62,6 @@ export class AdminUsersComponent {
         this.totalPages = paginatedData.totalPages;
       });
   }
-
-
 
   getRoleName(role_id: number): string {
     switch (role_id) {
@@ -106,8 +106,8 @@ export class AdminUsersComponent {
     this.showModal = false;
   }
 
-  cancelDelete():void{
-    this.showModal = false
+  cancelDelete(): void {
+    this.showModal = false;
   }
 
   // --- Pagination Methods ---
@@ -143,8 +143,4 @@ export class AdminUsersComponent {
     this.userSearchTerm = (event.target as HTMLInputElement).value;
     this.searchSubject.next(this.userSearchTerm); // Emit search term to the subject
   }
-
-  
-
 }
-

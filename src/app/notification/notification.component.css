@@ -15,7 +15,9 @@
   color: #007bff; /* Primary blue for the bell */
   padding: 8px 12px; /* Add padding for better click area and visual spacing */
   border-radius: 8px; /* Slightly rounded corners for the bell area */
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
   display: flex; /* Use flex to easily center the bell character */
   align-items: center;
   justify-content: center;
@@ -134,7 +136,9 @@
   padding: 6px 12px; /* More generous padding */
   border-radius: 6px; /* Slightly more rounded */
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
   align-self: flex-end; /* Align button to the right within the list item */
 }
 
@@ -182,13 +186,15 @@
   /* Small adjustment to app-notification for padding on mobile so it doesn't get squished */
   /* (This assumes you're placing notif-wrapper inside app-notification, or app-notification IS notif-wrapper) */
   app-notification {
-      padding: 5px; /* Ensure bell has space on small screens */
+    padding: 5px; /* Ensure bell has space on small screens */
   }
 }
 
 @media (max-width: 480px) {
   .notif-dropdown {
-    width: calc(100vw - 40px); /* Even tighter on very small screens, minus padding */
+    width: calc(
+      100vw - 40px
+    ); /* Even tighter on very small screens, minus padding */
     padding: 10px;
   }
   .notif-dropdown ul li {

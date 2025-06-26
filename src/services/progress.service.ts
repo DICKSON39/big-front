@@ -1,16 +1,13 @@
-
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProgressService {
-
-  private apiUrl = 'https://school-online-backend.onrender.com/api/v1/progress'; 
- private as= ``
+  private apiUrl = 'https://school-online-backend.onrender.com/api/v1/progress';
+  private as = ``;
   constructor(private http: HttpClient) {}
 
   getAuthHeaders(): HttpHeaders {
@@ -19,24 +16,33 @@ export class ProgressService {
   }
 
   markClassComplete(userId: any, classId: number): Observable<any> {
-  return this.http.post(`${this.apiUrl}/progress/complete`, {
-    user_id: userId,
-    class_id: classId,
-  }, {
-    headers: this.getAuthHeaders()
-  });
-}
+    return this.http.post(
+      `${this.apiUrl}/progress/complete`,
+      {
+        user_id: userId,
+        class_id: classId,
+      },
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
+  }
 
- getCoursesWithClasses(userId: string | number): Observable<any[]> {
+  getCoursesWithClasses(userId: string | number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/progress/${userId}/courses`, {
-      headers:this.getAuthHeaders()
+      headers: this.getAuthHeaders(),
     });
   }
 
-  getCoursesWithProgress(userId: string | number, courseId: string | number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/admin/user-progress/${userId}/${courseId}`, {
-      headers:this.getAuthHeaders()
-    });
+  getCoursesWithProgress(
+    userId: string | number,
+    courseId: string | number,
+  ): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/admin/user-progress/${userId}/${courseId}`,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
   }
-
 }

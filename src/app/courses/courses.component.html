@@ -1,4 +1,5 @@
-<app-navbar></app-navbar> <!-- 👈 Renders your navbar at the top -->
+<app-navbar></app-navbar>
+<!-- 👈 Renders your navbar at the top -->
 
 <section class="courses-container">
   <h2>📚 All Courses</h2>
@@ -20,24 +21,37 @@
 
   <!-- 📦 Courses Grid -->
   <div class="courses-grid">
-    <div class="course-card" *ngFor="let course of courses" [routerLink]="['/courses', course.id]">
+    <div
+      class="course-card"
+      *ngFor="let course of courses"
+      [routerLink]="['/courses', course.id]"
+    >
       <img [src]="course.image_url" alt="{{ course.title }}" />
       <h3>{{ course.title }}</h3>
       <p>{{ course.description }}</p>
       <p><strong>Category:</strong> {{ course.category }}</p>
       <p><strong>Duration:</strong> {{ course.duration }}</p>
       <p><strong>Price:</strong> KES {{ course.price }}</p>
-      <p><strong>Instructor:</strong> {{ course.instructor.first_name }} {{ course.instructor.last_name }}</p>
+      <p>
+        <strong>Instructor:</strong> {{ course.instructor.first_name }}
+        {{ course.instructor.last_name }}
+      </p>
     </div>
   </div>
 
   <!-- 🔄 Pagination -->
   <div class="pagination-controls">
-    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+    >
       ← Prev
     </button>
     <span>Page {{ currentPage }} of {{ totalPages }}</span>
-    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+    >
       Next →
     </button>
   </div>

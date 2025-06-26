@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-submission-grading',
   templateUrl: './submission-grading.component.html',
   styleUrls: ['./submission-grading.component.css'],
-  imports: [CommonModule,FormsModule]
+  imports: [CommonModule, FormsModule],
 })
 export class SubmissionGradingComponent implements OnInit {
   courseId!: number;
@@ -18,7 +18,7 @@ export class SubmissionGradingComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private assignmentService: AssignmentService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -35,23 +35,27 @@ export class SubmissionGradingComponent implements OnInit {
         }));
 
         this.assignments.forEach((assignment) => {
-          this.assignmentService.getSubmissionsByAssignment(assignment.id).subscribe({
-            next: (res) => {
-              assignment.submissions = res.submissions.map((s: any) => ({
-                ...s,
-                gradeInput: '',
-                feedbackInput: ''
-              }));
-            },
-            error: () => {
-              assignment.submissions = [];
-            }
-          });
+          this.assignmentService
+            .getSubmissionsByAssignment(assignment.id)
+            .subscribe({
+              next: (res) => {
+                assignment.submissions = res.submissions.map((s: any) => ({
+                  ...s,
+                  gradeInput: '',
+                  feedbackInput: '',
+                }));
+              },
+              error: () => {
+                assignment.submissions = [];
+              },
+            });
         });
       },
       error: () => {
-        this.snackBar.open('❌ Failed to load assignments', 'Close', { duration: 3000 });
-      }
+        this.snackBar.open('❌ Failed to load assignments', 'Close', {
+          duration: 3000,
+        });
+      },
     });
   }
 
@@ -61,20 +65,24 @@ export class SubmissionGradingComponent implements OnInit {
       return;
     }
 
-    this.assignmentService.gradeSubmission(sub.id, {
-      grade: sub.gradeInput,
-      feedback: sub.feedbackInput ?? ''
-    }).subscribe({
-      next: () => {
-        sub.grade = sub.gradeInput;
-        sub.feedback = sub.feedbackInput;
-        sub.gradeInput = '';
-        sub.feedbackInput = '';
-        this.snackBar.open('✅ Graded successfully', 'Close', { duration: 3000 });
-      },
-      error: () => {
-        this.snackBar.open('❌ Grading failed', 'Close', { duration: 3000 });
-      }
-    });
+    this.assignmentService
+      .gradeSubmission(sub.id, {
+        grade: sub.gradeInput,
+        feedback: sub.feedbackInput ?? '',
+      })
+      .subscribe({
+        next: () => {
+          sub.grade = sub.gradeInput;
+          sub.feedback = sub.feedbackInput;
+          sub.gradeInput = '';
+          sub.feedbackInput = '';
+          this.snackBar.open('✅ Graded successfully', 'Close', {
+            duration: 3000,
+          });
+        },
+        error: () => {
+          this.snackBar.open('❌ Grading failed', 'Close', { duration: 3000 });
+        },
+      });
   }
 }

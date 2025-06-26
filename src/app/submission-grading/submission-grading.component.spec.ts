@@ -8,9 +8,8 @@ describe('SubmissionGradingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SubmissionGradingComponent]
-    })
-    .compileComponents();
+      imports: [SubmissionGradingComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SubmissionGradingComponent);
     component = fixture.componentInstance;

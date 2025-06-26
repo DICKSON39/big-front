@@ -32,7 +32,10 @@ div[ngIf="!isLoading && certificates.length === 0"] {
 /* Main grid container for certificates */
 .cert-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid columns */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* Responsive grid columns */
   gap: 30px; /* Space between certificate cards */
   max-width: 1200px;
   margin: 50px auto; /* Center the grid container */
@@ -50,7 +53,9 @@ div[ngIf="!isLoading && certificates.length === 0"] {
   flex-direction: column;
   justify-content: space-between; /* Pushes button to bottom if content varies */
   align-items: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease; /* Smooth hover effects */
 }
 
 .cert-card:hover {
@@ -75,7 +80,10 @@ div[ngIf="!isLoading && certificates.length === 0"] {
   border-radius: 8px; /* Rounded corners for the button */
   font-size: 1.1rem;
   font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
   box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2); /* Soft shadow for the button */
   margin-top: 15px; /* Space above button */
 }

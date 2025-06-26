@@ -95,7 +95,11 @@ export class UserService {
     });
   }
 
-  getUsers(page: number, pageSize: number, searchTerm: string = ''): Observable<PaginatedUsers> {
+  getUsers(
+    page: number,
+    pageSize: number,
+    searchTerm: string = '',
+  ): Observable<PaginatedUsers> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('pageSize', pageSize.toString());
@@ -110,17 +114,24 @@ export class UserService {
     });
   }
 
-  updateProfile(userId: string, userData: UpdateUserRequest): Observable<UpdateUserBackendResponse> {
+  updateProfile(
+    userId: string,
+    userData: UpdateUserRequest,
+  ): Observable<UpdateUserBackendResponse> {
     return this.http
-      .put<UpdateUserBackendResponse>(`${this.apiUrl}/users/${userId}`, userData, {
-        headers: this.getAuthHeaders(),
-      })
+      .put<UpdateUserBackendResponse>(
+        `${this.apiUrl}/users/${userId}`,
+        userData,
+        {
+          headers: this.getAuthHeaders(),
+        },
+      )
       .pipe(
         tap((response) => {
           if (response.user) {
             this.storeUser(response.user);
           }
-        })
+        }),
       );
   }
 
@@ -136,26 +147,36 @@ export class UserService {
     });
   }
 
-  getStudentsWithEnrollments(searchTerm: string = ''): Observable<{ enrolledStudents: Student[] }> {
+  getStudentsWithEnrollments(
+    searchTerm: string = '',
+  ): Observable<{ enrolledStudents: Student[] }> {
     let params = new HttpParams();
     if (searchTerm) {
       params = params.set('search', searchTerm);
     }
-    return this.http.get<{ enrolledStudents: Student[] }>(`${this.apiUrl}/enrolled/student`, {
-      headers: this.getAuthHeaders(),
-      params,
-    });
+    return this.http.get<{ enrolledStudents: Student[] }>(
+      `${this.apiUrl}/enrolled/student`,
+      {
+        headers: this.getAuthHeaders(),
+        params,
+      },
+    );
   }
 
-  getStudentsWithCourses(searchTerm: string = ''): Observable<{ students: StudentWithCourses[] }> {
+  getStudentsWithCourses(
+    searchTerm: string = '',
+  ): Observable<{ students: StudentWithCourses[] }> {
     let params = new HttpParams();
     if (searchTerm) {
       params = params.set('search', searchTerm);
     }
-    return this.http.get<{ students: StudentWithCourses[] }>(`${this.apiUrl}/enrolled/courses`, {
-      headers: this.getAuthHeaders(),
-      params,
-    });
+    return this.http.get<{ students: StudentWithCourses[] }>(
+      `${this.apiUrl}/enrolled/courses`,
+      {
+        headers: this.getAuthHeaders(),
+        params,
+      },
+    );
   }
 
   // 🔐 Local storage helpers

@@ -25,13 +25,13 @@ export class EnrolledStudentsComponent implements OnInit {
   constructor(
     private userService: UserService,
     private enrollmentService: EnrollmentService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
     this.loadEnrolledStudents();
 
-    this.searchSubject.pipe(debounceTime(300)).subscribe(value => {
+    this.searchSubject.pipe(debounceTime(300)).subscribe((value) => {
       this.searchTerm = value;
       this.loadEnrolledStudents();
     });
@@ -53,17 +53,22 @@ export class EnrolledStudentsComponent implements OnInit {
   }
 
   unenrollStudent(userId: number, courseId: number): void {
-  if (confirm('Are you sure you want to unenroll this student from the course?')) {
-    this.enrollmentService.unenrollStudent(userId, courseId).subscribe({
-      next: () => {
-        this.snackBar.open('Unenrolled successfully', 'Close', { duration: 3000 });
-        this.loadEnrolledStudents();
-      },
-      error: () => {
-        this.snackBar.open('Failed to unenroll student', 'Close', { duration: 3000 });
-      },
-    });
+    if (
+      confirm('Are you sure you want to unenroll this student from the course?')
+    ) {
+      this.enrollmentService.unenrollStudent(userId, courseId).subscribe({
+        next: () => {
+          this.snackBar.open('Unenrolled successfully', 'Close', {
+            duration: 3000,
+          });
+          this.loadEnrolledStudents();
+        },
+        error: () => {
+          this.snackBar.open('Failed to unenroll student', 'Close', {
+            duration: 3000,
+          });
+        },
+      });
+    }
   }
-}
-
 }

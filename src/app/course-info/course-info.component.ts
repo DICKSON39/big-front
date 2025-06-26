@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../services/course.service';
 import { PaymentService } from '../../services/payment.service';
-import { loadStripe, Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
+import {
+  loadStripe,
+  Stripe,
+  StripeElements,
+  StripeCardElement,
+} from '@stripe/stripe-js';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EnrollmentService } from '../../services/enrollment.service';
@@ -38,7 +43,7 @@ export interface Course {
 @Component({
   selector: 'app-course-info',
   standalone: true,
-  imports: [CommonModule, FormsModule,ModalComponent],
+  imports: [CommonModule, FormsModule, ModalComponent],
   templateUrl: './course-info.component.html',
   styleUrls: ['./course-info.component.css'],
 })
@@ -48,10 +53,9 @@ export class CourseInfoComponent implements OnInit {
   isLoading = true;
   errorMessage = '';
 
-
   modalMessage = '';
-showModal = false;
-showConfirmButtons = true;
+  showModal = false;
+  showConfirmButtons = true;
 
   // Payment states
   paymentInProgress = false;
@@ -74,7 +78,7 @@ showConfirmButtons = true;
     private route: ActivatedRoute,
     private courseService: CourseService,
     private paymentService: PaymentService,
-    private enrollmentService:EnrollmentService
+    private enrollmentService: EnrollmentService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -86,14 +90,14 @@ showConfirmButtons = true;
       this.isLoading = false;
     }
 
-    
-
     // Load Stripe
-    this.stripe = await loadStripe('pk_test_51RO0lO2cCqKNtuUREQ3BtS6covRzAQvM71uLNsgNBVTTBdzQASkCtgCwlnncCzhWHTpf2ICS7pORY64ONUPQYANP00jPXyi8FU');
+    this.stripe = await loadStripe(
+      'pk_test_51RO0lO2cCqKNtuUREQ3BtS6covRzAQvM71uLNsgNBVTTBdzQASkCtgCwlnncCzhWHTpf2ICS7pORY64ONUPQYANP00jPXyi8FU',
+    );
 
     if (this.userId && this.courseId) {
-    this.checkEnrollment(this.userId, this.courseId);
-  }
+      this.checkEnrollment(this.userId, this.courseId);
+    }
   }
 
   fetchCourseDetails(id: number): void {
@@ -109,11 +113,11 @@ showConfirmButtons = true;
     });
   }
 
- openPaymentModal(): void {
-  this.modalMessage = `Pay KES ${this.course.price} for ${this.course.title}?`;
-  this.showConfirmButtons = true;
-  this.showModal = true;
-}
+  openPaymentModal(): void {
+    this.modalMessage = `Pay KES ${this.course.price} for ${this.course.title}?`;
+    this.showConfirmButtons = true;
+    this.showModal = true;
+  }
 
   closePaymentModal(): void {
     this.showPaymentModal = false;
@@ -148,35 +152,39 @@ showConfirmButtons = true;
 
     this.paymentInProgress = true;
 
-    this.paymentService.makePayment(this.courseId, this.course.price).subscribe({
-      next: async (res) => {
-        const clientSecret = res.clientSecret;
+    this.paymentService
+      .makePayment(this.courseId, this.course.price)
+      .subscribe({
+        next: async (res) => {
+          const clientSecret = res.clientSecret;
 
-        const result = await this.stripe!.confirmCardPayment(clientSecret, {
-          payment_method: { card: this.card! },
-        });
-
-        if (result.error) {
-          console.error('Stripe Error:', result.error.message);
-        } else if (result.paymentIntent?.status === 'succeeded') {
-          this.paymentService.confirmPayment(this.courseId, result.paymentIntent.id).subscribe({
-            next: () => {
-              this.stripeSuccess = true;
-              this.paymentInProgress = false;
-              this.closePaymentModal();
-            },
-            error: (err) => {
-              console.error('Confirm Payment Error:', err);
-              this.paymentInProgress = false;
-            },
+          const result = await this.stripe!.confirmCardPayment(clientSecret, {
+            payment_method: { card: this.card! },
           });
-        }
-      },
-      error: (err) => {
-        console.error('Stripe Init Error:', err);
-        this.paymentInProgress = false;
-      },
-    });
+
+          if (result.error) {
+            console.error('Stripe Error:', result.error.message);
+          } else if (result.paymentIntent?.status === 'succeeded') {
+            this.paymentService
+              .confirmPayment(this.courseId, result.paymentIntent.id)
+              .subscribe({
+                next: () => {
+                  this.stripeSuccess = true;
+                  this.paymentInProgress = false;
+                  this.closePaymentModal();
+                },
+                error: (err) => {
+                  console.error('Confirm Payment Error:', err);
+                  this.paymentInProgress = false;
+                },
+              });
+          }
+        },
+        error: (err) => {
+          console.error('Stripe Init Error:', err);
+          this.paymentInProgress = false;
+        },
+      });
   }
 
   handleMpesaPayment(): void {
@@ -187,59 +195,54 @@ showConfirmButtons = true;
 
     this.paymentInProgress = true;
 
-    this.paymentService.initiateMpesaPayment(this.courseId, this.phoneNumber).subscribe({
+    this.paymentService
+      .initiateMpesaPayment(this.courseId, this.phoneNumber)
+      .subscribe({
+        next: (res) => {
+          this.mpesaSuccess = true;
+          this.paymentInProgress = false;
+          this.closePaymentModal();
+        },
+        error: (err) => {
+          console.error('M-Pesa Error:', err);
+          this.paymentInProgress = false;
+          this.modalMessage = 'M-Pesa payment failed. Please try again.';
+          this.showConfirmButtons = false;
+          this.showModal = true;
+        },
+      });
+  }
+
+  checkEnrollment(userId: string, courseId: number): void {
+    this.enrollmentService.checkEnrollment(userId, courseId).subscribe({
       next: (res) => {
-        this.mpesaSuccess = true;
-        this.paymentInProgress = false;
-        this.closePaymentModal();
+        this.alreadyEnrolled = res.enrolled;
       },
       error: (err) => {
-  console.error('M-Pesa Error:', err);
-  this.paymentInProgress = false;
-  this.modalMessage = 'M-Pesa payment failed. Please try again.';
-  this.showConfirmButtons = false;
-  this.showModal = true;
-}
-,
+        console.error('Error checking enrollment:', err);
+      },
     });
   }
 
+  openStripeForm(): void {
+    this.showPaymentModal = true;
 
-  checkEnrollment(userId: string, courseId: number): void {
-  this.enrollmentService.checkEnrollment(userId, courseId).subscribe({
-    next: (res) => {
-      this.alreadyEnrolled = res.enrolled;
-      
-    },
-    error: (err) => {
-      console.error('Error checking enrollment:', err);
-    }
-  });
-}
-
-openStripeForm(): void {
-  this.showPaymentModal = true;
-
-  setTimeout(() => {
-    this.mountStripeCardElement();
-  }, 0);
-}
-
-
-
-onModalConfirm(): void {
-  this.showModal = false;
-
-  if (this.selectedPaymentMethod === 'stripe') {
-    this.openStripeForm(); // open and mount card element
-  } else if (this.selectedPaymentMethod === 'mpesa') {
-    this.handleMpesaPayment();
+    setTimeout(() => {
+      this.mountStripeCardElement();
+    }, 0);
   }
-}
 
-onModalCancel(): void {
-  this.showModal = false;
-}
+  onModalConfirm(): void {
+    this.showModal = false;
 
+    if (this.selectedPaymentMethod === 'stripe') {
+      this.openStripeForm(); // open and mount card element
+    } else if (this.selectedPaymentMethod === 'mpesa') {
+      this.handleMpesaPayment();
+    }
+  }
 
+  onModalCancel(): void {
+    this.showModal = false;
+  }
 }

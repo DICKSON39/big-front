@@ -1,4 +1,8 @@
-update this <div class="course-details-container" *ngIf="!isLoading && course; else loadingOrError">
+update this
+<div
+  class="course-details-container"
+  *ngIf="!isLoading && course; else loadingOrError"
+>
   <div class="course-image">
     <img [src]="course.image_url" alt="{{ course.title }}" />
   </div>
@@ -11,13 +15,14 @@ update this <div class="course-details-container" *ngIf="!isLoading && course; e
     <p><strong>Price:</strong> KES {{ course.price }}</p>
 
     <div class="instructor" *ngIf="course.instructor">
-      <p><strong>Instructor:</strong> {{ course.instructor.first_name }} {{ course.instructor.last_name }}</p>
+      <p>
+        <strong>Instructor:</strong> {{ course.instructor.first_name }}
+        {{ course.instructor.last_name }}
+      </p>
       <p><strong>Email:</strong> {{ course.instructor.email }}</p>
     </div>
-    
-    <button class="enroll-btn" >Enroll</button>
 
-    
+    <button class="enroll-btn">Enroll</button>
   </div>
 </div>
 

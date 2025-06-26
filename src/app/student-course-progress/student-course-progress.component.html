@@ -10,29 +10,30 @@
 
     <!-- 🎓 Certificate Download -->
     <!-- 🎓 Show cert if progress is 100% -->
-<!-- 🎓 Certificate Download -->
-<!-- 🎓 Certificate Download -->
-<!-- 🎓 Certificate Download -->
-<div 
-  *ngIf="shouldShowCertificate(course)" 
-  class="cert-section"
->
-  <a 
-    [href]="course.certificate_url" 
-    target="_blank" 
-    rel="noopener noreferrer" 
-    download 
-    class="cert-download-btn"
-  >
-    🎓 Download Certificate
-  </a>
-</div>
+    <!-- 🎓 Certificate Download -->
+    <!-- 🎓 Certificate Download -->
+    <!-- 🎓 Certificate Download -->
+    <div *ngIf="shouldShowCertificate(course)" class="cert-section">
+      <a
+        [href]="course.certificate_url"
+        target="_blank"
+        rel="noopener noreferrer"
+        download
+        class="cert-download-btn"
+      >
+        🎓 Download Certificate
+      </a>
+    </div>
 
-<div *ngIf="!shouldShowCertificate(course) && getProgressPercent(course) === 100" class="note">
-  ⚠️ Complete and pass all assignments (grade ≥ 50) to unlock your certificate.
-</div>
-
-
+    <div
+      *ngIf="
+        !shouldShowCertificate(course) && getProgressPercent(course) === 100
+      "
+      class="note"
+    >
+      ⚠️ Complete and pass all assignments (grade ≥ 50) to unlock your
+      certificate.
+    </div>
 
     <!-- 🔵 Progress Bar -->
     <div class="progress-bar-container">
@@ -46,8 +47,12 @@
     <ul class="class-list">
       <li *ngFor="let cls of course.classes">
         <strong>{{ cls.title }}</strong>
-        <span *ngIf="cls.is_completed" class="status completed">✅ Completed</span>
-        <span *ngIf="!cls.is_completed" class="status pending">⏳ Not Completed</span>
+        <span *ngIf="cls.is_completed" class="status completed"
+          >✅ Completed</span
+        >
+        <span *ngIf="!cls.is_completed" class="status pending"
+          >⏳ Not Completed</span
+        >
 
         <button (click)="watchClass(cls)">▶️ Watch</button>
       </li>

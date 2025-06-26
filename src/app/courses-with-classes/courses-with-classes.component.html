@@ -9,8 +9,12 @@
 <div *ngIf="!isLoading && courses.length > 0">
   <div *ngFor="let course of courses" class="course-card">
     <h4>{{ course.course_title }}</h4>
-    <p>📼 {{ course.classes.length }} class{{ course.classes.length !== 1 ? 'es' : '' }}</p>
-    
+    <p>
+      📼 {{ course.classes.length }} class{{
+        course.classes.length !== 1 ? "es" : ""
+      }}
+    </p>
+
     <button [routerLink]="['/teacher/courses', course.course_id, 'classes']">
       ▶️ View Classes
     </button>

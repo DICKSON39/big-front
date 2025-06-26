@@ -18,7 +18,7 @@
 }
 
 .profile-container h2::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -10px;
   left: 50%;
@@ -56,10 +56,19 @@
 
 /* Keyframes for fade out animation */
 @keyframes fadeInOut {
-  0% { opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { opacity: 0; display: none; } /* Hide completely at the end */
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  } /* Hide completely at the end */
 }
 
 /* Form layout */
@@ -88,7 +97,10 @@
   border-radius: 6px;
   font-size: 1em;
   color: #495057;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
   background-color: #f8f9fa; /* Light background for inputs */
 }
 
@@ -132,7 +144,9 @@
   border-radius: 5px;
   font-size: 1em;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
   white-space: nowrap; /* Prevent button text from wrapping */
 }
 
@@ -174,7 +188,9 @@
   border-radius: 5px;
   font-size: 1em;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
   text-decoration: none; /* In case it's an <a> tag */
 }
 
